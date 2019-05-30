@@ -1,0 +1,31 @@
+.game-field-input-fields {
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+}
+
+mat-card {
+  width: 100%;
+  border-radius: 0px;
+}
+
+.game-field-buttons {
+  display: inline-block;
+}
+
+@media only screen and (max-width: 600px) {
+  .game-field-buttons {
+    width: 300px;
+  }
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+

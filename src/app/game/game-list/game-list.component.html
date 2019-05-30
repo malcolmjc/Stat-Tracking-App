@@ -1,0 +1,144 @@
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<main>
+<mat-accordion multi="true" *ngIf="games.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let game of games">
+    <mat-expansion-panel-header>
+      {{game.date}}
+    </mat-expansion-panel-header>
+
+    <h2>Score</h2>
+    {{game.score}}
+
+    <h2>Winners</h2>
+    <h3>{{game.winners[0]}}</h3>
+
+    <mat-grid-list cols="5">
+      <mat-grid-tile>
+          <mat-grid-tile-header>Points</mat-grid-tile-header>
+          {{game.playerGames[0].points}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Catches</mat-grid-tile-header>
+          {{game.playerGames[0].catches}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
+          {{game.playerGames[0].sinkers}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Drops</mat-grid-tile-header>
+          {{game.playerGames[0].drops}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Fifas</mat-grid-tile-header>
+          {{game.playerGames[0].fifas}}
+        </mat-grid-tile>
+
+    </mat-grid-list>
+
+    <h3>{{game.winners[1]}}</h3>
+
+    <mat-grid-list cols="5">
+      <mat-grid-tile>
+          <mat-grid-tile-header>Points</mat-grid-tile-header>
+          {{game.playerGames[1].points}}
+      </mat-grid-tile>
+
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Catches</mat-grid-tile-header>
+          {{game.playerGames[1].catches}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
+          {{game.playerGames[1].sinkers}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Drops</mat-grid-tile-header>
+          {{game.playerGames[1].drops}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Fifas</mat-grid-tile-header>
+        {{game.playerGames[1].fifas}}
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <h2>Losers</h2>
+    <h3>{{game.losers[0]}}</h3>
+
+    <mat-grid-list cols="5">
+      <mat-grid-tile>
+          <mat-grid-tile-header>Points</mat-grid-tile-header>
+          {{game.playerGames[2].points}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Catches</mat-grid-tile-header>
+          {{game.playerGames[2].catches}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
+          {{game.playerGames[2].sinkers}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Drops</mat-grid-tile-header>
+          {{game.playerGames[2].drops}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Fifas</mat-grid-tile-header>
+          {{game.playerGames[2].fifas}}
+        </mat-grid-tile>
+
+    </mat-grid-list>
+
+    <h3>{{game.losers[1]}}</h3>
+
+    <mat-grid-list cols="5">
+      <mat-grid-tile>
+          <mat-grid-tile-header>Points</mat-grid-tile-header>
+          {{game.playerGames[3].points}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Catches</mat-grid-tile-header>
+          {{game.playerGames[3].catches}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
+          {{game.playerGames[3].sinkers}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+          <mat-grid-tile-header>Drops</mat-grid-tile-header>
+          {{game.playerGames[3].drops}}
+        </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Fifas</mat-grid-tile-header>
+        {{game.playerGames[3].fifas}}
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-action-row>
+      <button mat-button color="warn" (click)="deleteGame(game.id)">Delete</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+</main>
+
+<div *ngIf="games.length == 0 && !isLoading">
+  You have no games yet! Click on the top right to add one
+</div>

@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th, td {
+  font-size: 150%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+mat-grid-tile {
+  background: lightblue;
+}
+
+main {
+  width: 80%;
+  margin: auto;
+}

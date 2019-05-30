@@ -1,0 +1,21 @@
+mat-grid-tile {
+  width: 100%;
+  background: lightblue;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.score {
+  text-align: center;
+}
+
+.eighty {
+  max-width: 55%;
+  margin: auto;
+}

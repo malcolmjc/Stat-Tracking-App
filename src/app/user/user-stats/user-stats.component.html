@@ -1,0 +1,212 @@
+
+<div *ngIf="!matchupPredict">
+  <div class="container">
+      <button mat-raised-button color="warn"
+      (click)="matchupPredict = true"
+      style="float: right;">Predict Matchup</button>
+      <mat-form-field>
+        <mat-label>Sort By</mat-label>
+        <mat-select matNativeControl (selectionChange)="onSelection($event)" value="wins">
+          <mat-option value="wins">Wins</mat-option>
+          <mat-option value="losses">Losses</mat-option>
+          <mat-option value="W/L">W/L</mat-option>
+          <mat-option value="catches">Catches</mat-option>
+          <mat-option value="drops">Drops</mat-option>
+          <mat-option value="fifas">Fifas</mat-option>
+          <mat-option value="sinkers">Sinkers</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <mat-radio-group aria-label="Select an option" id="radio-group">
+        <mat-radio-button (click)="setAscending()" name="ascending-descending" class="left" value="ascending" checked="checked">Ascending</mat-radio-button>
+        <br>
+        <mat-radio-button (click)="setDescending()" name="ascending-descending" class="right" value="descending">Descending</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div *ngFor="let user of users" class="container">
+      <h1>{{user.name}}</h1>
+
+      <mat-grid-list cols="2" rowHeight="4:1">
+        <mat-grid-tile>
+            <mat-grid-tile-header>Wins</mat-grid-tile-header>
+            {{user.gamesWon}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-grid-tile-header>Loss</mat-grid-tile-header>
+            {{user.gamesLost}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-grid-tile-header>W/L</mat-grid-tile-header>
+            {{((user.gamesWon) / (user.gamesWon + user.gamesLost)).toFixed(2)}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-grid-tile-header>Points</mat-grid-tile-header>
+            {{user.points}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-grid-tile-header>Catches</mat-grid-tile-header>
+            {{user.catches}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-grid-tile-header>Drops</mat-grid-tile-header>
+            {{user.drops}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-grid-tile-header>Fifas</mat-grid-tile-header>
+            {{user.fifas}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
+            {{user.sinkers}}
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+</div>
+
+<div *ngIf="matchupPredict" class="container">
+  <button mat-raised-button color="warn"
+  (click)="matchupPredict = false"
+  style="float: right;">Show Leaderboard</button>
+  <h1>Team One</h1>
+  <mat-form-field>
+    <mat-select matNativeControl (selectionChange)="onPlayerSelection($event, 0)" value="Dylan">
+      <mat-option value="Dylan">Dylan</mat-option>
+      <mat-option value="Everett">Everett</mat-option>
+      <mat-option value="Jake">Jake</mat-option>
+      <mat-option value="Malcolm">Malcolm</mat-option>
+      <mat-option value="Naga">Naga</mat-option>
+      <mat-option value="Robbie">Robbie</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field>
+    <mat-select matNativeControl (selectionChange)="onPlayerSelection($event, 1)" value="Dylan">
+      <mat-option value="Dylan">Dylan</mat-option>
+      <mat-option value="Everett">Everett</mat-option>
+      <mat-option value="Jake">Jake</mat-option>
+      <mat-option value="Malcolm">Malcolm</mat-option>
+      <mat-option value="Naga">Naga</mat-option>
+      <mat-option value="Robbie">Robbie</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h1>Team Two</h1>
+  <mat-form-field>
+    <mat-select matNativeControl (selectionChange)="onPlayerSelection($event, 2)" value="Dylan">
+      <mat-option value="Dylan">Dylan</mat-option>
+      <mat-option value="Everett">Everett</mat-option>
+      <mat-option value="Jake">Jake</mat-option>
+      <mat-option value="Malcolm">Malcolm</mat-option>
+      <mat-option value="Naga">Naga</mat-option>
+      <mat-option value="Robbie">Robbie</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field>
+    <mat-select matNativeControl (selectionChange)="onPlayerSelection($event, 3)" value="Dylan">
+      <mat-option value="Dylan">Dylan</mat-option>
+      <mat-option value="Everett">Everett</mat-option>
+      <mat-option value="Jake">Jake</mat-option>
+      <mat-option value="Malcolm">Malcolm</mat-option>
+      <mat-option value="Naga">Naga</mat-option>
+      <mat-option value="Robbie">Robbie</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+  <button mat-raised-button color="accent" (click)="calculate()">Calculate</button>
+
+  <div *ngIf="!showCalculations">
+    <h2>{{errorMessage}}</h2>
+  </div>
+  <div style="margin-top: 2rem;" *ngIf="showCalculations">
+    <div>
+      <h3 style="display: inline">{{teamOne[0]}} & {{teamOne[1]}}</h3>
+      <span style="float: right;">
+        <h3 style="display: inline;">{{teamTwo[0]}} & {{teamTwo[1]}}</h3>
+      </span>
+    </div>
+
+    <div>
+    <mat-grid-list cols="2" rowHeight="2:1" style="width: 48%; float: left;">
+      <mat-grid-tile>
+        <mat-grid-tile-header>Catches</mat-grid-tile-header>
+        {{firstTeamStats.catches}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
+        {{firstTeamStats.sinkers}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Drops</mat-grid-tile-header>
+        {{firstTeamStats.drops}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Points</mat-grid-tile-header>
+        {{firstTeamStats.points}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Fifas</mat-grid-tile-header>
+        {{firstTeamStats.fifas}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Wins</mat-grid-tile-header>
+        {{firstTeamStats.wins}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Losses</mat-grid-tile-header>
+        {{firstTeamStats.losses}}
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="2" rowHeight="2:1" style="width: 48%; float: right;">
+      <mat-grid-tile>
+        <mat-grid-tile-header>Catches</mat-grid-tile-header>
+        {{secondTeamStats.catches}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
+        {{secondTeamStats.sinkers}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Drops</mat-grid-tile-header>
+        {{secondTeamStats.drops}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Points</mat-grid-tile-header>
+        {{secondTeamStats.points}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Fifas</mat-grid-tile-header>
+        {{secondTeamStats.fifas}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Wins</mat-grid-tile-header>
+        {{secondTeamStats.wins}}
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header>Losses</mat-grid-tile-header>
+        {{secondTeamStats.losses}}
+      </mat-grid-tile>
+    </mat-grid-list>
+    </div>
+  </div>
+</div>
