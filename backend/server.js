@@ -1,4 +1,5 @@
 const app = require("./app");
+const debug = require("debug")("beer-die-app");
 const http = require("http");
 
 const normalizePort = val => {

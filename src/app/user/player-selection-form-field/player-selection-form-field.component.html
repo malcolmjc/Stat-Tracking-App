@@ -1,0 +1,13 @@
+<mat-form-field>
+  <input matInput type="text" [formControl]="playerControl" placeholder="Name"
+    [matAutocomplete]="auto">
+    <mat-error *ngIf="playerControl.errors !== null && playerControl.errors.required">Name is required.</mat-error>
+    <mat-error *ngIf="playerControl.errors !== null && playerControl.errors.forbiddenName">
+      Name must exist within available players.
+    </mat-error>
+</mat-form-field>
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)='selectPlayer($event.option.value)'>
+  <mat-option *ngFor="let player of filteredPlayers" [value]="player">
+    {{ player }}
+  </mat-option>
+</mat-autocomplete>

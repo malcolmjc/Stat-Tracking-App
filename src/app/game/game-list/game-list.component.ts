@@ -71,7 +71,7 @@ export class GameListComponent implements OnInit {
       .subscribe((games: Game[]) => {
         console.log("getting a new game");
         this.isLoading = false;
-        this.games = games;
+        this.games = games.reverse();
     });
   }
 

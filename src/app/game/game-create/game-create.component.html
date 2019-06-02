@@ -1,14 +1,14 @@
 <div class="game-field-container">
-  <mat-card>
-    <mat-select matNativeControl (selectionChange)="onPlayerSelection($event)" value="Dylan">
-      <mat-option value="Dylan">Dylan</mat-option>
-      <mat-option value="Everett">Everett</mat-option>
-      <mat-option value="Jake">Jake</mat-option>
-      <mat-option value="Malcolm">Malcolm</mat-option>
-      <mat-option value="Naga">Naga</mat-option>
-      <mat-option value="Robbie">Robbie</mat-option>
-    </mat-select>
-  </mat-card>
+  <div class="image-bar">
+    <img *ngIf="mvp" src="assets/star.svg" alt="MVP">
+    <img *ngIf="lvp" src="assets/thumbs-down.svg" alt="LVP">
+    <img *ngIf="catchLeader" src="assets/hand.svg" alt="Catch Leader">
+    <img *ngIf="pointLeader" src="assets/points.svg" alt="Points Leader">
+  </div>
+</div>
+
+<div class="game-field-container">
+  <h2 style="text-align: center;">{{ playerName }}</h2>
 </div>
 
 <div class="game-field-container">

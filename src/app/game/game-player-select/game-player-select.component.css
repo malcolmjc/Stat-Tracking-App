@@ -1,0 +1,30 @@
+main {
+  width: 80%;
+  margin: auto;
+}
+
+.players-form {
+  width: 100%;
+}
+
+app-player-selection-form-field {
+  width: 100%;
+  display: block;
+}
+
+.half-width {
+  width: 50%;
+  display: block;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+mat-card {
+  padding-bottom: 3rem;
+}

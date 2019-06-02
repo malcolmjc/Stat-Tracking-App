@@ -1,6 +1,16 @@
-mat-grid-tile {
-  width: 100%;
-  background: lightblue;
+.row {
+  width: 95%;
+  display: flex;
+  margin: auto;
+  margin-bottom: 2rem;
+}
+
+.column {
+  flex: 20%;
+  background-color: lightblue;
+  margin-right: 10px;
+  text-align: center;
+  padding-bottom: 2rem;
 }
 
 .left {
@@ -11,11 +21,21 @@ mat-grid-tile {
   float: right;
 }
 
+.center {
+  text-align: center;
+}
+
 .score {
   text-align: center;
 }
 
 .eighty {
-  max-width: 55%;
+  display: block;
+  width: 53%;
   margin: auto;
+  text-align: center;
+}
+
+.header {
+  display: inline-block;
 }

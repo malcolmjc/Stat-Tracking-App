@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { GameService } from '../game.service';
 import { PlayerGame } from '../player-game.model';
+import { StatType } from '../stat-types-enum';
 
 @Component({
   selector: 'app-game-create',
@@ -20,35 +21,58 @@ export class GameCreateComponent implements OnInit {
   numPoints = 0;
   numDrops = 0;
   numCatches = 0;
-  playerName = 'Dylan';
+  @Input() playerName = '';
   isWin = false;
-  @Output() pointsChanged = new EventEmitter<[number, number]>();
+  mvp = false;
+  lvp = false;
+  catchLeader = false;
+  pointLeader = false;
+  @Output() statsChanged = new EventEmitter<[StatType, number, number, string]>();
 
   onNegativeClicked(str: string) {
     switch (str) {
       case 'sinker': {
-        this.numSinkers = (this.numSinkers >= 1) ? this.numSinkers - 1 : this.numSinkers;
+        const shouldLower = (this.numSinkers >= 1);
+        if (shouldLower) {
+          this.numSinkers--;
+          this.statsChanged.emit([StatType.sinkers, -1, this._index, this.playerName]);
+        }
         break;
       }
 
       case 'fifa': {
-        this.numFifas = (this.numFifas >= 1) ? this.numFifas - 1 : this.numFifas;
+        const shouldLower = (this.numFifas >= 1);
+        if (shouldLower) {
+          this.numFifas--;
+          this.statsChanged.emit([StatType.fifas, -1, this._index, this.playerName]);
+        }
         break;
       }
 
       case 'point': {
-        this.numPoints = (this.numPoints >= 1) ? this.numPoints - 1 : this.numPoints;
-        this.pointsChanged.emit([this.numPoints, this._index]);
+        const shouldLower = (this.numPoints >= 1);
+        if (shouldLower) {
+          this.numPoints--;
+          this.statsChanged.emit([StatType.points, -1, this._index, this.playerName]);
+        }
         break;
       }
 
       case 'drop': {
-        this.numDrops = (this.numDrops >= 1) ? this.numDrops - 1 : this.numDrops;
+        const shouldLower = (this.numDrops >= 1);
+        if (shouldLower) {
+          this.numDrops--;
+          this.statsChanged.emit([StatType.drops, -1, this._index, this.playerName]);
+        }
         break;
       }
 
       case 'catch': {
-        this.numCatches = (this.numCatches >= 1) ? this.numCatches - 1 : this.numCatches;
+        const shouldLower = (this.numCatches >= 1);
+        if (shouldLower) {
+          this.numCatches--;
+          this.statsChanged.emit([StatType.catches, -1, this._index, this.playerName]);
+        }
         break;
       }
     }
@@ -58,34 +82,34 @@ export class GameCreateComponent implements OnInit {
     switch (str) {
       case 'sinker': {
         this.numSinkers++;
+        this.statsChanged.emit([StatType.sinkers, 1, this._index, this.playerName]);
         break;
       }
 
       case 'fifa': {
         this.numFifas++;
+        this.statsChanged.emit([StatType.fifas, 1, this._index, this.playerName]);
         break;
       }
 
       case 'point': {
         this.numPoints++;
-        this.pointsChanged.emit([this.numPoints, this._index]);
+        this.statsChanged.emit([StatType.points, 1, this._index, this.playerName]);
         break;
       }
 
       case 'drop': {
         this.numDrops++;
+        this.statsChanged.emit([StatType.drops, 1, this._index, this.playerName]);
         break;
       }
 
       case 'catch': {
         this.numCatches++;
+        this.statsChanged.emit([StatType.catches, 1, this._index, this.playerName]);
         break;
       }
     }
-  }
-
-  onPlayerSelection(evt) {
-    this.playerName = evt.value;
   }
 
   saveData() {

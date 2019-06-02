@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Game = require('./model/game');
 
-mongoose.connect('obscured')
+mongoose.connect('mongodb+srv://malcolmjc:uR2P7vVIrtlVhwVr@cluster0-85oau.mongodb.net/node-angular?retryWrites=true')
   .then(() => {
     console.log('connected to database');
   })

@@ -59,7 +59,7 @@ export class GameService {
         this.gamesUpdated.next([...this.games]);
       });
   }
-
+  
   saveSinglePlayerGame(index: number, playerGame: PlayerGame) {
     this.playerGames[index] = playerGame;
   }

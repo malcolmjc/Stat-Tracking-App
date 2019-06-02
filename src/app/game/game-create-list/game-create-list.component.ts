@@ -1,11 +1,16 @@
-import { Component, OnInit, Inject, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { PlayerGame } from '../player-game.model';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Game } from '../game.model';
 import { GameCreateComponent } from '../game-create/game-create.component';
-
+import { StatType } from '../stat-types-enum';
+import { UserService } from 'src/app/user/user.service';
+interface PlayerRating {
+  name: string;
+  rating: number;
+}
 @Component({
   selector: 'app-game-create-list',
   templateUrl: './game-create-list.component.html',
@@ -18,10 +23,30 @@ export class GameCreateListComponent implements OnInit {
   bottomScoreOne = 0;
   bottomScoreTwo = 0;
   saveDataBool = false;
+  playerRatings: PlayerRating[] = [];
+  playerNames: string[] = [];
   @ViewChildren(GameCreateComponent) children!: QueryList<GameCreateComponent>;
-  constructor(public gameService: GameService, public dialog: MatDialog, private router: Router) { }
+  constructor(public gameService: GameService, public dialog: MatDialog,
+     private router: Router, private route: ActivatedRoute, public userService: UserService) { }
 
   ngOnInit() {
+    this.route.queryParams
+      .subscribe(params => {
+        if (params.player !== undefined && params.player.length === 4) {
+          const availablePlayers = this.userService.getAllPlayers()
+            .map((val) => { return val.name; });
+          for (const playerName of params.player) {
+            // ensure that the user has correct names for players
+            if (!availablePlayers.includes(playerName)) {
+              return;
+            }
+          }
+          this.playerNames = params.player;
+        }
+      });
+    if (this.playerNames.length === 0) {
+      this.router.navigate(['select-players']);
+    }
   }
 
   onDoneClicked() {
@@ -73,18 +98,95 @@ export class GameCreateListComponent implements OnInit {
     });
   }
 
-  onPointsChanged(data: [number, number]) {
-    const score = data[0];
-    const index = data[1];
-    if (index === 0) {
-      this.topScoreOne = score;
-    } else if (index === 1) {
-      this.topScoreTwo = score;
-    } else if (index === 2) {
-      this.bottomScoreOne = score;
-    } else if (index === 3) {
-      this.bottomScoreTwo = score;
+  mvp: PlayerRating = null;
+  lvp: PlayerRating = null;
+  onStatsChanged(data: [StatType, number, number, string]) {
+    const stat: StatType = data[0];
+    const amt = data[1];
+    const index = data[2];
+    const playerName: string = data[3];
+    let player = this.playerRatings.find((a) => a.name === playerName);
+    if (player === undefined) {
+      player = {name: playerName, rating: 0};
+      this.playerRatings.push(player);
     }
+    switch (stat) {
+      case StatType.points: {
+        if (index === 0) {
+          this.topScoreOne += amt;
+        } else if (index === 1) {
+          this.topScoreTwo += amt;
+        } else if (index === 2) {
+          this.bottomScoreOne += amt;
+        } else if (index === 3) {
+          this.bottomScoreTwo += amt;
+        }
+        player.rating += amt * 1.0;
+        break;
+      }
+
+      case StatType.catches: {
+        player.rating += amt * 0.7;
+        break;
+      }
+      case StatType.drops: {
+        player.rating -= amt * 0.7;
+        break;
+      }
+
+      case StatType.fifas: {
+        player.rating += amt * 0.5;
+        break;
+      }
+
+      case StatType.sinkers: {
+        player.rating += amt * 1.5;
+        break;
+      }
+    }
+    console.log(player.name);
+    console.log("rating: " + player.rating);
+    this.mvp = this.playerRatings.reduce((a, b) => {
+      return (a.rating > b.rating) ? a : b;
+    });
+    if (this.playerRatings.length > 1) {
+      this.lvp = this.playerRatings.reduce((a, b) => {
+        return (a.rating < b.rating) ? a : b;
+      });
+    }
+
+    this.updateStatLeaders();
+  }
+
+  updateStatLeaders() {
+    let maxCatchChild: GameCreateComponent;
+    let maxPointChild: GameCreateComponent;
+    let maxCatches = 0;
+    let maxPoints = 0;
+    this.children.forEach((child) => {
+      if (child.playerName === this.mvp.name) {
+        child.mvp = true;
+      } else {
+        child.mvp = false;
+      }
+      if (this.lvp !== null && child.playerName === this.lvp.name) {
+        child.lvp = true;
+      } else {
+        child.lvp = false;
+      }
+      if (child.numCatches >= maxCatches) {
+        maxCatches = child.numCatches;
+      }
+      if (child.numPoints >= maxPoints) {
+        maxPoints = child.numPoints;
+      }
+    });
+    this.children.forEach((child) => {
+      child.catchLeader = child.numCatches === maxCatches;
+      child.pointLeader = child.numPoints === maxPoints;
+    });
+    maxPointChild.pointLeader = true;
+    maxCatchChild.catchLeader = true;
   }
 
   openDialog(valid: boolean): void {
@@ -171,3 +273,4 @@ export class DialogContentFailure {
   templateUrl: 'dialogs/dialog-content-cancel.html',
 })
 export class DialogContentCancel {}
+

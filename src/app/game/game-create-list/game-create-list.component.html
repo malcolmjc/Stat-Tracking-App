@@ -1,41 +1,40 @@
-<h2></h2>
-<h1>Log Game Stats</h1>
-<div>
-  <h2 class="score">{{topScoreOne + topScoreTwo}} - {{bottomScoreOne + bottomScoreTwo}}</h2>
+<div class="eighty">
+  <h3 class="left header">TEAM 1</h3>
+  <h3 class="score header">{{topScoreOne + topScoreTwo}} - {{bottomScoreOne + bottomScoreTwo}}</h3>
+  <h3 class="right header">TEAM 2</h3>
 </div>
-<div style="width: 100%; display: inline-block">
+
+<div class="row">
+  <div class="column">
+    <app-game-create [index]="0"
+     (statsChanged)="onStatsChanged($event)"
+     #child1
+     [playerName]="playerNames[0]"></app-game-create>
+  </div>
+  <div class="column">
+    <app-game-create [index]="1"
+     (statsChanged)="onStatsChanged($event)"
+     #child2
+     [playerName]="playerNames[1]"></app-game-create>
+  </div>
+  <div class="column">
+    <app-game-create [index]="2"
+    (statsChanged)="onStatsChanged($event)"
+     #child3
+     [playerName]="playerNames[2]"></app-game-create>
+  </div>
+  <div class="column">
+    <app-game-create [index]="3"
+    (statsChanged)="onStatsChanged($event)"
+     #child4
+     [playerName]="playerNames[3]"
+    ></app-game-create>
+  </div>
+</div>
+
+<div style="width: 95%; margin: auto; padding-bottom: 2rem;">
   <button mat-raised-button color="warn" class="input-button left"
   (click)="onCancelClicked()">CANCEL</button>
   <button mat-raised-button color="primary" class="input-button right"
   (click)="onDoneClicked()">DONE</button>
-  <br>
-  <hr>
-  <div class="eighty">
-      <h3 class="left">TEAM 1</h3>
-      <h3 class="right">TEAM 2</h3>
-  </div>
 </div>
-
-<mat-grid-list cols="4" gutterSize="10px" rowHeight="560px">
-  <mat-grid-tile>
-    <app-game-create [index]="0"
-     (pointsChanged)="onPointsChanged($event)"
-     #child1></app-game-create>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <app-game-create [index]="1"
-     (pointsChanged)="onPointsChanged($event)"
-     #child2></app-game-create>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <app-game-create [index]="2"
-     (pointsChanged)="onPointsChanged($event)"
-     #child3></app-game-create>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <app-game-create [index]="3"
-     (pointsChanged)="onPointsChanged($event)"
-     #child4
-    ></app-game-create>
-  </mat-grid-tile>
-</mat-grid-list>

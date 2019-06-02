@@ -1,0 +1,10 @@
+.container {
+  width: 80%;
+  max-width: 80%;
+  min-width: 80%;
+  margin: auto;
+}
+
+mat-grid-tile {
+  background-color: lightblue;
+}
