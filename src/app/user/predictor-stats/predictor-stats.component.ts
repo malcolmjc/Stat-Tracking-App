@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+
+import { Subscription } from 'rxjs';
+
+import { Game } from 'src/app/game/game.model';
+import { GameService } from 'src/app/game/game.service';
 import { TeamStats } from '../team.stats.model';
 import { UserService } from '../user.service';
-import { GameService } from 'src/app/game/game.service';
-import { Subscription } from 'rxjs';
-import { Game } from 'src/app/game/game.model';
 
 @Component({
   selector: 'app-predictor-stats',
@@ -12,7 +14,6 @@ import { Game } from 'src/app/game/game.model';
   styleUrls: ['./predictor-stats.component.css']
 })
 export class PredictorStatsComponent implements OnInit {
-
   teamOne: string[] = ['', ''];
   teamTwo: string[] = ['', ''];
   firstTeamStats: TeamStats;
@@ -28,13 +29,15 @@ export class PredictorStatsComponent implements OnInit {
         this.userService.setGames(games);
         this.route.queryParams
           .subscribe(params => {
-              if (params.teamOne === undefined || params.teamTwo === undefined) {
+              if (!params.teamOne || !params.teamTwo) {
                 this.router.navigate(['predict-matchup']);
+              } else {
+                this.teamOne = params.teamOne;
+                this.teamTwo = params.teamTwo;
               }
-              this.teamOne = params.teamOne;
-              this.teamTwo = params.teamTwo;
+
               try {
-               this.userService.checkMatchup(this.teamOne, this.teamTwo);
+                this.userService.checkMatchup(this.teamOne, this.teamTwo);
               } catch (e) {
                 this.router.navigate(['predict-matchup']);
               }

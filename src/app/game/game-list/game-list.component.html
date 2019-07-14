@@ -5,130 +5,140 @@
 <mat-accordion multi="true" *ngIf="games.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let game of games">
     <mat-expansion-panel-header>
-      {{game.date}}
+      {{ game.date }}
     </mat-expansion-panel-header>
 
     <h2>Score</h2>
-    {{game.score}}
+    {{ game.score }}
 
     <h2>Winners</h2>
-    <h3>{{game.winners[0]}}</h3>
+    <h3>{{ game.winners[0] }}</h3>
 
+    <!-- TODO - turn these into components -->
     <mat-grid-list cols="5">
       <mat-grid-tile>
-          <mat-grid-tile-header>Points</mat-grid-tile-header>
-          {{game.playerGames[0].points}}
+        <mat-grid-tile-header>
+          Points
+        </mat-grid-tile-header>
+        {{ game.playerGames[0].points }}
       </mat-grid-tile>
 
       <mat-grid-tile>
-          <mat-grid-tile-header>Catches</mat-grid-tile-header>
-          {{game.playerGames[0].catches}}
-        </mat-grid-tile>
+        <mat-grid-tile-header>
+          Catches
+        </mat-grid-tile-header>
+        {{ game.playerGames[0].catches }}
+      </mat-grid-tile>
 
       <mat-grid-tile>
-          <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-          {{game.playerGames[0].sinkers}}
-        </mat-grid-tile>
+        <mat-grid-tile-header>
+          Sinkers
+        </mat-grid-tile-header>
+        {{ game.playerGames[0].sinkers }}
+      </mat-grid-tile>
 
       <mat-grid-tile>
-          <mat-grid-tile-header>Drops</mat-grid-tile-header>
-          {{game.playerGames[0].drops}}
-        </mat-grid-tile>
+        <mat-grid-tile-header>
+          Drops
+        </mat-grid-tile-header>
+        {{ game.playerGames[0].drops }}
+      </mat-grid-tile>
 
       <mat-grid-tile>
-          <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-          {{game.playerGames[0].fifas}}
-        </mat-grid-tile>
-
+        <mat-grid-tile-header>
+          Fifas
+        </mat-grid-tile-header>
+        {{ game.playerGames[0].fifas }}
+      </mat-grid-tile>
     </mat-grid-list>
 
-    <h3>{{game.winners[1]}}</h3>
+    <h3>{{ game.winners[1]}}</h3>
 
     <mat-grid-list cols="5">
       <mat-grid-tile>
           <mat-grid-tile-header>Points</mat-grid-tile-header>
-          {{game.playerGames[1].points}}
+          {{ game.playerGames[1].points }}
       </mat-grid-tile>
 
 
       <mat-grid-tile>
           <mat-grid-tile-header>Catches</mat-grid-tile-header>
-          {{game.playerGames[1].catches}}
+          {{ game.playerGames[1].catches }}
         </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-          {{game.playerGames[1].sinkers}}
+          {{ game.playerGames[1].sinkers }}
         </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Drops</mat-grid-tile-header>
-          {{game.playerGames[1].drops}}
+          {{ game.playerGames[1].drops }}
         </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-        {{game.playerGames[1].fifas}}
+        {{ game.playerGames[1].fifas }}
       </mat-grid-tile>
     </mat-grid-list>
 
     <h2>Losers</h2>
-    <h3>{{game.losers[0]}}</h3>
+    <h3>{{ game.losers[0]}}</h3>
 
     <mat-grid-list cols="5">
       <mat-grid-tile>
           <mat-grid-tile-header>Points</mat-grid-tile-header>
-          {{game.playerGames[2].points}}
+          {{ game.playerGames[2].points }}
       </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Catches</mat-grid-tile-header>
-          {{game.playerGames[2].catches}}
+          {{ game.playerGames[2].catches }}
         </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-          {{game.playerGames[2].sinkers}}
+          {{ game.playerGames[2].sinkers }}
         </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Drops</mat-grid-tile-header>
-          {{game.playerGames[2].drops}}
+          {{ game.playerGames[2].drops }}
         </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-          {{game.playerGames[2].fifas}}
+          {{ game.playerGames[2].fifas }}
         </mat-grid-tile>
 
     </mat-grid-list>
 
-    <h3>{{game.losers[1]}}</h3>
+    <h3>{{ game.losers[1]}}</h3>
 
     <mat-grid-list cols="5">
       <mat-grid-tile>
           <mat-grid-tile-header>Points</mat-grid-tile-header>
-          {{game.playerGames[3].points}}
+          {{ game.playerGames[3].points }}
       </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Catches</mat-grid-tile-header>
-          {{game.playerGames[3].catches}}
+          {{ game.playerGames[3].catches }}
         </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-          {{game.playerGames[3].sinkers}}
+          {{ game.playerGames[3].sinkers }}
         </mat-grid-tile>
 
       <mat-grid-tile>
           <mat-grid-tile-header>Drops</mat-grid-tile-header>
-          {{game.playerGames[3].drops}}
+          {{ game.playerGames[3].drops }}
         </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-        {{game.playerGames[3].fifas}}
+        {{ game.playerGames[3].fifas }}
       </mat-grid-tile>
     </mat-grid-list>
 

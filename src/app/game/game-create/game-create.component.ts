@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GameService } from '../game.service';
 import { PlayerGame } from '../player-game.model';
 import { StatType } from '../stat-types-enum';
@@ -8,26 +8,28 @@ import { StatType } from '../stat-types-enum';
   templateUrl: './game-create.component.html',
   styleUrls: ['./game-create.component.css']
 })
-export class GameCreateComponent implements OnInit {
-  private _index = 0;
+export class GameCreateComponent {
+  private listIndex = 0;
 
   @Input()
   set index(index: number) {
-    this._index = index;
+    this.listIndex = index;
   }
+  @Input() playerName = '';
+  @Output() statsChanged = new EventEmitter<[StatType, number, number, string]>();
 
   numSinkers = 0;
   numFifas = 0;
   numPoints = 0;
   numDrops = 0;
   numCatches = 0;
-  @Input() playerName = '';
   isWin = false;
   mvp = false;
   lvp = false;
   catchLeader = false;
   pointLeader = false;
-  @Output() statsChanged = new EventEmitter<[StatType, number, number, string]>();
+
+  constructor(public gameService: GameService) {}
 
   onNegativeClicked(str: string) {
     switch (str) {
@@ -35,7 +37,7 @@ export class GameCreateComponent implements OnInit {
         const shouldLower = (this.numSinkers >= 1);
         if (shouldLower) {
           this.numSinkers--;
-          this.statsChanged.emit([StatType.sinkers, -1, this._index, this.playerName]);
+          this.statsChanged.emit([StatType.sinkers, -1, this.listIndex, this.playerName]);
         }
         break;
       }
@@ -44,7 +46,7 @@ export class GameCreateComponent implements OnInit {
         const shouldLower = (this.numFifas >= 1);
         if (shouldLower) {
           this.numFifas--;
-          this.statsChanged.emit([StatType.fifas, -1, this._index, this.playerName]);
+          this.statsChanged.emit([StatType.fifas, -1, this.listIndex, this.playerName]);
         }
         break;
       }
@@ -53,7 +55,7 @@ export class GameCreateComponent implements OnInit {
         const shouldLower = (this.numPoints >= 1);
         if (shouldLower) {
           this.numPoints--;
-          this.statsChanged.emit([StatType.points, -1, this._index, this.playerName]);
+          this.statsChanged.emit([StatType.points, -1, this.listIndex, this.playerName]);
         }
         break;
       }
@@ -62,7 +64,7 @@ export class GameCreateComponent implements OnInit {
         const shouldLower = (this.numDrops >= 1);
         if (shouldLower) {
           this.numDrops--;
-          this.statsChanged.emit([StatType.drops, -1, this._index, this.playerName]);
+          this.statsChanged.emit([StatType.drops, -1, this.listIndex, this.playerName]);
         }
         break;
       }
@@ -71,7 +73,7 @@ export class GameCreateComponent implements OnInit {
         const shouldLower = (this.numCatches >= 1);
         if (shouldLower) {
           this.numCatches--;
-          this.statsChanged.emit([StatType.catches, -1, this._index, this.playerName]);
+          this.statsChanged.emit([StatType.catches, -1, this.listIndex, this.playerName]);
         }
         break;
       }
@@ -82,31 +84,31 @@ export class GameCreateComponent implements OnInit {
     switch (str) {
       case 'sinker': {
         this.numSinkers++;
-        this.statsChanged.emit([StatType.sinkers, 1, this._index, this.playerName]);
+        this.statsChanged.emit([StatType.sinkers, 1, this.listIndex, this.playerName]);
         break;
       }
 
       case 'fifa': {
         this.numFifas++;
-        this.statsChanged.emit([StatType.fifas, 1, this._index, this.playerName]);
+        this.statsChanged.emit([StatType.fifas, 1, this.listIndex, this.playerName]);
         break;
       }
 
       case 'point': {
         this.numPoints++;
-        this.statsChanged.emit([StatType.points, 1, this._index, this.playerName]);
+        this.statsChanged.emit([StatType.points, 1, this.listIndex, this.playerName]);
         break;
       }
 
       case 'drop': {
         this.numDrops++;
-        this.statsChanged.emit([StatType.drops, 1, this._index, this.playerName]);
+        this.statsChanged.emit([StatType.drops, 1, this.listIndex, this.playerName]);
         break;
       }
 
       case 'catch': {
         this.numCatches++;
-        this.statsChanged.emit([StatType.catches, 1, this._index, this.playerName]);
+        this.statsChanged.emit([StatType.catches, 1, this.listIndex, this.playerName]);
         break;
       }
     }
@@ -124,7 +126,7 @@ export class GameCreateComponent implements OnInit {
       won: this.isWin
     };
 
-    this.gameService.saveSinglePlayerGame(this._index, playerGame);
+    this.gameService.saveSinglePlayerGame(this.listIndex, playerGame);
   }
 
   onWinClicked() {
@@ -134,10 +136,4 @@ export class GameCreateComponent implements OnInit {
   onLossClicked() {
     this.isWin = false;
   }
-
-  constructor(public gameService: GameService) {}
-
-  ngOnInit() {
-  }
-
 }

@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { User } from '../user.model';
-import { GameService } from 'src/app/game/game.service';
+import { Component, OnInit } from '@angular/core';
+
 import { Subscription } from 'rxjs';
+
 import { Game } from 'src/app/game/game.model';
-import { PlayerGame } from 'src/app/game/player-game.model';
+import { GameService } from 'src/app/game/game.service';
+import { User } from '../user.model';
 import { UserService } from '../user.service';
-import { PlayerSelectionFormFieldComponent } from '../player-selection-form-field/player-selection-form-field.component';
 
 @Component({
   selector: 'app-user-stats',
@@ -17,7 +17,9 @@ export class UserStatsComponent implements OnInit {
   ascending = true;
   gameListener: Subscription;
   currentSortMethod = 'wins';
-  displayedColumns: string[] = ['win', 'loss', 'point', 'catch', 'drop', 'fifa', 'sinker'];
+  displayedColumns: string[] = [
+    'win', 'loss', 'point', 'catch', 'drop', 'fifa', 'sinker'
+  ];
 
   selectedSort = '';
   matchupPredict = false;
@@ -31,29 +33,32 @@ export class UserStatsComponent implements OnInit {
     this.gameService.getGames();
     this.gameListener = this.gameService.getGameUpdateListener()
       .subscribe((games: Game[]) => {
-        for (const game of games) {
-          for (const playerGame of game.playerGames) {
-            // update user stats
-            const user = this.users.find(e => {
-              return e.name === playerGame.playerName;
+        games
+          .map((game) => game.playerGames)
+          .forEach((playerGames) => {
+            playerGames.forEach((playerGame) => {
+              // update user stats - TODO these stats should be stored in db
+              const user = this.users.find(userName => {
+                return userName.name === playerGame.playerName;
+              });
+
+              user.catches += playerGame.catches;
+              user.sinkers += playerGame.sinkers;
+              user.drops += playerGame.drops;
+              user.fifas += playerGame.fifas;
+              user.points += playerGame.points;
+
+              if (playerGame.won) {
+                user.gamesWon++;
+              } else {
+                user.gamesLost++;
+              }
             });
+          });
 
-            user.catches += playerGame.catches;
-            user.sinkers += playerGame.sinkers;
-            user.drops += playerGame.drops;
-            user.fifas += playerGame.fifas;
-            user.points += playerGame.points;
-
-            if (playerGame.won) {
-              user.gamesWon++;
-            } else {
-              user.gamesLost++;
-            }
-          }
-        }
-    });
-    this.onSelection({
-      value: this.currentSortMethod
+        this.onSelection({
+          value: this.currentSortMethod
+        });
     });
   }
 

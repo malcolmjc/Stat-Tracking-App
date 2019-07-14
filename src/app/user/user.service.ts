@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { User } from './user.model';
-import { TeamStats } from './team.stats.model';
-import { Game } from '../game/game.model';
 
-@Injectable({providedIn: "root"})
+import { Game } from '../game/game.model';
+import { TeamStats } from './team.stats.model';
+import { User } from './user.model';
+
+@Injectable({providedIn: 'root'})
 export class UserService {
+  // TODO - store these in db
   private users: User[] = [{
     name: 'Malcolm',
     catches: 0,
@@ -75,7 +77,19 @@ export class UserService {
     gamesWon: 0,
     gamesLost: 0
   },
+  {
+    name: 'Brett',
+    catches: 0,
+    sinkers: 0,
+    drops: 0,
+    points: 0,
+    fifas: 0,
+    gamesWon: 0,
+    gamesLost: 0
+  }
   ];
+
+  gamesSet = false;
 
   map = new Map<string, {
     catches: number,
@@ -105,7 +119,11 @@ export class UserService {
   }
 
   setGames(games: Game[]) {
-    console.log("setting gamess");
+    if (!this.gamesSet) {
+      this.gamesSet = true;
+    } else {
+      return;
+    }
     for (const game of games) {
       const twoPlayerGameWinners = {
         catches: 0,
@@ -146,17 +164,13 @@ export class UserService {
         game.winners[1].toLowerCase());
       const mapKeyLosers = this.getKey(game.losers[0].toLowerCase(),
         game.losers[1].toLowerCase());
-      console.log('map key: ' + mapKeyWinners);
       if (this.map.get(mapKeyWinners) === undefined) {
-        console.log("adding new key");
         this.map.set(mapKeyWinners, []);
       }
       twoPlayerGameWinners.opponents = mapKeyLosers;
       this.map.get(mapKeyWinners).push(twoPlayerGameWinners);
 
-      console.log('map key: ' + mapKeyLosers);
       if (this.map.get(mapKeyLosers) === undefined) {
-        console.log("adding new key");
         this.map.set(mapKeyLosers, []);
       }
       twoPlayerGameLosers.opponents = mapKeyWinners;

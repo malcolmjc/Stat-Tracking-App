@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { UserService } from 'src/app/user/user.service';
-import { PlayerSelectionFormFieldComponent } from 'src/app/user/player-selection-form-field/player-selection-form-field.component';
+
 import { GameService } from '../game.service';
+import { PlayerSelectionFormFieldComponent } from 'src/app/user/player-selection-form-field/player-selection-form-field.component';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-game-player-select',
@@ -11,12 +11,12 @@ import { GameService } from '../game.service';
   styleUrls: ['./game-player-select.component.css']
 })
 export class GamePlayerSelectComponent implements OnInit {
-  @ViewChildren(PlayerSelectionFormFieldComponent) children!:
+  @ViewChildren(PlayerSelectionFormFieldComponent) playerSelectionFormFields!:
     QueryList<PlayerSelectionFormFieldComponent>;
 
   private playerNames: string[];
-  constructor(private router: Router, public userService: UserService
-    , public gameService: GameService) { }
+  constructor(private router: Router, public userService: UserService,
+              public gameService: GameService) { }
 
   ngOnInit() {
     this.playerNames = this.userService.getAllPlayers().map((val) => {
@@ -30,10 +30,10 @@ export class GamePlayerSelectComponent implements OnInit {
 
   onDoneClicked() {
     let valid = true;
-    let names: string[] = [];
-    this.children.forEach((child) => {
-      valid = child.playerControl.valid;
-      names.push(child.name);
+    const names: string[] = [];
+    this.playerSelectionFormFields.forEach((playerSelectionFormField) => {
+      valid = playerSelectionFormField.playerControl.valid;
+      names.push(playerSelectionFormField.name);
     });
     if (valid) {
       this.router.navigate(['create'], { queryParams: { player: names } });

@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Game } from './game.model';
-import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import { Game } from './game.model';
 import { PlayerGame } from './player-game.model';
 
-@Injectable({providedIn: "root"})
+@Injectable({providedIn: 'root'})
 export class GameService {
   private games: Game[] = [];
   private playerGames: PlayerGame[] = [];
@@ -59,12 +61,12 @@ export class GameService {
         this.gamesUpdated.next([...this.games]);
       });
   }
-  
+
   saveSinglePlayerGame(index: number, playerGame: PlayerGame) {
     this.playerGames[index] = playerGame;
   }
 
-  //this should only be called after all playerGames logged
+  // this should only be called after all playerGames logged
   getPlayerGames() {
     return [...this.playerGames];
   }

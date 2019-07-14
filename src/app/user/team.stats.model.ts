@@ -6,4 +6,4 @@ export interface TeamStats {
   fifas: number;
   wins: number;
   losses: number;
-};
+}

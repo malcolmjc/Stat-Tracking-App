@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
 import { FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-player-selection-form-field',
@@ -13,32 +13,33 @@ export class PlayerSelectionFormFieldComponent implements OnInit {
     Validators.required,
     this.forbiddenNameValidator()
   ]);
-  players: string[] = [];
+  playerNames: string[] = [];
   name = '';
   filteredPlayers: string[];
+
+  constructor(public userService: UserService) { }
+
+  ngOnInit() {
+    this.playerNames = this.userService.getAllPlayers().map((player) => {
+      return player.name;
+    });
+
+    this.filteredPlayers = this.playerNames;
+    this.playerControl.valueChanges.subscribe((value) => {
+      this.filteredPlayers = this.playerNames.filter((name) => {
+        return name.toLowerCase().includes(value.toLowerCase());
+      });
+    });
+  }
 
   forbiddenNameValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       let valid = true;
-      if (control.value !== undefined && this.players !== undefined) {
-        valid = this.players.includes(control.value);
+      if (control.value && this.playerNames) {
+        valid = this.playerNames.includes(control.value);
       }
-      return valid ? null : {'forbiddenName': {value: control.value}};
+      return valid ? null : { forbiddenName: { value: control.value } };
     };
-  }
-  constructor(public userService: UserService) { }
-
-  ngOnInit() {
-    const players = this.userService.getAllPlayers();
-    for (const player of players) {
-      this.players.push(player.name);
-    }
-    this.filteredPlayers = this.players;
-    this.playerControl.valueChanges.subscribe((value) => {
-      this.filteredPlayers = this.players.filter((str) => {
-        return str.toLowerCase().includes(value.toLowerCase());
-      });
-    });
   }
 
   selectPlayer(name: string) {

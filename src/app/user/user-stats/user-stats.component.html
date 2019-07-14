@@ -1,64 +1,80 @@
 
 <div>
   <div class="container">
-      <mat-form-field>
-        <mat-label>Sort By</mat-label>
-        <mat-select matNativeControl (selectionChange)="onSelection($event)" value="wins">
-          <mat-option value="wins">Wins</mat-option>
-          <mat-option value="losses">Losses</mat-option>
-          <mat-option value="W/L">W/L</mat-option>
-          <mat-option value="points">Points</mat-option>
-          <mat-option value="catches">Catches</mat-option>
-          <mat-option value="drops">Drops</mat-option>
-          <mat-option value="fifas">Fifas</mat-option>
-          <mat-option value="sinkers">Sinkers</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Sort By</mat-label>
+      <mat-select
+        matNativeControl
+        (selectionChange)="onSelection($event)"
+        value="wins">
+        <mat-option value="wins">Wins</mat-option>
+        <mat-option value="losses">Losses</mat-option>
+        <mat-option value="W/L">W/L</mat-option>
+        <mat-option value="points">Points</mat-option>
+        <mat-option value="catches">Catches</mat-option>
+        <mat-option value="drops">Drops</mat-option>
+        <mat-option value="fifas">Fifas</mat-option>
+        <mat-option value="sinkers">Sinkers</mat-option>
+      </mat-select>
+    </mat-form-field>
 
+    <br>
+    <mat-radio-group aria-label="Select an option" id="radio-group">
+      <mat-radio-button
+        (click)="setAscending()"
+        name="ascending-descending"
+        class="left"
+        value="ascending"
+        checked="checked">
+        Ascending
+      </mat-radio-button>
       <br>
-      <mat-radio-group aria-label="Select an option" id="radio-group">
-        <mat-radio-button (click)="setAscending()" name="ascending-descending" class="left" value="ascending" checked="checked">Ascending</mat-radio-button>
-        <br>
-        <mat-radio-button (click)="setDescending()" name="ascending-descending" class="right" value="descending">Descending</mat-radio-button>
-      </mat-radio-group>
-    </div>
+      <mat-radio-button
+        (click)="setDescending()"
+        name="ascending-descending"
+        class="right"
+        value="descending">
+        Descending
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
 
-    <div *ngFor="let user of users" class="container">
-      <h1>{{user.name}}</h1>
+  <div *ngFor="let user of users" class="container">
+    <h1>{{ user.name }}</h1>
 
-      <mat-grid-list cols="2" rowHeight="4:1">
-        <mat-grid-tile>
-            <mat-grid-tile-header>Wins</mat-grid-tile-header>
-            {{user.gamesWon}}
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <mat-grid-tile-header>Losses</mat-grid-tile-header>
-            {{user.gamesLost}}
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <mat-grid-tile-header>W/L</mat-grid-tile-header>
-            {{((user.gamesWon) / (user.gamesWon + user.gamesLost)).toFixed(2)}}
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <mat-grid-tile-header>Points per Game</mat-grid-tile-header>
-            {{((user.points) / (user.gamesWon + user.gamesLost)).toFixed(2)}}
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <mat-grid-tile-header>Catches per Game</mat-grid-tile-header>
-            {{((user.catches) / (user.gamesWon + user.gamesLost)).toFixed(2)}}
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <mat-grid-tile-header>Drops per Game</mat-grid-tile-header>
-            {{((user.drops) / (user.gamesWon + user.gamesLost)).toFixed(2)}}
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <mat-grid-tile-header>Fifas per Game</mat-grid-tile-header>
-            {{((user.fifas) / (user.gamesWon + user.gamesLost)).toFixed(2)}}
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <mat-grid-tile-header>Sinkers per Game</mat-grid-tile-header>
-            {{((user.sinkers) / (user.gamesWon + user.gamesLost)).toFixed(2)}}
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
+    <mat-grid-list cols="2" rowHeight="4:1">
+      <mat-grid-tile>
+        <mat-grid-tile-header>Wins</mat-grid-tile-header>
+        {{  user.gamesWon  }}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Losses</mat-grid-tile-header>
+        {{ user.gamesLost}}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>W/L</mat-grid-tile-header>
+        {{ ((user.gamesWon) / (user.gamesWon + user.gamesLost)).toFixed(2) }}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Points per Game</mat-grid-tile-header>
+        {{ ((user.points) / (user.gamesWon + user.gamesLost)).toFixed(2) }}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Catches per Game</mat-grid-tile-header>
+        {{ ((user.catches) / (user.gamesWon + user.gamesLost)).toFixed(2) }}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Drops per Game</mat-grid-tile-header>
+        {{ ((user.drops) / (user.gamesWon + user.gamesLost)).toFixed(2) }}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Fifas per Game</mat-grid-tile-header>
+        {{ ((user.fifas) / (user.gamesWon + user.gamesLost)).toFixed(2) }}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Sinkers per Game</mat-grid-tile-header>
+        {{ ((user.sinkers) / (user.gamesWon + user.gamesLost)).toFixed(2) }}
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 </div>

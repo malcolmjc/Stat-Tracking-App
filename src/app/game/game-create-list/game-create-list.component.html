@@ -7,34 +7,43 @@
 <div class="row">
   <div class="column">
     <app-game-create [index]="0"
-     (statsChanged)="onStatsChanged($event)"
-     #child1
-     [playerName]="playerNames[0]"></app-game-create>
+      (statsChanged)="onStatsChanged($event)"
+      [playerName]="playerNames[0]">
+    </app-game-create>
   </div>
   <div class="column">
     <app-game-create [index]="1"
-     (statsChanged)="onStatsChanged($event)"
-     #child2
-     [playerName]="playerNames[1]"></app-game-create>
+      (statsChanged)="onStatsChanged($event)"
+      [playerName]="playerNames[1]">
+    </app-game-create>
   </div>
   <div class="column">
     <app-game-create [index]="2"
-    (statsChanged)="onStatsChanged($event)"
-     #child3
-     [playerName]="playerNames[2]"></app-game-create>
+      (statsChanged)="onStatsChanged($event)"
+      [playerName]="playerNames[2]">
+    </app-game-create>
   </div>
   <div class="column">
     <app-game-create [index]="3"
-    (statsChanged)="onStatsChanged($event)"
-     #child4
-     [playerName]="playerNames[3]"
-    ></app-game-create>
+      (statsChanged)="onStatsChanged($event)"
+      [playerName]="playerNames[3]">
+    </app-game-create>
   </div>
 </div>
 
 <div style="width: 95%; margin: auto; padding-bottom: 2rem;">
-  <button mat-raised-button color="warn" class="input-button left"
-  (click)="onCancelClicked()">CANCEL</button>
-  <button mat-raised-button color="primary" class="input-button right"
-  (click)="onDoneClicked()">DONE</button>
+  <button
+    mat-raised-button
+    color="warn"
+    class="input-button left"
+    (click)="onCancelClicked()">
+    CANCEL
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    class="input-button right"
+    (click)="onDoneClicked()">
+    DONE
+  </button>
 </div>

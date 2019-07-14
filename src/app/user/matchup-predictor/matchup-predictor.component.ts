@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChildren, QueryList, ViewChild } from '@angular/core';
-import { GameService } from 'src/app/game/game.service';
-import { User } from '../user.model';
-import { Subscription } from 'rxjs';
-import { UserService } from '../user.service';
-import { Game } from 'src/app/game/game.model';
-import { PlayerSelectionFormFieldComponent } from '../player-selection-form-field/player-selection-form-field.component';
-import { PredictorStatsComponent } from '../predictor-stats/predictor-stats.component';
 import { Router } from '@angular/router';
-import { TeamStats } from '../team.stats.model';
+
+import { Game } from 'src/app/game/game.model';
+import { GameService } from 'src/app/game/game.service';
+import { PlayerSelectionFormFieldComponent } from '../player-selection-form-field/player-selection-form-field.component';
+import { User } from '../user.model';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-matchup-predictor',
@@ -16,13 +14,10 @@ import { TeamStats } from '../team.stats.model';
 })
 export class MatchupPredictorComponent implements OnInit {
   users: User[];
-
   teamOne: string[] = ['', ''];
   teamTwo: string[] = ['', ''];
 
-  errorMessage = '';
-
-  @ViewChildren(PlayerSelectionFormFieldComponent) children!:
+  @ViewChildren(PlayerSelectionFormFieldComponent) playerSelectionFormFields!:
     QueryList<PlayerSelectionFormFieldComponent>;
 
   constructor(public userService: UserService,
@@ -37,30 +32,26 @@ export class MatchupPredictorComponent implements OnInit {
     });
   }
 
-  setCalculationError(message: string) {
-    this.errorMessage = message;
-  }
-
   calculate() {
-    let valid = true;
-    let count = 0;
-    this.children.forEach((child) => {
-      valid = child.playerControl.valid;
-      if (!valid) {
+    let playerCount = 0;
+    this.playerSelectionFormFields.forEach((playerSelectionFormField) => {
+      if (!playerSelectionFormField.playerControl.valid) {
         return;
       }
-      if (count < 2) {
-        this.teamOne[count] = child.name.toLowerCase();
+      if (playerCount < 2) {
+        this.teamOne[playerCount] = playerSelectionFormField.name.toLowerCase();
       } else {
-        this.teamTwo[count - 2] = child.name.toLowerCase();
+        this.teamTwo[playerCount - 2] = playerSelectionFormField.name.toLowerCase();
       }
-      count++;
+      playerCount++;
     });
 
     this.router.navigate(['/predict-matchup/stats'],
-    { queryParams: {
-      teamOne: this.teamOne,
-      teamTwo: this.teamTwo
-     }});
+      {
+        queryParams: {
+          teamOne: this.teamOne,
+          teamTwo: this.teamTwo
+        }
+      });
   }
 }

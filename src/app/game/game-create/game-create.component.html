@@ -8,74 +8,123 @@
 </div>
 
 <div class="game-field-container">
-  <h2 style="text-align: center;">{{ playerName }}</h2>
+  <h2 style="text-align: center;">
+    {{ playerName }}
+  </h2>
 </div>
 
+<!-- TODO - make these into components -->
 <div class="game-field-container">
   <mat-card class="game-field-buttons">
-      <div class="game-field-input-fields">
-          <button mat-raised-button color="accent" class="input-button left"
-           (click)="onNegativeClicked('catch')">-</button>
-          <span class="spacer">Catches - {{ numCatches }}</span>
-          <button mat-raised-button color="accent" class="input-button right"
-          (click)="onPositiveClicked('catch')">+</button>
-      </div>
+    <div class="game-field-input-fields">
+      <button
+        mat-raised-button color="accent" class="input-button left"
+        (click)="onNegativeClicked('catch')">
+        -
+      </button>
+      <span class="spacer">
+        Catches - {{ numCatches }}
+      </span>
+      <button
+        mat-raised-button color="accent" class="input-button right"
+        (click)="onPositiveClicked('catch')">
+        +
+      </button>
+    </div>
   </mat-card>
 </div>
 
 <div class="game-field-container">
   <mat-card class="game-field-buttons">
-      <div class="game-field-input-fields">
-          <button mat-raised-button color="accent" class="input-button left"
-          (click)="onNegativeClicked('drop')">-</button>
-          <span class="spacer">Drops - {{ numDrops }}</span>
-          <button mat-raised-button color="accent" class="input-button right"
-          (click)="onPositiveClicked('drop')">+</button>
-      </div>
+    <div class="game-field-input-fields">
+      <button
+        mat-raised-button color="accent" class="input-button left"
+        (click)="onNegativeClicked('drop')">
+        -
+      </button>
+      <span class="spacer">
+        Drops - {{ numDrops }}
+      </span>
+      <button
+        mat-raised-button color="accent" class="input-button right"
+        (click)="onPositiveClicked('drop')">
+        +
+      </button>
+    </div>
   </mat-card>
 </div>
 
 <div class="game-field-container">
   <mat-card class="game-field-buttons">
-      <div class="game-field-input-fields">
-          <button mat-raised-button color="accent" class="input-button left"
-          (click)="onNegativeClicked('point')">-</button>
-          <span class="spacer">Points - {{ numPoints }}</span>
-          <button mat-raised-button color="accent" class="input-button right"
-          (click)="onPositiveClicked('point')">+</button>
-      </div>
+    <div class="game-field-input-fields">
+      <button
+        mat-raised-button color="accent" class="input-button left"
+        (click)="onNegativeClicked('point')">
+        -
+      </button>
+      <span class="spacer">
+        Points - {{ numPoints }}
+      </span>
+      <button
+        mat-raised-button color="accent" class="input-button right"
+        (click)="onPositiveClicked('point')">
+        +
+      </button>
+    </div>
   </mat-card>
 </div>
 
 <div class="game-field-container">
   <mat-card class="game-field-buttons">
-      <div class="game-field-input-fields">
-          <button mat-raised-button color="accent" class="input-button left"
-          (click)="onNegativeClicked('fifa')">-</button>
-          <span class="spacer">Fifas - {{ numFifas }}</span>
-          <button mat-raised-button color="accent" class="input-button right"
-          (click)="onPositiveClicked('fifa')">+</button>
-      </div>
+    <div class="game-field-input-fields">
+      <button
+        mat-raised-button color="accent" class="input-button left"
+        (click)="onNegativeClicked('fifa')">
+        -
+      </button>
+      <span class="spacer">Fifas - {{ numFifas }}</span>
+      <button
+        mat-raised-button color="accent" class="input-button right"
+        (click)="onPositiveClicked('fifa')">
+        +
+      </button>
+    </div>
   </mat-card>
 </div>
 
 <div class="game-field-container">
   <mat-card class="game-field-buttons">
-      <div class="game-field-input-fields">
-          <button mat-raised-button color="accent" class="input-button left"
-          (click)="onNegativeClicked('sinker')">-</button>
-          <span class="spacer">Sinkers - {{ numSinkers }}</span>
-          <button mat-raised-button color="accent" class="input-button right"
-          (click)="onPositiveClicked('sinker')">+</button>
-      </div>
+    <div class="game-field-input-fields">
+      <button
+        mat-raised-button color="accent" class="input-button left"
+        (click)="onNegativeClicked('sinker')">
+        -
+      </button>
+      <span class="spacer">
+        Sinkers - {{ numSinkers }}
+      </span>
+      <button
+        mat-raised-button color="accent" class="input-button right"
+        (click)="onPositiveClicked('sinker')">
+        +
+      </button>
+    </div>
   </mat-card>
 </div>
 
 <div class="game-field-container">
   <mat-card class="game-field-buttons">
     <mat-radio-group aria-label="Select an option">
-      <mat-radio-button class="left" name="win-loss" value="win" (click)="onWinClicked()">Win</mat-radio-button>
-      <mat-radio-button class="right" name="win-loss" value="loss" checked="checked" (click)="onLossClicked()">Loss</mat-radio-button>
+      <mat-radio-button
+        class="left" name="win-loss" value="win"
+        (click)="onWinClicked()">
+        Win
+      </mat-radio-button>
+      <mat-radio-button
+        class="right" name="win-loss" value="loss" checked="checked"
+        (click)="onLossClicked()">
+        Loss
+      </mat-radio-button>
     </mat-radio-group>
   </mat-card>
 </div>
