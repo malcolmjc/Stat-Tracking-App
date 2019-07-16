@@ -1,0 +1,38 @@
+<h3>{{ playerGame.playerName }}</h3>
+
+<mat-grid-list cols="5">
+  <mat-grid-tile>
+    <mat-grid-tile-header>
+      Points
+    </mat-grid-tile-header>
+    {{ playerGame.points }}
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-grid-tile-header>
+      Catches
+    </mat-grid-tile-header>
+    {{ playerGame.catches }}
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-grid-tile-header>
+      Sinkers
+    </mat-grid-tile-header>
+    {{ playerGame.sinkers }}
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-grid-tile-header>
+      Drops
+    </mat-grid-tile-header>
+    {{ playerGame.drops }}
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-grid-tile-header>
+      Fifas
+    </mat-grid-tile-header>
+    {{ playerGame.fifas }}
+  </mat-grid-tile>
+</mat-grid-list>
