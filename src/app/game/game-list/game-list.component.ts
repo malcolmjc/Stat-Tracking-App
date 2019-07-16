@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { GameService } from '../game.service';
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css']
 })
-export class GameListComponent implements OnInit {
+export class GameListComponent implements OnInit, OnDestroy {
   public gameListener: Subscription;
   public isLoading = false;
   public games: Game[] = [];
@@ -26,6 +26,10 @@ export class GameListComponent implements OnInit {
         this.isLoading = false;
         this.games = games.reverse();
     });
+  }
+
+  ngOnDestroy() {
+    this.gameListener.unsubscribe();
   }
 
   deleteGame(id: string) {

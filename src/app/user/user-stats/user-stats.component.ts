@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./user-stats.component.css']
 })
 
-export class UserStatsComponent implements OnInit {
+export class UserStatsComponent implements OnInit, OnDestroy {
   ascending = true;
   gameListener: Subscription;
   currentSortMethod = 'wins';
@@ -60,6 +60,10 @@ export class UserStatsComponent implements OnInit {
           value: this.currentSortMethod
         });
     });
+  }
+
+  ngOnDestroy() {
+    this.gameListener.unsubscribe();
   }
 
   setDescending() {

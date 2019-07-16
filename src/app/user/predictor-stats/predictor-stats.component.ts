@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { UserService } from '../user.service';
   templateUrl: './predictor-stats.component.html',
   styleUrls: ['./predictor-stats.component.css']
 })
-export class PredictorStatsComponent implements OnInit {
+export class PredictorStatsComponent implements OnInit, OnDestroy {
   teamOne: string[] = ['', ''];
   teamTwo: string[] = ['', ''];
   firstTeamStats: TeamStats;
@@ -47,5 +47,9 @@ export class PredictorStatsComponent implements OnInit {
               this.secondTeamStats = teamStats[1];
           });
     });
+  }
+
+  ngOnDestroy() {
+    this.gameListener.unsubscribe();
   }
 }
