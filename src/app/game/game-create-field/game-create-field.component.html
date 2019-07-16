@@ -1,0 +1,19 @@
+<div class="game-field-container">
+  <mat-card class="game-field-buttons">
+    <div class="game-field-input-fields">
+      <button
+        mat-raised-button color="accent" class="input-button left"
+        (click)="onNegativeClicked()">
+        -
+      </button>
+      <span class="spacer">
+       {{ statTitle }} - {{ statCount }}
+      </span>
+      <button
+        mat-raised-button color="accent" class="input-button right"
+        (click)="onPositiveClicked()">
+        +
+      </button>
+    </div>
+  </mat-card>
+</div>
