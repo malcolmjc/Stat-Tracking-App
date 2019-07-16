@@ -22,14 +22,6 @@ mat-card {
   }
 }
 
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
-}
-
 .image-bar {
   background-color: white;
   height: 30px;
