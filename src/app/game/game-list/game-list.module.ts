@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { MatCardModule, MatExpansionModule, MatGridListModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatCardModule, MatExpansionModule, MatGridListModule, MatProgressSpinnerModule, MatButtonModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { GameListComponent } from './game-list.component';
@@ -10,6 +10,7 @@ import { GameListComponent } from './game-list.component';
   ],
   imports: [
     CommonModule,
+    MatButtonModule,
     MatCardModule,
     MatExpansionModule,
     MatGridListModule,
