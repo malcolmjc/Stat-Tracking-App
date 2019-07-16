@@ -9,15 +9,14 @@ import { StatType } from '../stat-types-enum';
   styleUrls: ['./game-create.component.css']
 })
 export class GameCreateComponent {
-  private listIndex = 0;
-
   @Input()
   set index(index: number) {
     this.listIndex = index;
   }
   @Input() playerName = '';
-  @Output() statsChanged = new EventEmitter<[StatType, number, number, string]>();
+  @Output() statsChanged = new EventEmitter<string>();
 
+  public StatType = StatType;
   numSinkers = 0;
   numFifas = 0;
   numPoints = 0;
@@ -28,90 +27,38 @@ export class GameCreateComponent {
   lvp = false;
   catchLeader = false;
   pointLeader = false;
+  private listIndex = 0;
 
   constructor(public gameService: GameService) {}
 
-  onNegativeClicked(str: string) {
-    switch (str) {
-      case 'sinker': {
-        const shouldLower = (this.numSinkers >= 1);
-        if (shouldLower) {
-          this.numSinkers--;
-          this.statsChanged.emit([StatType.sinkers, -1, this.listIndex, this.playerName]);
-        }
-        break;
-      }
-
-      case 'fifa': {
-        const shouldLower = (this.numFifas >= 1);
-        if (shouldLower) {
-          this.numFifas--;
-          this.statsChanged.emit([StatType.fifas, -1, this.listIndex, this.playerName]);
-        }
-        break;
-      }
-
-      case 'point': {
-        const shouldLower = (this.numPoints >= 1);
-        if (shouldLower) {
-          this.numPoints--;
-          this.statsChanged.emit([StatType.points, -1, this.listIndex, this.playerName]);
-        }
-        break;
-      }
-
-      case 'drop': {
-        const shouldLower = (this.numDrops >= 1);
-        if (shouldLower) {
-          this.numDrops--;
-          this.statsChanged.emit([StatType.drops, -1, this.listIndex, this.playerName]);
-        }
-        break;
-      }
-
-      case 'catch': {
-        const shouldLower = (this.numCatches >= 1);
-        if (shouldLower) {
-          this.numCatches--;
-          this.statsChanged.emit([StatType.catches, -1, this.listIndex, this.playerName]);
-        }
-        break;
-      }
-    }
+  getIndex() {
+    return this.listIndex;
   }
 
-  onPositiveClicked(str: string) {
-    switch (str) {
-      case 'sinker': {
-        this.numSinkers++;
-        this.statsChanged.emit([StatType.sinkers, 1, this.listIndex, this.playerName]);
+  statChanged(stat: { statType: StatType, statCount: number }) {
+    switch (stat.statType) {
+      case StatType.points: {
+        this.numPoints = stat.statCount;
         break;
       }
-
-      case 'fifa': {
-        this.numFifas++;
-        this.statsChanged.emit([StatType.fifas, 1, this.listIndex, this.playerName]);
+      case StatType.drops: {
+        this.numDrops = stat.statCount;
         break;
       }
-
-      case 'point': {
-        this.numPoints++;
-        this.statsChanged.emit([StatType.points, 1, this.listIndex, this.playerName]);
+      case StatType.catches: {
+        this.numCatches = stat.statCount;
         break;
       }
-
-      case 'drop': {
-        this.numDrops++;
-        this.statsChanged.emit([StatType.drops, 1, this.listIndex, this.playerName]);
+      case StatType.fifas: {
+        this.numFifas = stat.statCount;
         break;
       }
-
-      case 'catch': {
-        this.numCatches++;
-        this.statsChanged.emit([StatType.catches, 1, this.listIndex, this.playerName]);
+      case StatType.sinkers: {
+        this.numSinkers = stat.statCount;
         break;
       }
     }
+    this.statsChanged.emit(this.playerName);
   }
 
   saveData() {

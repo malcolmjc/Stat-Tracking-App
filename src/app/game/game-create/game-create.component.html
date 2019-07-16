@@ -8,109 +8,40 @@
 </div>
 
 <div class="game-field-container">
-  <h2 style="text-align: center;">
+  <h2>
     {{ playerName }}
   </h2>
 </div>
 
-<!-- TODO - make these into components -->
-<div class="game-field-container">
-  <mat-card class="game-field-buttons">
-    <div class="game-field-input-fields">
-      <button
-        mat-raised-button color="accent" class="input-button left"
-        (click)="onNegativeClicked('catch')">
-        -
-      </button>
-      <span class="spacer">
-        Catches - {{ numCatches }}
-      </span>
-      <button
-        mat-raised-button color="accent" class="input-button right"
-        (click)="onPositiveClicked('catch')">
-        +
-      </button>
-    </div>
-  </mat-card>
-</div>
+<app-game-create-field
+  [statType]="StatType.catches"
+  statTitle="Catches"
+  (statChanged)="statChanged($event)">
+</app-game-create-field>
 
-<div class="game-field-container">
-  <mat-card class="game-field-buttons">
-    <div class="game-field-input-fields">
-      <button
-        mat-raised-button color="accent" class="input-button left"
-        (click)="onNegativeClicked('drop')">
-        -
-      </button>
-      <span class="spacer">
-        Drops - {{ numDrops }}
-      </span>
-      <button
-        mat-raised-button color="accent" class="input-button right"
-        (click)="onPositiveClicked('drop')">
-        +
-      </button>
-    </div>
-  </mat-card>
-</div>
+<app-game-create-field
+  [statType]="StatType.drops"
+  statTitle="Drops"
+  (statChanged)="statChanged($event)">
+</app-game-create-field>
 
-<div class="game-field-container">
-  <mat-card class="game-field-buttons">
-    <div class="game-field-input-fields">
-      <button
-        mat-raised-button color="accent" class="input-button left"
-        (click)="onNegativeClicked('point')">
-        -
-      </button>
-      <span class="spacer">
-        Points - {{ numPoints }}
-      </span>
-      <button
-        mat-raised-button color="accent" class="input-button right"
-        (click)="onPositiveClicked('point')">
-        +
-      </button>
-    </div>
-  </mat-card>
-</div>
+<app-game-create-field
+  [statType]="StatType.points"
+  statTitle="Points"
+  (statChanged)="statChanged($event)">
+</app-game-create-field>
 
-<div class="game-field-container">
-  <mat-card class="game-field-buttons">
-    <div class="game-field-input-fields">
-      <button
-        mat-raised-button color="accent" class="input-button left"
-        (click)="onNegativeClicked('fifa')">
-        -
-      </button>
-      <span class="spacer">Fifas - {{ numFifas }}</span>
-      <button
-        mat-raised-button color="accent" class="input-button right"
-        (click)="onPositiveClicked('fifa')">
-        +
-      </button>
-    </div>
-  </mat-card>
-</div>
+<app-game-create-field
+  [statType]="StatType.fifas"
+  statTitle="Fifas"
+  (statChanged)="statChanged($event)">
+</app-game-create-field>
 
-<div class="game-field-container">
-  <mat-card class="game-field-buttons">
-    <div class="game-field-input-fields">
-      <button
-        mat-raised-button color="accent" class="input-button left"
-        (click)="onNegativeClicked('sinker')">
-        -
-      </button>
-      <span class="spacer">
-        Sinkers - {{ numSinkers }}
-      </span>
-      <button
-        mat-raised-button color="accent" class="input-button right"
-        (click)="onPositiveClicked('sinker')">
-        +
-      </button>
-    </div>
-  </mat-card>
-</div>
+<app-game-create-field
+  [statType]="StatType.sinkers"
+  statTitle="Sinkers"
+  (statChanged)="statChanged($event)">
+</app-game-create-field>
 
 <div class="game-field-container">
   <mat-card class="game-field-buttons">

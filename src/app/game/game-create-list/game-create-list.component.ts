@@ -8,7 +8,7 @@ import { DialogContentFailureComponent } from './dialogs/dialog-failure/dialog-c
 import { Game } from '../game.model';
 import { GameCreateComponent } from '../game-create/game-create.component';
 import { GameService } from '../game.service';
-import { StatType } from '../stat-types-enum';
+import { GameStats } from '../game-stats.model';
 import { UserService } from 'src/app/user/user.service';
 
 interface PlayerRating {
@@ -26,6 +26,7 @@ export class GameCreateListComponent implements OnInit {
   bottomScoreOne = 0;
   bottomScoreTwo = 0;
   saveDataBool = false;
+  mapNameToGameStats: Map<string, GameStats> = new Map();
   playerRatings: PlayerRating[] = [];
   playerNames: string[] = [];
   mvp: PlayerRating;
@@ -48,10 +49,23 @@ export class GameCreateListComponent implements OnInit {
           });
 
           this.playerNames = params.player;
+          this.initMap();
         } else {
           this.router.navigate(['select-players']);
         }
       });
+  }
+
+  initMap() {
+    this.playerNames.forEach((name) => {
+      this.mapNameToGameStats.set(name, {
+        catches: 0,
+        sinkers: 0,
+        drops: 0,
+        points: 0,
+        fifas: 0
+      });
+    });
   }
 
   onDoneClicked() {
@@ -78,47 +92,35 @@ export class GameCreateListComponent implements OnInit {
     });
   }
 
-  onStatsChanged(data: [StatType, number, number, string]) {
-    const stat: StatType = data[0];
-    const amt = data[1];
-    const index = data[2];
-    const playerName: string = data[3];
+  onStatsChanged(playerName: string) {
+    const mapEntry = this.mapNameToGameStats.get(playerName);
+    if (!mapEntry) {
+      return;
+    }
+
+    const changedChild = this.children.find((child) => child.playerName === playerName);
+    mapEntry.points = changedChild.numPoints;
+    mapEntry.drops = changedChild.numDrops;
+    mapEntry.catches = changedChild.numCatches;
+    mapEntry.fifas = changedChild.numFifas;
+    mapEntry.sinkers = changedChild.numSinkers;
+
+    if (changedChild.getIndex() === 0) {
+      this.topScoreOne = changedChild.numPoints;
+    } else if (changedChild.getIndex() === 1) {
+      this.topScoreTwo = changedChild.numPoints;
+    } else if (changedChild.getIndex() === 2) {
+      this.bottomScoreOne = changedChild.numPoints;
+    } else if (changedChild.getIndex() === 3) {
+      this.bottomScoreTwo = changedChild.numPoints;
+    }
+
     let playerRating = this.playerRatings.find((rating) => rating.name === playerName);
     if (!playerRating) {
       playerRating = { name: playerName, rating: 0 };
       this.playerRatings.push(playerRating);
     }
-    switch (stat) {
-      case StatType.points: {
-        if (index === 0) {
-          this.topScoreOne += amt;
-        } else if (index === 1) {
-          this.topScoreTwo += amt;
-        } else if (index === 2) {
-          this.bottomScoreOne += amt;
-        } else if (index === 3) {
-          this.bottomScoreTwo += amt;
-        }
-        playerRating.rating += amt * 1.0;
-        break;
-      }
-      case StatType.catches: {
-        playerRating.rating += amt * 0.7;
-        break;
-      }
-      case StatType.drops: {
-        playerRating.rating -= amt * 0.7;
-        break;
-      }
-      case StatType.fifas: {
-        playerRating.rating += amt * 0.5;
-        break;
-      }
-      case StatType.sinkers: {
-        playerRating.rating += amt * 1.5;
-        break;
-      }
-    }
+    playerRating.rating = this.calculatePlayerRating(mapEntry);
 
     this.mvp = this.playerRatings.reduce((a, b) => {
       return (a.rating > b.rating) ? a : b;
@@ -130,6 +132,16 @@ export class GameCreateListComponent implements OnInit {
     }
 
     this.updateStatLeaders();
+  }
+
+  calculatePlayerRating(gameStats: GameStats) {
+    let rating = 0;
+    rating += gameStats.points * 1.0;
+    rating += gameStats.catches * 0.7;
+    rating -= gameStats.drops * 0.7;
+    rating += gameStats.fifas * 0.5;
+    rating += gameStats.sinkers * 1.5;
+    return rating;
   }
 
   updateStatLeaders() {

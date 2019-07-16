@@ -3,6 +3,7 @@ import { MatButtonModule, MatCardModule, MatRadioModule } from '@angular/materia
 import { NgModule } from '@angular/core';
 
 import { GameCreateComponent } from './game-create.component';
+import { GameCreateFieldModule } from '../game-create-field/game-create-field.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { GameCreateComponent } from './game-create.component';
     CommonModule,
     MatButtonModule,
     MatCardModule,
-    MatRadioModule
+    MatRadioModule,
+    GameCreateFieldModule
   ],
   exports: [
     GameCreateComponent
