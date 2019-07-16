@@ -12,135 +12,18 @@
     {{ game.score }}
 
     <h2>Winners</h2>
-    <h3>{{ game.winners[0] }}</h3>
+    <app-game-results [playerGame]="game.playerGames[0]">
+    </app-game-results>
 
-    <!-- TODO - turn these into components -->
-    <mat-grid-list cols="5">
-      <mat-grid-tile>
-        <mat-grid-tile-header>
-          Points
-        </mat-grid-tile-header>
-        {{ game.playerGames[0].points }}
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-grid-tile-header>
-          Catches
-        </mat-grid-tile-header>
-        {{ game.playerGames[0].catches }}
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-grid-tile-header>
-          Sinkers
-        </mat-grid-tile-header>
-        {{ game.playerGames[0].sinkers }}
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-grid-tile-header>
-          Drops
-        </mat-grid-tile-header>
-        {{ game.playerGames[0].drops }}
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-grid-tile-header>
-          Fifas
-        </mat-grid-tile-header>
-        {{ game.playerGames[0].fifas }}
-      </mat-grid-tile>
-    </mat-grid-list>
-
-    <h3>{{ game.winners[1]}}</h3>
-
-    <mat-grid-list cols="5">
-      <mat-grid-tile>
-          <mat-grid-tile-header>Points</mat-grid-tile-header>
-          {{ game.playerGames[1].points }}
-      </mat-grid-tile>
-
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Catches</mat-grid-tile-header>
-          {{ game.playerGames[1].catches }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-          {{ game.playerGames[1].sinkers }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Drops</mat-grid-tile-header>
-          {{ game.playerGames[1].drops }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-        {{ game.playerGames[1].fifas }}
-      </mat-grid-tile>
-    </mat-grid-list>
+    <app-game-results [playerGame]="game.playerGames[1]">
+    </app-game-results>
 
     <h2>Losers</h2>
-    <h3>{{ game.losers[0]}}</h3>
+    <app-game-results [playerGame]="game.playerGames[2]">
+    </app-game-results>
 
-    <mat-grid-list cols="5">
-      <mat-grid-tile>
-          <mat-grid-tile-header>Points</mat-grid-tile-header>
-          {{ game.playerGames[2].points }}
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Catches</mat-grid-tile-header>
-          {{ game.playerGames[2].catches }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-          {{ game.playerGames[2].sinkers }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Drops</mat-grid-tile-header>
-          {{ game.playerGames[2].drops }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-          {{ game.playerGames[2].fifas }}
-        </mat-grid-tile>
-
-    </mat-grid-list>
-
-    <h3>{{ game.losers[1]}}</h3>
-
-    <mat-grid-list cols="5">
-      <mat-grid-tile>
-          <mat-grid-tile-header>Points</mat-grid-tile-header>
-          {{ game.playerGames[3].points }}
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Catches</mat-grid-tile-header>
-          {{ game.playerGames[3].catches }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-          {{ game.playerGames[3].sinkers }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-          <mat-grid-tile-header>Drops</mat-grid-tile-header>
-          {{ game.playerGames[3].drops }}
-        </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-        {{ game.playerGames[3].fifas }}
-      </mat-grid-tile>
-    </mat-grid-list>
+    <app-game-results [playerGame]="game.playerGames[3]">
+    </app-game-results>
 
     <mat-action-row>
       <button mat-button color="warn" (click)="deleteGame(game.id)">Delete</button>

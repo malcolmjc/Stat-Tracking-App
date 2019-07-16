@@ -3,6 +3,7 @@ import { MatCardModule, MatExpansionModule, MatGridListModule, MatProgressSpinne
 import { NgModule } from '@angular/core';
 
 import { GameListComponent } from './game-list.component';
+import { GameResultsModule } from '../game-results/game-results.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { GameListComponent } from './game-list.component';
     MatExpansionModule,
     MatGridListModule,
     MatProgressSpinnerModule,
+    GameResultsModule
   ],
   exports: [
     GameListComponent
