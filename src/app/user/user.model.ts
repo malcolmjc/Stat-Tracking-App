@@ -1,10 +1,7 @@
-export interface User {
+import { GameStats } from '../game/game-stats.model';
+
+export interface User extends GameStats {
   name: string;
-  catches: number;
-  sinkers: number;
-  drops: number;
-  points: number;
-  fifas: number;
   gamesWon: number;
   gamesLost: number;
 }

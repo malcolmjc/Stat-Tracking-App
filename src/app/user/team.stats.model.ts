@@ -1,9 +1,6 @@
-export interface TeamStats {
-  catches: number;
-  sinkers: number;
-  drops: number;
-  points: number;
-  fifas: number;
+import { GameStats } from '../game/game-stats.model';
+
+export interface TeamStats extends GameStats {
   wins: number;
   losses: number;
 }
