@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Game = require('./model/game');
 
+const userRoutes = require("./routes/user");
+
 mongoose.connect(
-  'mongodb+srv://malcolmjc:uR2P7vVIrtlVhwVr@cluster0-85oau.mongodb.net/node-angular?retryWrites=true',
+  'mongodb+srv://malcolmjc:uR2P7vVIrtlVhwVr@cluster0-85oau.mongodb.net/node-angular',
   { useNewUrlParser: true })
   .then(() => {
     console.log('connected to database');
@@ -21,7 +23,7 @@ app.use(bodyParser.json());
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers',
-   'Origin, X-Requested-With, Content-Type, Accept');
+   'Origin, X-Requested-With, Content-Type, Accept, Authorization, Authentication');
 
   res.setHeader('Access-Control-Allow-Methods',
     'GET, POST, PATCH, DELETE, OPTIONS'
@@ -29,7 +31,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/api/games', (req, res, next) => {
+const checkAuth = require("./middleware/check-auth");
+
+app.post(
+  '/api/games',
+  checkAuth,
+  (req, res, next) => {
   const game = new Game({
     date: req.body.date,
     playerGames: req.body.playerGames,
@@ -47,27 +54,34 @@ app.post('/api/games', (req, res, next) => {
   });
 });
 
-app.get('/api/games', (req, res, next) => {
-  Game.find()
-    .then(documents => {
-      console.log(documents);
-      res.status(200).json({
-        message: 'games fetched',
-        games: documents
+app.get(
+  '/api/games',
+  checkAuth,
+  (req, res, next) => {
+    Game.find()
+      .then(documents => {
+        console.log(documents);
+        res.status(200).json({
+          message: 'games fetched',
+          games: documents
+        });
       });
-    });
-});
+  });
 
-app.delete('/api/games/:id', (req, res, next) => {
-  Game.deleteOne({
-    _id: req.params.id
-  })
-    .then((result) => {
+app.delete(
+  '/api/games/:id',
+  checkAuth,
+  (req, res, next) => {
+    Game.deleteOne({
+      _id: req.params.id
+    }).then((result) => {
       console.log(result);
       res.status(200).json({
         message: 'game deleted'
       });
     });
-});
+  });
+
+app.use('/api/user', userRoutes);
 
 module.exports = app;
