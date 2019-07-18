@@ -4,7 +4,7 @@
   </span>
   <span class="spacer"></span>
   <ul>
-    <li>
+    <li *ngIf="userIsAuthenticated">
       <a mat-button
         routerLink="/predict-matchup" routerLinkActive="mat-accent">
         Predict Matchup
@@ -17,6 +17,22 @@
         routerLink="/select-players" routerLinkActive="mat-accent">
         Add New Game
       </a>
+
+      <button mat-button (click)="onLogout()">Logout</button>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+        <a mat-button
+          routerLink="/login"
+          routerLinkActive="mat-accent">
+          Login
+        </a>
+        <a mat-button
+          routerLink="/signup"
+          routerLinkActive="mat-accent">
+          Signup
+        </a>
+    <li>
+
     </li>
   </ul>
 </mat-toolbar>
