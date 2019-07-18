@@ -1,89 +1,27 @@
 <div style="margin-top: 2rem;" class="container">
   <div>
     <h3 style="display: inline">
-      {{teamOne[0]}} & {{teamOne[1]}}
+      {{ teamOne[0] }} & {{ teamOne[1] }}
     </h3>
     <span style="float: right;">
       <h3 style="display: inline;">
-        {{teamTwo[0]}} & {{teamTwo[1]}}
+        {{ teamTwo[0] }} & {{ teamTwo[1] }}
       </h3>
     </span>
   </div>
 
-  <div>
-    <!-- TODO - turn these into components-->
-  <mat-grid-list cols="2" rowHeight="2:1" style="width: 48%; float: left;">
-    <mat-grid-tile>
-      <mat-grid-tile-header>Catches</mat-grid-tile-header>
-      {{firstTeamStats?.catches}}
-    </mat-grid-tile>
+  <div class="results-container-super">
+    <div class="results-container">
+      <app-predictor-stats-results
+        [teamStats]="firstTeamStats">
+      </app-predictor-stats-results>
+    </div>
 
-    <mat-grid-tile>
-      <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-      {{firstTeamStats?.sinkers}}
-    </mat-grid-tile>
 
-    <mat-grid-tile>
-      <mat-grid-tile-header>Drops</mat-grid-tile-header>
-      {{firstTeamStats?.drops}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Points</mat-grid-tile-header>
-      {{firstTeamStats?.points}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-      {{firstTeamStats?.fifas}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Wins</mat-grid-tile-header>
-      {{firstTeamStats?.wins}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Losses</mat-grid-tile-header>
-      {{firstTeamStats?.losses}}
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <mat-grid-list cols="2" rowHeight="2:1" style="width: 48%; float: right;">
-    <mat-grid-tile>
-      <mat-grid-tile-header>Catches</mat-grid-tile-header>
-      {{secondTeamStats?.catches}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Sinkers</mat-grid-tile-header>
-      {{secondTeamStats?.sinkers}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Drops</mat-grid-tile-header>
-      {{secondTeamStats?.drops}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Points</mat-grid-tile-header>
-      {{secondTeamStats?.points}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Fifas</mat-grid-tile-header>
-      {{secondTeamStats?.fifas}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Wins</mat-grid-tile-header>
-      {{secondTeamStats?.wins}}
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-grid-tile-header>Losses</mat-grid-tile-header>
-      {{secondTeamStats?.losses}}
-    </mat-grid-tile>
-  </mat-grid-list>
+    <div class="results-container">
+      <app-predictor-stats-results
+        [teamStats]="secondTeamStats">
+      </app-predictor-stats-results>
+    </div>
   </div>
 </div>

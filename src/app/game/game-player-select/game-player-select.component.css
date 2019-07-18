@@ -17,14 +17,6 @@ app-player-selection-form-field {
   display: block;
 }
 
-.right {
-  float: right;
-}
-
-.left {
-  float: left;
-}
-
 mat-card {
   padding-bottom: 3rem;
 }

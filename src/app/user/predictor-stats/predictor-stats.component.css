@@ -5,6 +5,11 @@
   margin: auto;
 }
 
-mat-grid-tile {
-  background-color: lightblue;
+.results-container-super {
+  display: flex;
+  justify-content: space-between;
+}
+
+.results-container {
+  width: 45%;
 }

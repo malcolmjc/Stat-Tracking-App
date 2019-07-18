@@ -30,6 +30,7 @@ export class PredictorStatsComponent implements OnInit, OnDestroy {
         this.route.queryParams
           .subscribe(params => {
               if (!params.teamOne || !params.teamTwo) {
+                console.log('missing params');
                 this.router.navigate(['predict-matchup']);
               } else {
                 this.teamOne = params.teamOne;
@@ -39,6 +40,7 @@ export class PredictorStatsComponent implements OnInit, OnDestroy {
               try {
                 this.userService.checkMatchup(this.teamOne, this.teamTwo);
               } catch (e) {
+                console.log(e);
                 this.router.navigate(['predict-matchup']);
               }
 
