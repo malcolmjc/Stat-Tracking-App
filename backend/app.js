@@ -2,18 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
-const Game = require('./model/game').model;
 
 const userRoutes = require("./routes/user");
 const gameRoutes = require("./routes/game");
 
 mongoose.connect(
   'mongodb+srv://malcolmjc:uR2P7vVIrtlVhwVr@cluster0-85oau.mongodb.net/dye-stats',
-  { useNewUrlParser: true })
-  .then(() => {
+  { useNewUrlParser: true }).then(() => {
     console.log('connected to database');
-  })
-  .catch(() => {
+  }).catch(() => {
     console.log('connection to database failed');
   });
 

@@ -21,7 +21,8 @@ router.post(
       });
       user.games.push(game);
       // TODO: update stats
-      user.save().then((data) => {
+
+      user.save().then((user) => {
         res.status(201).json({
            message: 'game added',
            id: game._id
@@ -35,13 +36,12 @@ router.post(
   checkAuth,
   (req, res, next) => {
     console.log('getting games');
-    User.findById(req.body.userId, 'games')
-      .then(user => {
-        res.status(200).json({
-          message: 'games fetched',
-          games: user.games
-        });
+    User.findById(req.body.userId, 'games').then((user) => {
+      res.status(200).json({
+        message: 'games fetched',
+        games: user.games
       });
+    });
   });
 
 router.delete(
