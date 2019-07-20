@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 
 import { Game } from './game.model';
 import { PlayerGame } from './player-game.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({providedIn: 'root'})
 export class GameService {
@@ -13,11 +14,13 @@ export class GameService {
   private playerGames: PlayerGame[] = [];
   private gamesUpdated = new Subject<Game[]>();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
   }
 
   getGames() {
-    this.http.get<{message: string, games: any}>('http://localhost:3001/api/games')
+    this.http.post<{message: string, games: any}>('http://localhost:3001/api/games/get', {
+      userId: this.authService.getUserId()
+    })
     .pipe(map((gameData) => {
       return gameData.games.map(game => {
         return {
@@ -41,7 +44,11 @@ export class GameService {
   }
 
   addGame(game: Game) {
-    this.http.post<{message: string, id: string}>('http://localhost:3001/api/games', game)
+    const postData = {
+      ...game,
+      userId: this.authService.getUserId()
+    };
+    this.http.post<{message: string, id: string}>('http://localhost:3001/api/games/add', postData)
     .subscribe((responseData) => {
       console.log(responseData.message);
       game.id = responseData.id;
@@ -50,12 +57,13 @@ export class GameService {
     });
   }
 
-  deleteGame(id: string) {
-    this.http.delete('http://localhost:3001/api/games/' + id)
+  deleteGame(gameId: string) {
+    console.log(this.authService.getUserId());
+    this.http.delete('http://localhost:3001/api/games/' + this.authService.getUserId() + '/' + gameId)
       .subscribe(() => {
-        console.log(id);
+        console.log(gameId);
         const updatedGames = this.games.filter(game => {
-          return game.id !== id;
+          return game.id !== gameId;
         });
         this.games = updatedGames;
         this.gamesUpdated.next([...this.games]);

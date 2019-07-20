@@ -7,6 +7,7 @@ const User = require("../model/user");
 const router = express.Router();
 
 router.post("/signup", (req, res, next) => {
+  console.log('signing up');
   bcrypt.hash(req.body.password, 14).then(hash => {
     const user = new User({
       email: req.body.email,
@@ -54,7 +55,8 @@ router.post("/login", (req, res, next) => {
       );
       res.status(200).json({
         token: token,
-        expiresIn: 3000
+        expiresIn: 3000,
+        userId: fetchedUser._id
       });
     })
     .catch(err => {

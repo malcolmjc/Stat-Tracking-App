@@ -216,7 +216,7 @@ export class GameCreateListComponent implements OnInit {
       });
 
       const savedGame: Game = {
-        id: 'will-be-replaced-by-db',
+        id: null,
         date: date.toDateString() + ' ' +  date.getHours() + ':' + date.getMinutes(),
         playerGames: [winner1, winner2, loser1, loser2],
         winners: [winners[0], winners[1]],

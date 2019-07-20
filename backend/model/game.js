@@ -8,4 +8,7 @@ const gameSchema = mongoose.Schema({
   score: { type: String, required: true }
 });
 
-module.exports = mongoose.model('Game', gameSchema);
+module.exports = {
+  model: mongoose.model('Game', gameSchema),
+  schema: gameSchema
+};
