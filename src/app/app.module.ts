@@ -10,10 +10,12 @@ import { AuthModule } from './auth/auth.module';
 import { GameModule } from './game/game.module';
 import { HeaderModule } from './header/header.module';
 import { UserModule } from './user/user.module';
+import { AppRootComponent } from './app-root.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AppRootComponent
   ],
   imports: [
     BrowserModule,
