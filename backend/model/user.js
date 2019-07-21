@@ -5,6 +5,7 @@ const gameSchema = require('./game').schema;
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  name: { type: String, required: true },
   games: [gameSchema],
   stats: {
     catches: { type: Number, default: 0 },
