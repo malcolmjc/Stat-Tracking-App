@@ -46,7 +46,8 @@ export class GameService {
   addGame(game: Game) {
     const postData = {
       ...game,
-      userId: this.authService.getUserId()
+      userId: this.authService.getUserId(),
+      name: this.authService.getUserName()
     };
     this.http.post<{message: string, id: string}>('http://localhost:3001/api/games/add', postData)
     .subscribe((responseData) => {

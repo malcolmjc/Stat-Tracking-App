@@ -13,7 +13,8 @@ const userSchema = mongoose.Schema({
     drops: { type: Number, default: 0 },
     points: { type: Number, default: 0 },
     fifas: { type: Number, default: 0 },
-    gamesWon: { type: Number, default: 0 }
+    gamesWon: { type: Number, default: 0 },
+    gamesLost: { type: Number, default: 0 }
   }
 });
 

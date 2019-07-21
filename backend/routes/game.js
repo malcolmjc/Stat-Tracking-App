@@ -20,7 +20,16 @@ router.post(
         score: req.body.score
       });
       user.games.push(game);
-      // TODO: update stats
+      // update users stats if they played
+      const usersGame = req.body.playerGames.find((game) => game.name === req.body.name);
+      if (usersGame) {
+        user.stats.catches += usersGame.catches;
+        user.stats.sinkers += usersGame.sinkers;
+        user.stats.drops += usersGame.drops;
+        user.stats.points += usersGame.points;
+        user.stats.fifas += usersGame.fifas;
+        usersGame.won ? user.stats.gamesWon++ : user.stats.gamesLost++;
+      }
 
       user.save().then((user) => {
         res.status(201).json({
