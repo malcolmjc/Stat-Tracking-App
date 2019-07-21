@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const gameSchema = mongoose.Schema({
-  date: { type: String, required: true },
+  date: { type: Date, required: true },
   playerGames: {},
   winners: [{ type: String, required: true}],
   losers: [{ type: String, required: true}],

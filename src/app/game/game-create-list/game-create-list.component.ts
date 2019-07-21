@@ -185,7 +185,6 @@ export class GameCreateListComponent implements OnInit {
       if (!result) {
         return;
       }
-      const date = new Date();
       const playerGames = this.gameService.getPlayerGames();
       const winners: string[] = [];
       const losers: string[] = [];
@@ -217,7 +216,7 @@ export class GameCreateListComponent implements OnInit {
 
       const savedGame: Game = {
         id: null,
-        date: date.toDateString() + ' ' +  date.getHours() + ':' + date.getMinutes(),
+        date: new Date(),
         playerGames: [winner1, winner2, loser1, loser2],
         winners: [winners[0], winners[1]],
         losers: [losers[0], losers[1]],
