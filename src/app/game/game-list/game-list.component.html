@@ -5,7 +5,7 @@
 <mat-accordion multi="true" *ngIf="games.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let game of games">
     <mat-expansion-panel-header>
-      {{ game.date }}
+      {{ game.date | dateToString }}
     </mat-expansion-panel-header>
 
     <h2>Score</h2>
