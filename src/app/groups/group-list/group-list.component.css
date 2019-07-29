@@ -1,0 +1,22 @@
+ul {
+  list-style: none;
+}
+
+.name {
+  text-align: center;
+}
+
+li {
+  padding-top: 1rem;
+  width: 100%;
+}
+
+mat-radio-button {
+  display: inline;
+}
+
+mat-card {
+  width: 90%;
+  display: inline-block;
+  cursor: pointer;
+}
