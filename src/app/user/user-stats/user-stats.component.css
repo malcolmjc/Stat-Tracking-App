@@ -7,10 +7,6 @@ th, td {
   font-size: 150%;
 }
 
-mat-form-field {
-  min-width: 40%;
-}
-
 hr {
   border: 0;
   height: 1px;
@@ -24,7 +20,13 @@ mat-grid-tile {
 
 .container {
   width: 80%;
-  max-width: 80%;
-  min-width: 80%;
   margin: auto;
+}
+
+mat-radio-group, mat-radio-button {
+  display: block;
+}
+
+mat-card {
+  background-color: #f7f7f7;
 }
