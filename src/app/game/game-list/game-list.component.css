@@ -7,10 +7,6 @@ th, td {
   font-size: 150%;
 }
 
-mat-spinner {
-  margin: auto;
-}
-
 mat-grid-tile {
   background: lightblue;
 }

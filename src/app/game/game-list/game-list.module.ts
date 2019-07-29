@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { MatCardModule, MatExpansionModule, MatGridListModule, MatProgressSpinnerModule, MatButtonModule } from '@angular/material';
+import { MatCardModule, MatExpansionModule, MatGridListModule, MatButtonModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { DateToStringPipe } from '../../pipes/date-to-string.pipe';
 import { GameListComponent } from './game-list.component';
 import { GameResultsModule } from '../game-results/game-results.module';
+import { LoadingIndicatorModule } from 'src/app/loading-indicator/loading-indicator.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { GameResultsModule } from '../game-results/game-results.module';
     MatCardModule,
     MatExpansionModule,
     MatGridListModule,
-    MatProgressSpinnerModule,
+    LoadingIndicatorModule,
     GameResultsModule
   ],
   exports: [
