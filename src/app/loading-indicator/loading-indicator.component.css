@@ -1,0 +1,10 @@
+.loading-indicator-container, .loading-indicator-container-full {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-indicator-container-full {
+  /* TODO - this isn't a good solution */
+  height: 80vh;
+}
