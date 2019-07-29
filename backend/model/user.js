@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+
 const gameSchema = require('./game').schema;
 
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  name: { type: String, required: true },
+  name: { type: String, required: false },
+  username: { type: String, required: true, unique: true},
   games: [gameSchema],
+  groups: [{ type: String }],
   stats: {
     catches: { type: Number, default: 0 },
     sinkers: { type: Number, default: 0 },
