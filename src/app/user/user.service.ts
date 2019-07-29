@@ -2,93 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { Game } from '../game/game.model';
 import { TeamStats } from './team.stats.model';
+import { HttpClient } from '@angular/common/http';
+import { Subject, Observable, of } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
+import { map } from 'rxjs/operators';
+import { stringify } from 'querystring';
 import { User } from './user.model';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
-  // TODO - store these in db
-  private users: User[] = [{
-    name: 'Malcolm',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Naga',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Everett',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Jake',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Manny',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Robbie',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Dylan',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Brett',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  }
-  ];
-
   gamesSet = false;
 
   map = new Map<string, {
@@ -101,8 +23,50 @@ export class UserService {
     won: boolean
   }[]>();
 
-  getAllPlayers(): User[] {
-    return [...this.users];
+  constructor(private http: HttpClient, private authService: AuthService) { }
+
+  public findUsers(search: string) {
+    // returns array of usernames
+    return this.http.get<{ message: string, users: string[]}>
+      ('http://localhost:3001/api/users/' + search).pipe(
+        map((response) => response.users)
+      );
+  }
+
+  public getUsers(): Observable<string[]> {
+    if (!this.authService.getCurrentGroup()) {
+      return of([this.authService.getUserName()]);
+    }
+    return this.http.get<{ message: string, users: string[]}>
+      ('http://localhost:3001/api/user/usernames/'
+        + this.authService.getUserId() + '/'
+        + this.authService.getCurrentGroup()).pipe(
+          map((response) => response.users)
+        );
+  }
+
+  public getUserStatsAllTime(): Observable<User[]> {
+    if (!this.authService.getCurrentGroup()) {
+      // TODO
+    }
+    return this.http.get<{ message: string, users: User[]}>
+      ('http://localhost:3001/api/user/allTimeStats/'
+        + this.authService.getUserId()
+        + '/' + this.authService.getCurrentGroup()).pipe(
+          map((response) => response.users)
+        );
+  }
+
+  public getUserStatsInGroup(): Observable<User[]> {
+    if (!this.authService.getCurrentGroup()) {
+      // TODO
+    }
+    return this.http.get<{ message: string, users: User[]}>
+      ('http://localhost:3001/api/user/groupStats/'
+        + this.authService.getUserId()
+        + '/' + this.authService.getCurrentGroup()).pipe(
+          map((response) => response.users)
+        );
   }
 
   getKey(nameOne: string, nameTwo: string): string {
