@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 import { UserService } from '../user.service';
@@ -8,22 +8,18 @@ import { UserService } from '../user.service';
   templateUrl: './player-selection-form-field.component.html',
   styleUrls: ['./player-selection-form-field.component.css']
 })
-export class PlayerSelectionFormFieldComponent implements OnInit {
-  playerControl = new FormControl('', [
+export class PlayerSelectionFormFieldComponent implements OnInit, OnChanges {
+  @Input() playerNames: string[] = [];
+  public playerControl = new FormControl('', [
     Validators.required,
     this.forbiddenNameValidator()
   ]);
-  playerNames: string[] = [];
-  name = '';
-  filteredPlayers: string[];
+  public selectedUsername = '';
+  public filteredPlayers: string[];
 
   constructor(public userService: UserService) { }
 
-  ngOnInit() {
-    this.playerNames = this.userService.getAllPlayers().map((player) => {
-      return player.name;
-    });
-
+  public ngOnInit() {
     this.filteredPlayers = this.playerNames;
     this.playerControl.valueChanges.subscribe((value) => {
       this.filteredPlayers = this.playerNames.filter((name) => {
@@ -32,7 +28,18 @@ export class PlayerSelectionFormFieldComponent implements OnInit {
     });
   }
 
-  forbiddenNameValidator(): ValidatorFn {
+  public ngOnChanges(changes: SimpleChanges) {
+    // when playerNames are updated by parent, update auto complete
+    if (changes.playerNames) {
+      this.filteredPlayers = this.playerNames;
+    }
+  }
+
+  public selectPlayer(name: string) {
+    this.selectedUsername = name;
+  }
+
+  private forbiddenNameValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       let valid = true;
       if (control.value && this.playerNames) {
@@ -40,9 +47,5 @@ export class PlayerSelectionFormFieldComponent implements OnInit {
       }
       return valid ? null : { forbiddenName: { value: control.value } };
     };
-  }
-
-  selectPlayer(name: string) {
-    this.name = name;
   }
 }
