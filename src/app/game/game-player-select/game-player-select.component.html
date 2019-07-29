@@ -2,14 +2,14 @@
   <form class="players-form">
     <h2>Select Players For This Game</h2>
 
-    <mat-card style="width: 50%;">
+    <mat-card>
       <h3>Team 1</h3>
-      <app-player-selection-form-field></app-player-selection-form-field>
-      <app-player-selection-form-field></app-player-selection-form-field>
+      <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
+      <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
 
       <h3>Team 2</h3>
-      <app-player-selection-form-field></app-player-selection-form-field>
-      <app-player-selection-form-field></app-player-selection-form-field>
+      <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
+      <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
 
       <button
         mat-raised-button color="warn" class="input-button left"

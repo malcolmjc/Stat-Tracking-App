@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, ViewChildren, QueryList, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GameService } from '../game.service';
@@ -13,14 +13,16 @@ import { UserService } from 'src/app/user/user.service';
 export class GamePlayerSelectComponent implements OnInit {
   @ViewChildren(PlayerSelectionFormFieldComponent) playerSelectionFormFields!:
     QueryList<PlayerSelectionFormFieldComponent>;
+  public playerNames: string[] = [];
 
-  private playerNames: string[];
-  constructor(private router: Router, public userService: UserService,
+  constructor(private router: Router,
+              public userService: UserService,
               public gameService: GameService) { }
 
-  ngOnInit() {
-    this.playerNames = this.userService.getAllPlayers().map((val) => {
-      return val.name;
+  public ngOnInit() {
+    this.userService.getUsers().subscribe((usernames) => {
+      console.log(usernames);
+      this.playerNames = usernames;
     });
   }
 
@@ -30,13 +32,13 @@ export class GamePlayerSelectComponent implements OnInit {
 
   onDoneClicked() {
     let valid = true;
-    const names: string[] = [];
+    const usernames: string[] = [];
     this.playerSelectionFormFields.forEach((playerSelectionFormField) => {
       valid = playerSelectionFormField.playerControl.valid;
-      names.push(playerSelectionFormField.name);
+      usernames.push(playerSelectionFormField.selectedUsername);
     });
     if (valid) {
-      this.router.navigate(['create'], { queryParams: { player: names } });
+      this.router.navigate(['create'], { queryParams: { player: usernames } });
     }
   }
 }

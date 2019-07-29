@@ -1,5 +1,5 @@
 main {
-  width: 80%;
+  width: 60%;
   margin: auto;
 }
 
@@ -9,11 +9,6 @@ main {
 
 app-player-selection-form-field {
   width: 100%;
-  display: block;
-}
-
-.half-width {
-  width: 50%;
   display: block;
 }
 
