@@ -1,0 +1,41 @@
+
+
+<mat-card>
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      [formControl]="groupControl"
+      placeholder="Search for groups by name"
+      [matAutocomplete]="auto">
+    <mat-error
+      *ngIf="groupControl.errors">
+        Search must be at least 4 characters
+    </mat-error>
+  </mat-form-field>
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)='selectGroup($event.option.value)'>
+    <mat-option
+      *ngFor="let group of groups"
+      [value]="group">
+      {{ group.name }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <ng-container *ngIf="selectedGroup">
+    <form (submit)="onJoin(passwordForm)" #passwordForm="ngForm">
+      <span *ngIf="!isLoading">
+        <mat-form-field class="password-input">
+          <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required minlength="5">
+          <mat-error *ngIf="passwordInput.invalid">Please enter a valid password (5 characters or more)</mat-error>
+        </mat-form-field>
+        <button mat-raised-button type="submit" color="accent" class="join-btn">JOIN</button>
+      </span>
+      <app-loading-indicator [fullPage]="false" *ngIf="isLoading"></app-loading-indicator>
+    </form>
+    <app-group-display [group]="selectedGroup">
+    </app-group-display>
+  </ng-container>
+</mat-card>
