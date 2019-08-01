@@ -1,0 +1,22 @@
+<app-loading-indicator *ngIf="isLoading"></app-loading-indicator>
+<mat-card *ngIf="!isLoading">
+  <form (submit)="onCreateGroup(createGroupForm)" #createGroupForm="ngForm">
+    <mat-form-field>
+      <input matInput name="groupName" type="groupName" ngModel placeholder="Group Name" #groupNameInput="ngModel" required>
+      <mat-error *ngIf="groupNameInput.invalid">Please enter a valid email</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" name="password" ngModel  placeholder="Password" #passwordInput="ngModel" required minlength="5">
+      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password (5 characters or more)</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput name="slogan" type="slogan" ngModel placeholder="Group Slogan (Optional)" #groupSloganInput="ngModel">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea name="description" type="description" ngModel placeholder="Group Description (Optional)" #groupDescriptionInput="ngModel"
+        matInput matTextareaAutosize matAutosizeMinRows=3 matAutosizeMaxRows=5>
+      </textarea>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">CREATE GROUP</button>
+  </form>
+</mat-card>

@@ -1,0 +1,17 @@
+<div class="container" *ngIf="group">
+  <app-group-display [group]="group">
+  </app-group-display>
+  <div class="button-bar">
+    <button mat-raised-button color="accent"
+      (click)="addMemberClicked()">ADD MEMBER</button>
+
+    <button mat-raised-button color="accent" class="link-button"
+      (click)="addNewGameClicked(group.id)">ADD NEW GAME</button>
+
+    <button mat-raised-button color="accent" class="link-button"
+      (click)="viewAllGamesClicked(group.id)">VIEW ALL GAMES</button>
+
+    <button mat-raised-button color="accent" class="link-button"
+      (click)="viewLeaderboardClicked(group.id)">VIEW LEADERBOARD</button>
+  </div>
+</div>

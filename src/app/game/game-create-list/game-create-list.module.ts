@@ -6,6 +6,7 @@ import { DialogContentDoneComponent } from './dialogs/dialog-done/dialog-content
 import { DialogContentFailureComponent } from './dialogs/dialog-failure/dialog-content-failure.component';
 import { GameCreateListComponent } from './game-create-list.component';
 import { GameCreateModule } from '../game-create/game-create-module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { GameCreateModule } from '../game-create/game-create-module';
     DialogContentCancelComponent
   ],
   imports: [
+    CommonModule,
     MatButtonModule,
     MatDialogModule,
     GameCreateModule

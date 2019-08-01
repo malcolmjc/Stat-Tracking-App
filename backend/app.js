@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const userRoutes = require("./routes/user");
 const gameRoutes = require("./routes/game");
+const groupRoutes = require("./routes/group");
 
 mongoose.connect(
   'mongodb+srv://malcolmjc:uR2P7vVIrtlVhwVr@cluster0-85oau.mongodb.net/dye-stats',
@@ -24,12 +25,13 @@ app.use((req, res, next) => {
    'Origin, X-Requested-With, Content-Type, Accept, Authorization, Authentication');
 
   res.setHeader('Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, OPTIONS'
+    'GET, POST, PUT, PATCH, DELETE, OPTIONS'
   );
   next();
 });
 
 app.use('/api/user', userRoutes);
 app.use('/api/games', gameRoutes);
+app.use('/api/groups', groupRoutes);
 
 module.exports = app;

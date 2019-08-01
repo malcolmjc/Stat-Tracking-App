@@ -1,38 +1,48 @@
 <h3>{{ playerGame.playerName }}</h3>
 
-<mat-grid-list cols="5">
-  <mat-grid-tile>
+<mat-grid-list cols="5" rowHeight="6rem" role="list">
+  <mat-grid-tile role="listitem">
     <mat-grid-tile-header>
       Points
     </mat-grid-tile-header>
-    {{ playerGame.points }}
+    <div class="result-number">
+      {{ playerGame.points }}
+    </div>
   </mat-grid-tile>
 
-  <mat-grid-tile>
+  <mat-grid-tile role="listitem">
     <mat-grid-tile-header>
       Catches
     </mat-grid-tile-header>
-    {{ playerGame.catches }}
+    <div class="result-number">
+      {{ playerGame.catches }}
+    </div>
   </mat-grid-tile>
 
-  <mat-grid-tile>
+  <mat-grid-tile role="listitem">
     <mat-grid-tile-header>
       Sinkers
     </mat-grid-tile-header>
-    {{ playerGame.sinkers }}
+    <div class="result-number">
+      {{ playerGame.sinkers }}
+    </div>
   </mat-grid-tile>
 
-  <mat-grid-tile>
+  <mat-grid-tile role="listitem">
     <mat-grid-tile-header>
       Drops
     </mat-grid-tile-header>
-    {{ playerGame.drops }}
+    <div class="result-number">
+      {{ playerGame.drops }}
+    </div>
   </mat-grid-tile>
 
-  <mat-grid-tile>
+  <mat-grid-tile role="listitem">
     <mat-grid-tile-header>
       Fifas
     </mat-grid-tile-header>
-    {{ playerGame.fifas }}
+    <div class="result-number">
+      {{ playerGame.fifas }}
+    </div>
   </mat-grid-tile>
 </mat-grid-list>

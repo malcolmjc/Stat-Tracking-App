@@ -7,10 +7,6 @@ th, td {
   font-size: 150%;
 }
 
-mat-spinner {
-  margin: auto;
-}
-
 mat-grid-tile {
   background: lightblue;
 }
@@ -18,4 +14,13 @@ mat-grid-tile {
 main {
   width: 80%;
   margin: auto;
+}
+
+.center {
+  text-align: center;
+}
+
+.header-score {
+  padding-right: 10px;
+  padding-left: 10px;
 }

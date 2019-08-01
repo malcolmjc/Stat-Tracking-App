@@ -13,29 +13,32 @@ export class GameCreateComponent {
   set index(index: number) {
     this.listIndex = index;
   }
-  @Input() playerName = '';
-  @Output() statsChanged = new EventEmitter<string>();
+  @Input() public playerName = '';
+  @Input() public singlePlayer = false;
+  @Output() public statsChanged = new EventEmitter<string>();
 
   public StatType = StatType;
-  numSinkers = 0;
-  numFifas = 0;
-  numPoints = 0;
-  numDrops = 0;
-  numCatches = 0;
-  isWin = false;
-  mvp = false;
-  lvp = false;
-  catchLeader = false;
-  pointLeader = false;
+  public mvp = false;
+  public lvp = false;
+  public catchLeader = false;
+  public pointLeader = false;
+
+  public numSinkers = 0;
+  public numFifas = 0;
+  public numPoints = 0;
+  public numDrops = 0;
+  public numCatches = 0;
+  public isWin = false;
+
   private listIndex = 0;
 
   constructor(public gameService: GameService) {}
 
-  getIndex() {
+  public getIndex() {
     return this.listIndex;
   }
 
-  statChanged(stat: { statType: StatType, statCount: number }) {
+  public statChanged(stat: { statType: StatType, statCount: number }) {
     switch (stat.statType) {
       case StatType.points: {
         this.numPoints = stat.statCount;
@@ -61,8 +64,20 @@ export class GameCreateComponent {
     this.statsChanged.emit(this.playerName);
   }
 
-  saveData() {
-    const playerGame: PlayerGame = {
+  public getPlayerData() {
+    return {
+      catches: this.numCatches,
+      sinkers: this.numSinkers,
+      drops: this.numDrops,
+      points: this.numPoints,
+      fifas: this.numFifas,
+      playerName: this.playerName,
+      won: this.isWin
+    };
+  }
+
+  public getPlayerGameStats(): PlayerGame {
+    return {
       id: null,
       catches: this.numCatches,
       sinkers: this.numSinkers,
@@ -72,15 +87,13 @@ export class GameCreateComponent {
       playerName: this.playerName,
       won: this.isWin
     };
-
-    this.gameService.saveSinglePlayerGame(this.listIndex, playerGame);
   }
 
-  onWinClicked() {
+  public onWinClicked() {
     this.isWin = true;
   }
 
-  onLossClicked() {
+  public onLossClicked() {
     this.isWin = false;
   }
 }

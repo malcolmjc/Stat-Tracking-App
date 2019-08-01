@@ -1,7 +1,7 @@
-import { GameStats } from '../game/game-stats.model';
+import { UserStats } from './user-stats.model';
 
-export interface User extends GameStats {
-  name: string;
-  gamesWon: number;
-  gamesLost: number;
+export interface User {
+  stats: UserStats;
+  username: string;
+  name?: string;
 }

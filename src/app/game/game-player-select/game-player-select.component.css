@@ -1,5 +1,5 @@
 main {
-  width: 80%;
+  width: 60%;
   margin: auto;
 }
 
@@ -12,11 +12,10 @@ app-player-selection-form-field {
   display: block;
 }
 
-.half-width {
-  width: 50%;
-  display: block;
-}
-
 mat-card {
   padding-bottom: 3rem;
+}
+
+.player-selection {
+  margin-top: 2rem;
 }

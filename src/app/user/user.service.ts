@@ -1,94 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { Game } from '../game/game.model';
 import { TeamStats } from './team.stats.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
+import { map } from 'rxjs/operators';
 import { User } from './user.model';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
-  // TODO - store these in db
-  private users: User[] = [{
-    name: 'Malcolm',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Naga',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Everett',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Jake',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Manny',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Robbie',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Dylan',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  },
-  {
-    name: 'Brett',
-    catches: 0,
-    sinkers: 0,
-    drops: 0,
-    points: 0,
-    fifas: 0,
-    gamesWon: 0,
-    gamesLost: 0
-  }
-  ];
-
   gamesSet = false;
 
   map = new Map<string, {
@@ -101,8 +21,50 @@ export class UserService {
     won: boolean
   }[]>();
 
-  getAllPlayers(): User[] {
-    return [...this.users];
+  constructor(private http: HttpClient, private authService: AuthService) { }
+
+  public findUsers(search: string) {
+    // returns array of usernames
+    return this.http.get<{ message: string, users: string[]}>
+      ('http://localhost:3001/api/users/' + search).pipe(
+        map((response) => response.users)
+      );
+  }
+
+  public getUsers(): Observable<string[]> {
+    if (!this.authService.getCurrentGroup()) {
+      return of([this.authService.getUserName()]);
+    }
+    return this.http.get<{ message: string, users: string[]}>
+      ('http://localhost:3001/api/user/usernames/'
+        + this.authService.getUserId() + '/'
+        + this.authService.getCurrentGroup()).pipe(
+          map((response) => response.users)
+        );
+  }
+
+  public getUserStatsAllTime(): Observable<User[]> {
+    if (!this.authService.getCurrentGroup()) {
+      // TODO
+    }
+    return this.http.get<{ message: string, users: User[]}>
+      ('http://localhost:3001/api/user/allTimeStats/'
+        + this.authService.getUserId()
+        + '/' + this.authService.getCurrentGroup()).pipe(
+          map((response) => response.users)
+        );
+  }
+
+  public getUserStatsInGroup(): Observable<User[]> {
+    if (!this.authService.getCurrentGroup()) {
+      // TODO
+    }
+    return this.http.get<{ message: string, users: User[]}>
+      ('http://localhost:3001/api/user/groupStats/'
+        + this.authService.getUserId()
+        + '/' + this.authService.getCurrentGroup()).pipe(
+          map((response) => response.users)
+        );
   }
 
   getKey(nameOne: string, nameTwo: string): string {
@@ -116,66 +78,6 @@ export class UserService {
       secondAlpha = nameOne;
     }
     return firstAlpha + '-' + secondAlpha;
-  }
-
-  setGames(games: Game[]) {
-    if (!this.gamesSet) {
-      this.gamesSet = true;
-    } else {
-      return;
-    }
-    for (const game of games) {
-      const twoPlayerGameWinners = {
-        catches: 0,
-        sinkers: 0,
-        drops: 0,
-        points: 0,
-        fifas: 0,
-        opponents: '',
-        won: true
-      };
-      const twoPlayerGameLosers = {
-        catches: 0,
-        sinkers: 0,
-        drops: 0,
-        points: 0,
-        fifas: 0,
-        opponents: '',
-        won: false
-      };
-      for (const playerGame of game.playerGames) {
-        // update matchup stats
-        if (game.winners.includes(playerGame.playerName)) {
-          twoPlayerGameWinners.catches += playerGame.catches;
-          twoPlayerGameWinners.sinkers += playerGame.sinkers;
-          twoPlayerGameWinners.drops += playerGame.drops;
-          twoPlayerGameWinners.fifas += playerGame.fifas;
-          twoPlayerGameWinners.points += playerGame.points;
-        } else {
-          twoPlayerGameLosers.catches += playerGame.catches;
-          twoPlayerGameLosers.sinkers += playerGame.sinkers;
-          twoPlayerGameLosers.drops += playerGame.drops;
-          twoPlayerGameLosers.fifas += playerGame.fifas;
-          twoPlayerGameLosers.points += playerGame.points;
-        }
-      }
-
-      const mapKeyWinners = this.getKey(game.winners[0].toLowerCase(),
-        game.winners[1].toLowerCase());
-      const mapKeyLosers = this.getKey(game.losers[0].toLowerCase(),
-        game.losers[1].toLowerCase());
-      if (this.map.get(mapKeyWinners) === undefined) {
-        this.map.set(mapKeyWinners, []);
-      }
-      twoPlayerGameWinners.opponents = mapKeyLosers;
-      this.map.get(mapKeyWinners).push(twoPlayerGameWinners);
-
-      if (this.map.get(mapKeyLosers) === undefined) {
-        this.map.set(mapKeyLosers, []);
-      }
-      twoPlayerGameLosers.opponents = mapKeyWinners;
-      this.map.get(mapKeyLosers).push(twoPlayerGameLosers);
-    }
   }
 
   checkPartnersHavePlayed(teamOne: string[], teamTwo: string[]) {

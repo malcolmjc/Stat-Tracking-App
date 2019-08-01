@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { DialogContentCancelComponent } from './dialogs/dialog-cancel/dialog-content-cancel.component';
@@ -10,6 +10,7 @@ import { GameCreateComponent } from '../game-create/game-create.component';
 import { GameService } from '../game.service';
 import { GameStats } from '../game-stats.model';
 import { UserService } from 'src/app/user/user.service';
+import { PlayerGame } from '../player-game.model';
 
 interface PlayerRating {
   name: string;
@@ -20,68 +21,88 @@ interface PlayerRating {
   templateUrl: './game-create-list.component.html',
   styleUrls: ['./game-create-list.component.css']
 })
-export class GameCreateListComponent implements OnInit {
-  topScoreOne = 0;
-  topScoreTwo = 0;
-  bottomScoreOne = 0;
-  bottomScoreTwo = 0;
-  saveDataBool = false;
-  mapNameToGameStats: Map<string, GameStats> = new Map();
-  playerRatings: PlayerRating[] = [];
-  playerNames: string[] = [];
-  mvp: PlayerRating;
-  lvp: PlayerRating;
-  @ViewChildren(GameCreateComponent) children!: QueryList<GameCreateComponent>;
-  constructor(public gameService: GameService, public dialog: MatDialog, private router: Router,
-              private route: ActivatedRoute, public userService: UserService) { }
+export class GameCreateListComponent implements OnInit, AfterViewInit {
+  @ViewChild('finishButtons') finishButtonsElement;
 
-  ngOnInit() {
+  public topScoreOne = 0;
+  public topScoreTwo = 0;
+  public bottomScoreOne = 0;
+  public bottomScoreTwo = 0;
+  public playerNames: string[] = [];
+  public mvp: PlayerRating;
+  public lvp: PlayerRating;
+  public singlePlayerOnly = false;
+
+  private playerRatings: PlayerRating[] = [];
+  private mapNameToGameStats: Map<string, GameStats> = new Map();
+  private defaultGameStats: GameStats = {
+      catches: 0,
+      sinkers: 0,
+      drops: 0,
+      points: 0,
+      fifas: 0
+  };
+
+  @ViewChildren(GameCreateComponent) children!: QueryList<GameCreateComponent>;
+  constructor(public gameService: GameService,
+              public dialog: MatDialog,
+              private router: Router,
+              private route: ActivatedRoute,
+              public userService: UserService,
+              private renderer: Renderer2) { }
+
+  public ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
-        if (params.player && params.player.length === 4) {
-          const availablePlayers = this.userService.getAllPlayers()
-            .map((val) => val.name);
-
-          params.player.forEach((playerName: string) => {
-            if (!availablePlayers.includes(playerName)) {
-              this.router.navigate(['select-players']);
-            }
-          });
-
-          this.playerNames = params.player;
+        if (params.player) {
+          if (typeof params.player === 'string') {
+            this.singlePlayerOnly = true;
+            this.playerNames = [params.player];
+          } else {
+            this.playerNames = params.player;
+          }
           this.initMap();
+          this.initPlayerRatings();
         } else {
           this.router.navigate(['select-players']);
         }
       });
   }
 
-  initMap() {
+  public ngAfterViewInit() {
+    // sets the buttons to fit appropriately based on number of players - coupled to flex% in css file
+    this.renderer.setStyle(
+      this.finishButtonsElement.nativeElement,
+      'width',
+      '' + ((this.playerNames.length * 24) + ((100 / this.playerNames.length - 24) * (this.playerNames.length - 1))) + '%');
+  }
+
+  private initMap() {
     this.playerNames.forEach((name) => {
-      this.mapNameToGameStats.set(name, {
-        catches: 0,
-        sinkers: 0,
-        drops: 0,
-        points: 0,
-        fifas: 0
-      });
+      this.mapNameToGameStats.set(name, this.defaultGameStats);
     });
   }
 
-  onDoneClicked() {
-    this.children.forEach((child) => {
-      child.saveData();
+  private initPlayerRatings() {
+    this.playerNames.forEach((name) => {
+      this.playerRatings.push({ name: name, rating: 0.0 });
     });
+  }
 
-    const wins: boolean[] = this.gameService.getPlayerGames().map((game) => game.won);
-    if (!(wins.filter((w) => w).length === 2)) {
+  public onDoneClicked() {
+    const playerGames = [];
+    this.children.forEach((child) => {
+      playerGames.push(child.getPlayerData());
+    });
+    const wins: boolean[] = playerGames.map((game) => game.won);
+    if (playerGames.length === 4 && !(wins.filter((w) => w).length === 2)) {
       this.openFailureDialog('More than 2 players won or lost a game!');
     } else {
-      this.openSuccessDialog();
+      this.openSuccessDialog(playerGames);
     }
   }
 
-  onCancelClicked() {
+  public onCancelClicked() {
     const dialogRef = this.dialog.open(DialogContentCancelComponent);
 
     dialogRef.afterClosed().subscribe(result => {
@@ -92,7 +113,7 @@ export class GameCreateListComponent implements OnInit {
     });
   }
 
-  onStatsChanged(playerName: string) {
+  public onStatsChanged(playerName: string) {
     const mapEntry = this.mapNameToGameStats.get(playerName);
     if (!mapEntry) {
       return;
@@ -105,6 +126,25 @@ export class GameCreateListComponent implements OnInit {
     mapEntry.fifas = changedChild.numFifas;
     mapEntry.sinkers = changedChild.numSinkers;
 
+    this.updateGameScore(changedChild);
+
+    const playerRating = this.playerRatings.find((rating) => rating.name === playerName);
+    playerRating.rating = this.calculatePlayerRating(mapEntry);
+
+    this.setMvpAndLvp();
+    this.updateStatLeaders();
+  }
+
+  private setMvpAndLvp() {
+    this.mvp = this.playerRatings.reduce((a, b) => {
+      return (a.rating > b.rating) ? a : b;
+    });
+    this.lvp = this.playerRatings.reduce((a, b) => {
+      return (a.rating < b.rating) ? a : b;
+    });
+  }
+
+  private updateGameScore(changedChild: GameCreateComponent) {
     if (changedChild.getIndex() === 0) {
       this.topScoreOne = changedChild.numPoints;
     } else if (changedChild.getIndex() === 1) {
@@ -114,27 +154,9 @@ export class GameCreateListComponent implements OnInit {
     } else if (changedChild.getIndex() === 3) {
       this.bottomScoreTwo = changedChild.numPoints;
     }
-
-    let playerRating = this.playerRatings.find((rating) => rating.name === playerName);
-    if (!playerRating) {
-      playerRating = { name: playerName, rating: 0 };
-      this.playerRatings.push(playerRating);
-    }
-    playerRating.rating = this.calculatePlayerRating(mapEntry);
-
-    this.mvp = this.playerRatings.reduce((a, b) => {
-      return (a.rating > b.rating) ? a : b;
-    });
-    if (this.playerRatings.length > 1) {
-      this.lvp = this.playerRatings.reduce((a, b) => {
-        return (a.rating < b.rating) ? a : b;
-      });
-    }
-
-    this.updateStatLeaders();
   }
 
-  calculatePlayerRating(gameStats: GameStats) {
+  private calculatePlayerRating(gameStats: GameStats) {
     let rating = 0;
     rating += gameStats.points * 1.0;
     rating += gameStats.catches * 0.7;
@@ -144,7 +166,7 @@ export class GameCreateListComponent implements OnInit {
     return rating;
   }
 
-  updateStatLeaders() {
+  private updateStatLeaders() {
     let maxCatches = 0;
     let maxPoints = 0;
     this.children.forEach((child) => {
@@ -171,13 +193,13 @@ export class GameCreateListComponent implements OnInit {
     });
   }
 
-  openFailureDialog(failureReason: string) {
+  public openFailureDialog(failureReason: string) {
     const dialogRef = this.dialog.open(DialogContentFailureComponent, {
       data: failureReason
     });
   }
 
-  openSuccessDialog() {
+  public openSuccessDialog(playerGames) {
     const dialogRef = this.dialog.open(DialogContentDoneComponent);
 
     dialogRef.afterClosed().subscribe(result => {
@@ -185,42 +207,11 @@ export class GameCreateListComponent implements OnInit {
       if (!result) {
         return;
       }
-      const playerGames = this.gameService.getPlayerGames();
-      const winners: string[] = [];
-      const losers: string[] = [];
-      let losersPoints = 0;
-      for (const results of playerGames) {
-        if (results.won) {
-          winners.push(results.playerName);
-        } else {
-          losers.push(results.playerName);
-          losersPoints += results.points;
-        }
-      }
-
-      const winner1 = playerGames.find((game) => {
-        return game.playerName === winners[0];
-      });
-
-      const winner2 = playerGames.find((game) => {
-        return game.playerName === winners[1];
-      });
-
-      const loser1 = playerGames.find((game) => {
-        return game.playerName === losers[0];
-      });
-
-      const loser2 = playerGames.find((game) => {
-        return game.playerName === losers[1];
-      });
 
       const savedGame: Game = {
         id: null,
         date: new Date(),
-        playerGames: [winner1, winner2, loser1, loser2],
-        winners: [winners[0], winners[1]],
-        losers: [losers[0], losers[1]],
-        score: '12 - ' + losersPoints
+        playerGames: playerGames
       };
 
       this.gameService.addGame(savedGame);

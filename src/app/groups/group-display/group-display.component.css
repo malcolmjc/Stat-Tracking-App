@@ -1,0 +1,22 @@
+.member-header {
+  width: 100%;
+  padding-bottom: 4px;
+}
+
+.member-header h2 {
+  margin-left: 2rem;
+}
+
+h3 {
+  font-weight: 500;
+  font-size: 120%;
+}
+
+mat-card {
+  background-color: lightblue;
+  color: black;
+}
+
+hr {
+  border: 3px solid black;
+}

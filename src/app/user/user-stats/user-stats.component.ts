@@ -1,11 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Subscription } from 'rxjs';
-
-import { Game } from 'src/app/game/game.model';
-import { GameService } from 'src/app/game/game.service';
 import { User } from '../user.model';
 import { UserService } from '../user.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-user-stats',
@@ -13,132 +10,120 @@ import { UserService } from '../user.service';
   styleUrls: ['./user-stats.component.css']
 })
 
-export class UserStatsComponent implements OnInit, OnDestroy {
-  ascending = true;
-  gameListener: Subscription;
-  currentSortMethod = 'wins';
-  displayedColumns: string[] = [
+export class UserStatsComponent implements OnInit {
+  public ascending = true;
+  public isInGroup = false;
+  public currentSortMethod = 'wins';
+  public displayedColumns: string[] = [
     'win', 'loss', 'point', 'catch', 'drop', 'fifa', 'sinker'
   ];
+  public selectedSort = '';
+  public users: User[];
+  public allTimeUsersStats: User[];
+  public inGroupUsersStats: User[];
 
-  selectedSort = '';
-  matchupPredict = false;
+  constructor(public userService: UserService,
+              private authService: AuthService) { }
 
-  users: User[];
-
-  constructor(public gameService: GameService, public userService: UserService) { }
-
-  ngOnInit() {
-    this.users = this.userService.getAllPlayers();
-    this.gameService.getGames();
-    this.gameListener = this.gameService.getGameUpdateListener()
-      .subscribe((games: Game[]) => {
-        games
-          .map((game) => game.playerGames)
-          .forEach((playerGames) => {
-            playerGames.forEach((playerGame) => {
-              // update user stats - TODO these stats should be stored in db
-              const user = this.users.find(userName => {
-                return userName.name === playerGame.playerName;
-              });
-
-              user.catches += playerGame.catches;
-              user.sinkers += playerGame.sinkers;
-              user.drops += playerGame.drops;
-              user.fifas += playerGame.fifas;
-              user.points += playerGame.points;
-
-              if (playerGame.won) {
-                user.gamesWon++;
-              } else {
-                user.gamesLost++;
-              }
-            });
-          });
-
-        this.onSelection({
-          value: this.currentSortMethod
-        });
+  public ngOnInit() {
+    if (this.authService.getCurrentGroup()) {
+      this.isInGroup = true;
+    }
+    this.userService.getUserStatsAllTime().subscribe((users) => {
+      this.allTimeUsersStats = users;
+      if (!this.isInGroup) {
+        this.users = users;
+      }
+    });
+    this.userService.getUserStatsInGroup().subscribe((users) => {
+      this.inGroupUsersStats = users;
+      if (this.isInGroup) {
+        this.users = users;
+      }
     });
   }
 
-  ngOnDestroy() {
-    this.gameListener.unsubscribe();
+  public setAllTime() {
+    this.users = this.allTimeUsersStats;
   }
 
-  setDescending() {
+  public setWithinGroup() {
+    this.users = this.inGroupUsersStats;
+  }
+
+  public setDescending() {
     this.ascending = false;
     this.onSelection({
       value: this.currentSortMethod
     });
   }
 
-  setAscending() {
+  public setAscending() {
     this.ascending = true;
     this.onSelection({
       value: this.currentSortMethod
     });
   }
 
-  onSelection(evt) {
+  public onSelection(evt) {
     this.currentSortMethod = evt.value;
     switch (evt.value) {
       case 'wins': {
         this.users = this.users.sort((a, b) => {
-          return this.ascending ? b.gamesWon - a.gamesWon : a.gamesWon - b.gamesWon;
+          return this.ascending ? b.stats.gamesWon - a.stats.gamesWon : a.stats.gamesWon - b.stats.gamesWon;
         });
         break;
       }
       case 'losses': {
         this.users = this.users.sort((a, b) => {
-          return this.ascending ? b.gamesLost - a.gamesLost : a.gamesLost - b.gamesLost;
+          return this.ascending ? b.stats.gamesLost - a.stats.gamesLost : a.stats.gamesLost - b.stats.gamesLost;
         });
         break;
       }
       case 'W/L': {
         this.users = this.users.sort((a, b) => {
-          const aWL = a.gamesWon / (a.gamesWon + a.gamesLost);
-          const bWL = b.gamesWon / (b.gamesLost + b.gamesWon);
+          const aWL = a.stats.gamesWon / (a.stats.gamesWon + a.stats.gamesLost);
+          const bWL = b.stats.gamesWon / (b.stats.gamesLost + b.stats.gamesWon);
           return this.ascending ? bWL - aWL : aWL - bWL;
         });
         break;
       }
       case 'catches': {
         this.users = this.users.sort((a, b) => {
-          const aRes = a.catches / (a.gamesLost + a.gamesWon);
-          const bRes = b.catches / (b.gamesLost + b.gamesWon);
+          const aRes = a.stats.catches / (a.stats.gamesLost + a.stats.gamesWon);
+          const bRes = b.stats.catches / (b.stats.gamesLost + b.stats.gamesWon);
           return this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
       case 'points': {
         this.users = this.users.sort((a, b) => {
-          const aRes = a.points / (a.gamesLost + a.gamesWon);
-          const bRes = b.points / (b.gamesLost + b.gamesWon);
+          const aRes = a.stats.points / (a.stats.gamesLost + a.stats.gamesWon);
+          const bRes = b.stats.points / (b.stats.gamesLost + b.stats.gamesWon);
           return this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
       case 'drops': {
         this.users = this.users.sort((a, b) => {
-          const aRes = a.drops / (a.gamesLost + a.gamesWon);
-          const bRes = b.drops / (b.gamesLost + b.gamesWon);
+          const aRes = a.stats.drops / (a.stats.gamesLost + a.stats.gamesWon);
+          const bRes = b.stats.drops / (b.stats.gamesLost + b.stats.gamesWon);
           return this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
       case 'fifas': {
         this.users = this.users.sort((a, b) => {
-          const aRes = a.fifas / (a.gamesLost + a.gamesWon);
-          const bRes = b.fifas / (b.gamesLost + b.gamesWon);
+          const aRes = a.stats.fifas / (a.stats.gamesLost + a.stats.gamesWon);
+          const bRes = b.stats.fifas / (b.stats.gamesLost + b.stats.gamesWon);
           return this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
       case 'sinkers': {
         this.users = this.users.sort((a, b) => {
-          const aRes = a.sinkers / (a.gamesLost + a.gamesWon);
-          const bRes = b.sinkers / (b.gamesLost + b.gamesWon);
+          const aRes = a.stats.sinkers / (a.stats.gamesLost + a.stats.gamesWon);
+          const bRes = b.stats.sinkers / (b.stats.gamesLost + b.stats.gamesWon);
           return this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;

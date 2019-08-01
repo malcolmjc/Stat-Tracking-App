@@ -4,35 +4,44 @@
   </span>
   <span class="spacer"></span>
   <ul>
-    <li *ngIf="userIsAuthenticated">
-      <a mat-button
-        routerLink="/predict-matchup" routerLinkActive="mat-accent">
-        Predict Matchup
-      </a>
-      <a mat-button
-        routerLink="/leaderboard" routerLinkActive="mat-accent">
-        Leaderboard
-      </a>
-      <a mat-button
-        routerLink="/select-players" routerLinkActive="mat-accent">
-        Add New Game
-      </a>
-
-      <button mat-button (click)="onLogout()">Logout</button>
-    </li>
-    <li *ngIf="!userIsAuthenticated">
+    <ng-container *ngIf="userIsAuthenticated">
+      <li>
+        <a mat-button
+          routerLink="/my-groups" routerLinkActive="mat-accent">
+          Groups
+        </a>
+      </li>
+      <li>
+        <a mat-button
+          routerLink="/leaderboard" routerLinkActive="mat-accent">
+          Leaderboard
+        </a>
+      </li>
+      <li>
+        <a mat-button
+          routerLink="/select-players" routerLinkActive="mat-accent">
+          Add New Game
+        </a>
+      </li>
+      <li>
+        <button mat-button (click)="onLogout()">Logout</button>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="!userIsAuthenticated">
+      <li>
         <a mat-button
           routerLink="/login"
           routerLinkActive="mat-accent">
           Login
         </a>
+      </li>
+      <li>
         <a mat-button
           routerLink="/signup"
           routerLinkActive="mat-accent">
           Signup
         </a>
-    <li>
-
-    </li>
+      </li>
+    </ng-container>
   </ul>
 </mat-toolbar>

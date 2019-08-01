@@ -1,0 +1,18 @@
+mat-form-field, mat-auto-complete {
+  width: 50vw;
+}
+
+mat-card {
+  width: 80%;
+  min-height: 50vh;
+  margin: auto;
+}
+
+.password-input {
+  width: 50vw;
+  padding-right: 16px;
+}
+
+.join-button {
+  width: 10vw;
+}
