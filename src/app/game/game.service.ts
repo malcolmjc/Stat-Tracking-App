@@ -11,15 +11,15 @@ import { AuthService } from '../auth/auth.service';
 @Injectable({providedIn: 'root'})
 export class GameService {
   private games: Game[] = [];
-  private playerGames: PlayerGame[] = [];
   private gamesUpdated = new Subject<Game[]>();
 
   constructor(private http: HttpClient, private authService: AuthService) {
   }
 
-  getGames() {
+  public getGames() {
     this.http.post<{message: string, games: any}>('http://localhost:3001/api/games/get', {
-      userId: this.authService.getUserId()
+      userId: this.authService.getUserId(),
+      groupId: this.authService.getCurrentGroup()
     })
     .pipe(map((gameData) => {
       return gameData.games.map(game => {
@@ -39,27 +39,37 @@ export class GameService {
     });
   }
 
-  getGameUpdateListener() {
+  public getGameUpdateListener() {
     return this.gamesUpdated.asObservable();
   }
 
-  addGame(game: Game) {
+  public addGame(game: Game) {
     const postData = {
       ...game,
-      userId: this.authService.getUserId(),
-      name: this.authService.getUserName()
+      groupId: this.authService.getCurrentGroup(),
+      userId: this.authService.getUserId()
     };
-    this.http.post<{message: string, id: string}>('http://localhost:3001/api/games/add', postData)
-    .subscribe((responseData) => {
-      console.log(responseData.message);
-      game.id = responseData.id;
-      this.games.push(game);
-      this.gamesUpdated.next([...this.games]);
-    });
+    if (!postData.groupId) {
+      this.http.post<{message: string, id: string}>('http://localhost:3001/api/games/addToUser', postData)
+        .subscribe((responseData) => {
+          console.log(responseData.message);
+          game.id = responseData.id;
+          this.games.push(game);
+          this.gamesUpdated.next([...this.games]);
+        });
+    } else {
+      this.http.post<{message: string, id: string}>('http://localhost:3001/api/games/addToGroup', postData)
+        .subscribe((responseData) => {
+          console.log(responseData.message);
+          game.id = responseData.id;
+          this.games.push(game);
+          this.gamesUpdated.next([...this.games]);
+        });
+    }
   }
 
-  deleteGame(gameId: string) {
-    console.log(this.authService.getUserId());
+  public deleteGame(gameId: string) {
+    // TODO: fix this to work with groups
     this.http.delete('http://localhost:3001/api/games/' + this.authService.getUserId() + '/' + gameId)
       .subscribe(() => {
         console.log(gameId);
@@ -69,14 +79,5 @@ export class GameService {
         this.games = updatedGames;
         this.gamesUpdated.next([...this.games]);
       });
-  }
-
-  saveSinglePlayerGame(index: number, playerGame: PlayerGame) {
-    this.playerGames[index] = playerGame;
-  }
-
-  // this should only be called after all playerGames logged
-  getPlayerGames() {
-    return [...this.playerGames];
   }
 }
