@@ -1,37 +1,22 @@
-<div class="eighty">
-  <h3 class="left header">TEAM 1</h3>
-  <h3 class="score header">{{topScoreOne + topScoreTwo}} - {{bottomScoreOne + bottomScoreTwo}}</h3>
-  <h3 class="right header">TEAM 2</h3>
+<div class="team-info" *ngIf="playerNames.length === 4">
+  <h3 class="header">TEAM 1</h3>
+  <h3 class="header">{{ topScoreOne + topScoreTwo }} - {{ bottomScoreOne + bottomScoreTwo }}</h3>
+  <h3 class="header">TEAM 2</h3>
 </div>
 
-<div class="row">
-  <div class="column">
-    <app-game-create [index]="0"
+<div class="row-container">
+  <span class="row">
+    <app-game-create *ngFor="let name of playerNames; index as i"
+      class="column"
+      [index]="i"
+      [singlePlayer]="singlePlayerOnly"
       (statsChanged)="onStatsChanged($event)"
-      [playerName]="playerNames[0]">
+      [playerName]="name">
     </app-game-create>
-  </div>
-  <div class="column">
-    <app-game-create [index]="1"
-      (statsChanged)="onStatsChanged($event)"
-      [playerName]="playerNames[1]">
-    </app-game-create>
-  </div>
-  <div class="column">
-    <app-game-create [index]="2"
-      (statsChanged)="onStatsChanged($event)"
-      [playerName]="playerNames[2]">
-    </app-game-create>
-  </div>
-  <div class="column">
-    <app-game-create [index]="3"
-      (statsChanged)="onStatsChanged($event)"
-      [playerName]="playerNames[3]">
-    </app-game-create>
-  </div>
+  </span>
 </div>
 
-<div style="width: 95%; margin: auto; padding-bottom: 2rem;">
+<div #finishButtons class="finish-buttons">
   <button
     mat-raised-button
     color="warn"
