@@ -4,7 +4,4 @@ export interface Game {
   id: string;
   date: Date;
   playerGames: [PlayerGame, PlayerGame, PlayerGame, PlayerGame];
-  winners: [string, string];
-  losers: [string, string];
-  score: string;
 }
