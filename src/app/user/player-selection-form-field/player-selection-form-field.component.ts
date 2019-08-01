@@ -22,9 +22,11 @@ export class PlayerSelectionFormFieldComponent implements OnInit, OnChanges {
   public ngOnInit() {
     this.filteredPlayers = this.playerNames;
     this.playerControl.valueChanges.subscribe((value) => {
-      this.filteredPlayers = this.playerNames.filter((name) => {
-        return name.toLowerCase().includes(value.toLowerCase());
-      });
+      if (this.playerNames) {
+        this.filteredPlayers = this.playerNames.filter((name) => {
+          return name.toLowerCase().includes(value.toLowerCase());
+        });
+      }
     });
   }
 
