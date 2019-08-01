@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
+import { MatCardModule, MatRadioModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { GroupListComponent } from './group-list.component';
-import { MatCardModule, MatRadioModule } from '@angular/material';
 import { LoadingIndicatorModule } from 'src/app/loading-indicator/loading-indicator.module';
 
 @NgModule({

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { UserService } from '../user.service';
 

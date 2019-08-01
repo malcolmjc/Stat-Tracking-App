@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { MatGridListModule, MatSelectModule, MatRadioModule, MatCardModule } from '@angular/material';
+import { MatCardModule, MatGridListModule, MatRadioModule, MatSelectModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
-import { UserStatsComponent } from './user-stats.component';
 import { ConvertNaNPipe } from 'src/app/pipes/convert-nan.pipe';
+import { UserStatsComponent } from './user-stats.component';
 
 @NgModule({
   declarations: [

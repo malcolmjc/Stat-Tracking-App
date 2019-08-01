@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { GameService } from '../game.service';
 import { PlayerGame } from '../player-game.model';
 import { StatType } from '../stat-types-enum';

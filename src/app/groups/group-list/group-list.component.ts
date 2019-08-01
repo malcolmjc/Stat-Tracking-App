@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GroupService } from '../group.service';
-import { Subscription } from 'rxjs';
-import { Group } from '../group.model';
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+
 import { AuthService } from 'src/app/auth/auth.service';
+import { Group } from '../group.model';
+import { GroupService } from '../group.service';
 
 @Component({
   selector: 'app-group-list',

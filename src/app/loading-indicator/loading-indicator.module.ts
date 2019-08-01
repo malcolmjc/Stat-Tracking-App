@@ -1,8 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { LoadingIndicatorComponent } from './loading-indicator.component';
-import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [

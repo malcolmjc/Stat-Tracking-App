@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../user.model';
 import { UserService } from '../user.service';
-import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-user-stats',

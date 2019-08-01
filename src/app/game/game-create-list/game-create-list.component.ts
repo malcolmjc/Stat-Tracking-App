@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChildren, QueryList, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { DialogContentCancelComponent } from './dialogs/dialog-cancel/dialog-content-cancel.component';
@@ -10,7 +10,6 @@ import { GameCreateComponent } from '../game-create/game-create.component';
 import { GameService } from '../game.service';
 import { GameStats } from '../game-stats.model';
 import { UserService } from 'src/app/user/user.service';
-import { PlayerGame } from '../player-game.model';
 
 interface PlayerRating {
   name: string;

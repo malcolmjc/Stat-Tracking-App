@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule, MatButtonModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from '../app-routing.module';

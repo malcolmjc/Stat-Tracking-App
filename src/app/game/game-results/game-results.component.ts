@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { PlayerGame } from '../player-game.model';
 
 @Component({

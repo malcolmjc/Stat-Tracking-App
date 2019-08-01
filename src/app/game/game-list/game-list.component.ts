@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
 import { Game } from '../game.model';
-import { GameService } from '../game.service';
 import { GameDisplay } from '../game-display.model';
+import { GameService } from '../game.service';
 import { PlayerGame } from '../player-game.model';
 
 @Component({

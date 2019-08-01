@@ -1,13 +1,13 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators  } from '@angular/forms';
 
-import { debounceTime, distinctUntilChanged, map, tap, catchError } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
-import { GroupService } from '../group.service';
 import { Group } from '../group.model';
-import { of } from 'rxjs';
+import { GroupService } from '../group.service';
 
 @Component({
   selector: 'app-join-group',

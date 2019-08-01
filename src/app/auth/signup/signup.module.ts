@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatCardModule, MatInputModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
-import { SignupComponent } from './signup.component';
 import { LoadingIndicatorModule } from 'src/app/loading-indicator/loading-indicator.module';
+import { SignupComponent } from './signup.component';
 
 @NgModule({
   declarations: [

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { MatCardModule, MatExpansionModule, MatGridListModule, MatButtonModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatExpansionModule, MatGridListModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { DateToStringPipe } from '../../pipes/date-to-string.pipe';

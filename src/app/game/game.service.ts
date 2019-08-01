@@ -4,9 +4,8 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { Game } from './game.model';
-import { PlayerGame } from './player-game.model';
 import { AuthService } from '../auth/auth.service';
+import { Game } from './game.model';
 
 @Injectable({providedIn: 'root'})
 export class GameService {

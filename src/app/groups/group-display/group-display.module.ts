@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { GroupDisplayComponent } from './group-display.component';
-import { MatCardModule } from '@angular/material';
 
 @NgModule({
   declarations: [

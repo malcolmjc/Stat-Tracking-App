@@ -1,10 +1,11 @@
-import { Component, ViewChildren, QueryList, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { ToastrService } from 'ngx-toastr';
 
 import { GameService } from '../game.service';
 import { PlayerSelectionFormFieldComponent } from 'src/app/user/player-selection-form-field/player-selection-form-field.component';
 import { UserService } from 'src/app/user/user.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-game-player-select',

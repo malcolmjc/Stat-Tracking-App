@@ -1,10 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { TeamStats } from './team.stats.model';
-import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
 import { map } from 'rxjs/operators';
+
+import { AuthService } from '../auth/auth.service';
+import { TeamStats } from './team.stats.model';
 import { User } from './user.model';
 
 @Injectable({providedIn: 'root'})
