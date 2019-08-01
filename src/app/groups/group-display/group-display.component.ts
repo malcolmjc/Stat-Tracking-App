@@ -8,5 +8,5 @@ import { Group } from '../group.model';
   styleUrls: ['./group-display.component.css']
 })
 export class GroupDisplayComponent {
-  @Input() group: Group;
+  @Input() public group: Group;
 }

@@ -16,7 +16,7 @@ const monthNames = [
 ];
 @Pipe({name: 'dateToString'})
 export class DateToStringPipe implements PipeTransform {
-  transform(value: Date): string {
+  public transform(value: Date): string {
     const date = new Date(value);
     return `${monthNames[date.getMonth()]}
             ${date.getDate()}, ${date.getFullYear()}

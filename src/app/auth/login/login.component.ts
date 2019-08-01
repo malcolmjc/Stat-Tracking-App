@@ -10,12 +10,13 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnDestroy, OnInit {
-  isLoading = false;
+  public isLoading = false;
+
   private authStatusSubscription: Subscription;
 
   constructor(public authService: AuthService) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.authStatusSubscription = this.authService.getAuthStatusListener().subscribe(
       (authStatus: boolean) => {
         this.isLoading = false;
@@ -23,7 +24,7 @@ export class LoginComponent implements OnDestroy, OnInit {
     );
   }
 
-  onLogin(form: NgForm) {
+  public onLogin(form: NgForm) {
     if (form.invalid) {
       return;
     }
@@ -31,7 +32,7 @@ export class LoginComponent implements OnDestroy, OnInit {
     this.authService.login(form.value.email, form.value.password);
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.authStatusSubscription.unsubscribe();
   }
 }

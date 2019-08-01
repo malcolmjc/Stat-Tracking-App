@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./game-player-select.component.css']
 })
 export class GamePlayerSelectComponent implements OnInit {
-  @ViewChildren(PlayerSelectionFormFieldComponent) playerSelectionFormFields!:
+  @ViewChildren(PlayerSelectionFormFieldComponent) public playerSelectionFormFields!:
     QueryList<PlayerSelectionFormFieldComponent>;
   public playerNames: string[] = [];
   public numberOfPlayers = 4;

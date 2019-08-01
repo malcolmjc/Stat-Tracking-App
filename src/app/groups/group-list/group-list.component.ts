@@ -23,7 +23,7 @@ export class GroupListComponent implements OnInit, OnDestroy {
      private router: Router,
      private authService: AuthService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.isLoading = true;
     this.groupListener = this.groupService.getGroupUpdateListener().subscribe((groups: Group[]) => {
       this.groups = groups;
@@ -32,15 +32,15 @@ export class GroupListComponent implements OnInit, OnDestroy {
     this.groupService.getGroups();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.groupListener.unsubscribe();
   }
 
-  onGroupClicked(groupId: string) {
+  public onGroupClicked(groupId: string) {
     this.router.navigate(['group'], { queryParams: { id: groupId } });
   }
 
-  onGroupSelected(group: Group) {
+  public onGroupSelected(group: Group) {
     this.authService.setCurrentGroup(group.id);
     this.toastr.success(group.name, 'Set as current group!');
   }

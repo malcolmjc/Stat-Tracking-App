@@ -20,7 +20,7 @@ export class GroupComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.route.queryParams.subscribe((params: { id: string}) => {
       if (!params.id) {
         this.router.navigate(['/my-groups']);
@@ -37,21 +37,21 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  addMemberClicked() {
+  public addMemberClicked() {
     // TODO
   }
 
-  viewLeaderboardClicked(id: string) {
+  public viewLeaderboardClicked(id: string) {
     this.authService.setCurrentGroup(id);
     this.router.navigate(['/leaderboard']);
   }
 
-  viewAllGamesClicked(id: string) {
+  public viewAllGamesClicked(id: string) {
     this.authService.setCurrentGroup(id);
     this.router.navigate(['']);
   }
 
-  addNewGameClicked(id: string) {
+  public addNewGameClicked(id: string) {
     this.authService.setCurrentGroup(id);
     this.router.navigate(['/select-players']);
   }

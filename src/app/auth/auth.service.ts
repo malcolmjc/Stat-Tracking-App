@@ -20,23 +20,23 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getToken() {
+  public getToken() {
     return this.token;
   }
 
-  getIsAuthenticated() {
+  public getIsAuthenticated() {
     return this.isAuthenticated;
   }
 
-  getUserName() {
+  public getUserName() {
     return this.userName;
   }
 
-  getUserId() {
+  public getUserId() {
     return this.userId;
   }
 
-  getAuthStatusListener() {
+  public getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
 
@@ -49,7 +49,7 @@ export class AuthService {
     return this.currentGroup;
   }
 
-  createUser(email: string, password: string, username: string) {
+  public createUser(email: string, password: string, username: string) {
     const userData = { email: email, password: password, username: username };
     this.http.post(BACKEND_URL + '/signup', userData).subscribe(
       () => {
@@ -61,7 +61,7 @@ export class AuthService {
     );
   }
 
-  login(email: string, password: string) {
+  public login(email: string, password: string) {
     const authData: AuthData = {
       email: email,
       password: password
@@ -99,7 +99,7 @@ export class AuthService {
       );
   }
 
-  autoAuthUser() {
+  public autoAuthUser() {
     const authInformation = this.getAuthData();
     if (!authInformation) {
       return;
@@ -116,7 +116,7 @@ export class AuthService {
     }
   }
 
-  logout() {
+  public logout() {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);

@@ -13,15 +13,16 @@ import { PlayerGame } from '../player-game.model';
   styleUrls: ['./game-list.component.css']
 })
 export class GameListComponent implements OnInit, OnDestroy {
-  public gameListener: Subscription;
   public isLoading = false;
   public games: GameDisplay[] = [];
   public winningScore = 0;
   public losingScore = 0;
 
+  private gameListener: Subscription;
+
   constructor(public gameService: GameService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.isLoading = true;
     this.gameService.getGames();
     this.gameListener = this.gameService.getGameUpdateListener()
@@ -59,11 +60,11 @@ export class GameListComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.gameListener.unsubscribe();
   }
 
-  deleteGame(id: string) {
+  public deleteGame(id: string) {
     this.gameService.deleteGame(id);
   }
 }

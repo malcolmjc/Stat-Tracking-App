@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./loading-indicator.component.css']
 })
 export class LoadingIndicatorComponent {
-  @Input() fullPage = true;
+  @Input() public fullPage = true;
 }

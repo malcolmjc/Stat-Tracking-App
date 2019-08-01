@@ -22,8 +22,8 @@ interface PlayerRating {
   styleUrls: ['./game-create-list.component.css']
 })
 export class GameCreateListComponent implements OnInit, AfterViewInit {
-  @ViewChild('finishButtons') finishButtonsElement;
-  @ViewChildren(GameCreateComponent) children!: QueryList<GameCreateComponent>;
+  @ViewChild('finishButtons') public finishButtonsElement;
+  @ViewChildren(GameCreateComponent) public children!: QueryList<GameCreateComponent>;
 
   public topScoreOne = 0;
   public topScoreTwo = 0;

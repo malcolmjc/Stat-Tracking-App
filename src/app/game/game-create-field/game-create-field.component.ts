@@ -16,19 +16,19 @@ export class GameCreateFieldComponent {
     statCount: number
   }>();
 
-  onNegativeClicked() {
+  public onNegativeClicked() {
     if (this.statCount >= 1) {
       this.statCount--;
     }
     this.emitStats();
   }
 
-  onPositiveClicked() {
+  public onPositiveClicked() {
     this.statCount++;
     this.emitStats();
   }
 
-  emitStats() {
+  private emitStats() {
     this.statChanged.emit({
       statType: this.statType,
       statCount: this.statCount

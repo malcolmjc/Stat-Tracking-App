@@ -7,5 +7,5 @@ import { PlayerGame } from '../player-game.model';
   styleUrls: ['./game-results.component.css']
 })
 export class GameResultsComponent {
-  @Input() playerGame: PlayerGame;
+  @Input() public playerGame: PlayerGame;
 }

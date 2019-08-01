@@ -9,7 +9,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./player-selection-form-field.component.css']
 })
 export class PlayerSelectionFormFieldComponent implements OnInit, OnChanges {
-  @Input() playerNames: string[] = [];
+  @Input() public playerNames: string[] = [];
   public playerControl = new FormControl('', [
     Validators.required,
     this.forbiddenNameValidator()

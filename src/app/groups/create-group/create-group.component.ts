@@ -12,7 +12,7 @@ import { GroupService } from '../group.service';
 export class CreateGroupComponent {
   constructor(private groupService: GroupService, private router: Router) {}
 
-  onCreateGroup(form: NgForm) {
+  public onCreateGroup(form: NgForm) {
     if (form.invalid) {
       return;
     }

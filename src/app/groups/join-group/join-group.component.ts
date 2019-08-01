@@ -66,7 +66,7 @@ export class JoinGroupComponent implements OnInit {
     });
   }
 
-  onJoin(form: NgForm) {
+  public onJoin(form: NgForm) {
     if (form.invalid) {
       return;
     }

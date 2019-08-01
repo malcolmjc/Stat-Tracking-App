@@ -9,9 +9,7 @@ import { User } from './user.model';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
-  gamesSet = false;
-
-  map = new Map<string, {
+  public map = new Map<string, {
     catches: number,
     sinkers: number,
     drops: number,
@@ -67,7 +65,7 @@ export class UserService {
         );
   }
 
-  getKey(nameOne: string, nameTwo: string): string {
+  private getKey(nameOne: string, nameTwo: string): string {
     let firstAlpha = '';
     let secondAlpha = '';
     if (nameOne < nameTwo) {
@@ -80,7 +78,7 @@ export class UserService {
     return firstAlpha + '-' + secondAlpha;
   }
 
-  checkPartnersHavePlayed(teamOne: string[], teamTwo: string[]) {
+  private checkPartnersHavePlayed(teamOne: string[], teamTwo: string[]) {
     const firstTeamMapKey = this.getKey(teamOne[0], teamOne[1]);
     const secondTeamMapKey = this.getKey(teamTwo[0], teamTwo[1]);
     const firstTeamResults = this.map.get(firstTeamMapKey);
@@ -94,7 +92,7 @@ export class UserService {
     return [firstTeamResults, secondTeamResults];
   }
 
-  checkThatTeamsHavePlayedEachother(firstTeamResults, teamOne, teamTwo) {
+  private checkThatTeamsHavePlayedEachother(firstTeamResults, teamOne, teamTwo) {
     for (const gameResults of firstTeamResults) {
       if (gameResults.opponents === this.getKey(teamTwo[0], teamTwo[1])) {
         return;
@@ -104,12 +102,12 @@ export class UserService {
                           teamTwo[0] + ' & ' + teamTwo[1]);
   }
 
-  checkMatchup(teamOne: string[], teamTwo: string[]) {
+  private checkMatchup(teamOne: string[], teamTwo: string[]) {
     const teamResults = this.checkPartnersHavePlayed(teamOne, teamTwo);
     this.checkThatTeamsHavePlayedEachother(teamResults[0], teamOne, teamTwo);
   }
 
-  getResults(teamOne: string[], teamTwo: string[]): [TeamStats, TeamStats] {
+  private getResults(teamOne: string[], teamTwo: string[]): [TeamStats, TeamStats] {
     const firstTeamMapKey = this.getKey(teamOne[0], teamOne[1]);
     const secondTeamMapKey = this.getKey(teamTwo[0], teamTwo[1]);
     const firstTeamResults = this.map.get(firstTeamMapKey);
