@@ -2,23 +2,22 @@ const express = require("express");
 const router = express.Router();
 
 const checkAuth = require("../middleware/check-auth");
+const checkGroup = require("../middleware/check-belongs-to-group");
 
 const Game = require("../model/game").model;
+const Group = require("../model/group").model
 const User = require("../model/user");
 
 router.post(
-  '/add',
+  '/addToUser',
   checkAuth,
   (req, res, next) => {
-    console.log('adding game');
+    const game = new Game({
+      date: req.body.date,
+      playerGames: req.body.playerGames,
+    });
+    console.log('adding game to user');
     User.findById(req.body.userId, 'stats games').then((user) => {
-      const game = new Game({
-        date: req.body.date,
-        playerGames: req.body.playerGames,
-        winners: req.body.winners,
-        losers: req.body.losers,
-        score: req.body.score
-      });
       user.games.push(game);
       // update users stats if they played
       const usersGame = req.body.playerGames.find((game) => game.name === req.body.name);
@@ -33,26 +32,90 @@ router.post(
 
       user.save().then((user) => {
         res.status(201).json({
-           message: 'game added',
-           id: game._id
+            message: 'game added to user',
+            id: game._id
         });
-      });
-    });
-});
-
-router.post(
-  '/get',
-  checkAuth,
-  (req, res, next) => {
-    console.log('getting games');
-    User.findById(req.body.userId, 'games').then((user) => {
-      res.status(200).json({
-        message: 'games fetched',
-        games: user.games
       });
     });
   });
 
+router.post(
+  '/addToGroup',
+  checkAuth,
+  checkGroup,
+  (req, res, next) => {
+    const game = new Game({
+      date: req.body.date,
+      playerGames: req.body.playerGames,
+    });
+    console.log('adding game to group');
+    const group = res.locals.group;
+    group.games.push(game);
+    game.playerGames.forEach((playerGame) => {
+      // update group stats
+      // console.log(playerGame.playerName);
+      // console.log(group.memberStats);
+      const groupMemberStats = group.memberStats.find((memberStat) => {
+        return memberStat.username === playerGame.playerName
+      });
+      groupMemberStats.catches += playerGame.catches;
+      groupMemberStats.sinkers += playerGame.sinkers;
+      groupMemberStats.drops += playerGame.drops;
+      groupMemberStats.points += playerGame.points;
+      groupMemberStats.fifas += playerGame.fifas;
+      playerGame.won ? groupMemberStats.gamesWon++ : groupMemberStats.gamesLost++;
+    });
+    group.save().then((group) => {
+      let updatedCount = 0;
+      game.playerGames.forEach((playerGame) => {
+        // Update user's individual stats
+        User.findOne({ username: playerGame.playerName }, 'stats').then((user) => {
+          user.stats.catches += playerGame.catches;
+          user.stats.sinkers += playerGame.sinkers;
+          user.stats.drops += playerGame.drops;
+          user.stats.points += playerGame.points;
+          user.stats.fifas += playerGame.fifas;
+          playerGame.won ? user.stats.gamesWon++ : user.stats.gamesLost++;
+          user.save().then(() => {
+            updatedCount++;
+            if (updatedCount === game.playerGames.length) {
+              res.status(201).json({
+                message: 'game added to group',
+                id: game._id
+              });
+            }
+          });
+        })
+      });
+    });
+  });
+
+// TODO, make this get request - query param with userId
+router.post(
+  '/get',
+  checkAuth,
+  (req, res, next) => {
+    if (!req.body.groupId) { // get all games for user
+      console.log('getting games for user');
+      User.findById(req.body.userId, 'games').then((user) => {
+        // TODO: fetch games from groups user belongs to
+        res.status(200).json({
+          message: 'games fetched for user',
+          games: user.games
+        });
+      });
+    } else {
+      console.log('getting games for group');
+      Group.findById(req.body.groupId, 'games').then((group) => {
+        res.status(200).json({
+          message: 'games fetched for group',
+          games: group.games
+        });
+      });
+    }
+  });
+
+// TODO - doesn't work with groups, doesn't update stats
 router.delete(
   '/:userId/:gameId',
   checkAuth,

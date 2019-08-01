@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
       message: 'user doesnt belong to group',
     });
   }
-  Group.findById(groupId, 'members memberStats').then((group) => {
+  Group.findById(groupId, 'members memberStats games').then((group) => {
     User.findById(userId, 'groups username').then((user) => {
       // verify user actually belongs to group
       if (!group.members.includes(user.username) || !user.groups.includes(group._id)) {
