@@ -3,13 +3,25 @@
     <h2>Select Players For This Game</h2>
 
     <mat-card>
-      <h3>Team 1</h3>
-      <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
-      <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
+      <h3>Number of Players</h3>
+      <mat-radio-group aria-label="Select an option" class="button-bar">
+        <mat-radio-button *ngFor="let number of possiblePlayerNumbers"
+           name="number-{{ number }}" [value]="number"
+          (click)="numberOfPlayers = number"
+          [checked]="number === numberOfPlayers">
+          {{ number }}
+        </mat-radio-button>
+      </mat-radio-group>
 
-      <h3>Team 2</h3>
-      <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
-      <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
+      <div class="player-selection">
+        <ng-container *ngFor="let number of possiblePlayerNumbers">
+          <h3 *ngIf="number === 1 && numberOfPlayers === 4">Team One</h3>
+          <h3 *ngIf="number === 3 && numberOfPlayers === 4">Team Two</h3>
+          <ng-container *ngIf="number <= numberOfPlayers">
+            <app-player-selection-form-field [playerNames]="playerNames"></app-player-selection-form-field>
+          </ng-container>
+        </ng-container>
+      </div>
 
       <button
         mat-raised-button color="warn" class="input-button left"
@@ -18,7 +30,7 @@
       </button>
       <button
         mat-raised-button color="primary" class="input-button right"
-        (click)="onDoneClicked()">
+        (click)="onDoneClicked($event)">
         DONE
       </button>
     </mat-card>

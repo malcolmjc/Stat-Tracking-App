@@ -15,3 +15,7 @@ app-player-selection-form-field {
 mat-card {
   padding-bottom: 3rem;
 }
+
+.player-selection {
+  margin-top: 2rem;
+}

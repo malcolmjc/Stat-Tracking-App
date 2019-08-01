@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { GameService } from '../game.service';
 import { PlayerSelectionFormFieldComponent } from 'src/app/user/player-selection-form-field/player-selection-form-field.component';
 import { UserService } from 'src/app/user/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-game-player-select',
@@ -14,10 +15,13 @@ export class GamePlayerSelectComponent implements OnInit {
   @ViewChildren(PlayerSelectionFormFieldComponent) playerSelectionFormFields!:
     QueryList<PlayerSelectionFormFieldComponent>;
   public playerNames: string[] = [];
+  public numberOfPlayers = 4;
+  public possiblePlayerNumbers = [1, 2, 3, 4];
 
   constructor(private router: Router,
               public userService: UserService,
-              public gameService: GameService) { }
+              public gameService: GameService,
+              private toastr: ToastrService) { }
 
   public ngOnInit() {
     this.userService.getUsers().subscribe((usernames) => {
@@ -26,19 +30,25 @@ export class GamePlayerSelectComponent implements OnInit {
     });
   }
 
-  onCancelClicked() {
+  public onCancelClicked() {
     this.router.navigate(['']);
   }
 
-  onDoneClicked() {
-    let valid = true;
+  public onDoneClicked(event: any) {
+    event.preventDefault();
+
     const usernames: string[] = [];
-    this.playerSelectionFormFields.forEach((playerSelectionFormField) => {
-      valid = playerSelectionFormField.playerControl.valid;
+    for (const playerSelectionFormField of this.playerSelectionFormFields.toArray()) {
+      if (!playerSelectionFormField.playerControl.valid) {
+        this.toastr.error('One or more missing usernames!', 'Username Missing');
+        return;
+      } else if (usernames.includes(playerSelectionFormField.selectedUsername)) {
+        this.toastr.error('One or more duplicate usernames!', 'Duplicate Username');
+        return;
+      }
       usernames.push(playerSelectionFormField.selectedUsername);
-    });
-    if (valid) {
-      this.router.navigate(['create'], { queryParams: { player: usernames } });
     }
+
+    this.router.navigate(['create'], { queryParams: { player: usernames } });
   }
 }
