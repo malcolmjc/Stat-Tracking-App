@@ -23,6 +23,7 @@ interface PlayerRating {
 })
 export class GameCreateListComponent implements OnInit, AfterViewInit {
   @ViewChild('finishButtons') finishButtonsElement;
+  @ViewChildren(GameCreateComponent) children!: QueryList<GameCreateComponent>;
 
   public topScoreOne = 0;
   public topScoreTwo = 0;
@@ -43,7 +44,6 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
       fifas: 0
   };
 
-  @ViewChildren(GameCreateComponent) children!: QueryList<GameCreateComponent>;
   constructor(public gameService: GameService,
               public dialog: MatDialog,
               private router: Router,
@@ -75,18 +75,6 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
       this.finishButtonsElement.nativeElement,
       'width',
       '' + ((this.playerNames.length * 24) + ((100 / this.playerNames.length - 24) * (this.playerNames.length - 1))) + '%');
-  }
-
-  private initMap() {
-    this.playerNames.forEach((name) => {
-      this.mapNameToGameStats.set(name, this.defaultGameStats);
-    });
-  }
-
-  private initPlayerRatings() {
-    this.playerNames.forEach((name) => {
-      this.playerRatings.push({ name: name, rating: 0.0 });
-    });
   }
 
   public onDoneClicked() {
@@ -133,6 +121,18 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
 
     this.setMvpAndLvp();
     this.updateStatLeaders();
+  }
+
+  private initMap() {
+    this.playerNames.forEach((name) => {
+      this.mapNameToGameStats.set(name, this.defaultGameStats);
+    });
+  }
+
+  private initPlayerRatings() {
+    this.playerNames.forEach((name) => {
+      this.playerRatings.push({ name: name, rating: 0.0 });
+    });
   }
 
   private setMvpAndLvp() {
@@ -193,13 +193,13 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public openFailureDialog(failureReason: string) {
+  private openFailureDialog(failureReason: string) {
     const dialogRef = this.dialog.open(DialogContentFailureComponent, {
       data: failureReason
     });
   }
 
-  public openSuccessDialog(playerGames) {
+  private openSuccessDialog(playerGames) {
     const dialogRef = this.dialog.open(DialogContentDoneComponent);
 
     dialogRef.afterClosed().subscribe(result => {

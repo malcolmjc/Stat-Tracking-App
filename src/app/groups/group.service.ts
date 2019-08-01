@@ -56,15 +56,6 @@ export class GroupService {
     return this.groupsUpdated.asObservable();
   }
 
-  private addGroup(group: Group) {
-    this.http.post<{message: string}>('http://localhost:3001/api/groups/addToUser/', {
-      userId: this.authService.getUserId(),
-      groupId: group.id
-    }).subscribe((response) => {
-        console.log(response.message);
-      });
-  }
-
   public joinGroup(password: string, groupId: string) {
     return this.http.put<{message: string}>('http://localhost:3001/api/groups/join/', {
       userId: this.authService.getUserId(),
@@ -98,5 +89,14 @@ export class GroupService {
         id: responseData.groupId
       });
     });
+  }
+
+  private addGroup(group: Group) {
+    this.http.post<{message: string}>('http://localhost:3001/api/groups/addToUser/', {
+      userId: this.authService.getUserId(),
+      groupId: group.id
+    }).subscribe((response) => {
+        console.log(response.message);
+      });
   }
 }

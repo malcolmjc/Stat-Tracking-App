@@ -12,9 +12,10 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./group-list.component.css']
 })
 export class GroupListComponent implements OnInit, OnDestroy {
-  private groupListener: Subscription;
   public isLoading = false;
   public groups: Group[] = [];
+
+  private groupListener: Subscription;
 
   constructor(
      private groupService: GroupService,
