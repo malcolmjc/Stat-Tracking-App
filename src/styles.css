@@ -15,7 +15,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .button-bar {
-  margin-top: 2rem;
   display: flex;
   justify-content: space-between;
 }
