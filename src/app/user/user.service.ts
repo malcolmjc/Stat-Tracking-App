@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Game } from '../game/game.model';
 import { TeamStats } from './team.stats.model';
 import { HttpClient } from '@angular/common/http';
-import { Subject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { map } from 'rxjs/operators';
-import { stringify } from 'querystring';
 import { User } from './user.model';
 
 @Injectable({providedIn: 'root'})
@@ -80,66 +78,6 @@ export class UserService {
       secondAlpha = nameOne;
     }
     return firstAlpha + '-' + secondAlpha;
-  }
-
-  setGames(games: Game[]) {
-    if (!this.gamesSet) {
-      this.gamesSet = true;
-    } else {
-      return;
-    }
-    for (const game of games) {
-      const twoPlayerGameWinners = {
-        catches: 0,
-        sinkers: 0,
-        drops: 0,
-        points: 0,
-        fifas: 0,
-        opponents: '',
-        won: true
-      };
-      const twoPlayerGameLosers = {
-        catches: 0,
-        sinkers: 0,
-        drops: 0,
-        points: 0,
-        fifas: 0,
-        opponents: '',
-        won: false
-      };
-      for (const playerGame of game.playerGames) {
-        // update matchup stats
-        if (game.winners.includes(playerGame.playerName)) {
-          twoPlayerGameWinners.catches += playerGame.catches;
-          twoPlayerGameWinners.sinkers += playerGame.sinkers;
-          twoPlayerGameWinners.drops += playerGame.drops;
-          twoPlayerGameWinners.fifas += playerGame.fifas;
-          twoPlayerGameWinners.points += playerGame.points;
-        } else {
-          twoPlayerGameLosers.catches += playerGame.catches;
-          twoPlayerGameLosers.sinkers += playerGame.sinkers;
-          twoPlayerGameLosers.drops += playerGame.drops;
-          twoPlayerGameLosers.fifas += playerGame.fifas;
-          twoPlayerGameLosers.points += playerGame.points;
-        }
-      }
-
-      const mapKeyWinners = this.getKey(game.winners[0].toLowerCase(),
-        game.winners[1].toLowerCase());
-      const mapKeyLosers = this.getKey(game.losers[0].toLowerCase(),
-        game.losers[1].toLowerCase());
-      if (this.map.get(mapKeyWinners) === undefined) {
-        this.map.set(mapKeyWinners, []);
-      }
-      twoPlayerGameWinners.opponents = mapKeyLosers;
-      this.map.get(mapKeyWinners).push(twoPlayerGameWinners);
-
-      if (this.map.get(mapKeyLosers) === undefined) {
-        this.map.set(mapKeyLosers, []);
-      }
-      twoPlayerGameLosers.opponents = mapKeyWinners;
-      this.map.get(mapKeyLosers).push(twoPlayerGameLosers);
-    }
   }
 
   checkPartnersHavePlayed(teamOne: string[], teamTwo: string[]) {
