@@ -1,29 +1,49 @@
 <app-loading-indicator *ngIf="isLoading"></app-loading-indicator>
 
-
 <main>
 <mat-accordion multi="true" *ngIf="games.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let game of games">
     <mat-expansion-panel-header>
-      {{ game.date | dateToString }}
+      <mat-panel-title>{{ game.date | dateToString }}</mat-panel-title>
+
+      <mat-panel-description *ngIf="game.playerGames.length === 4">
+        <div class="header-score">
+          {{ game.winnerGames[0].playerName }} &
+          {{ game.winnerGames[1].playerName }}:
+        </div>
+
+        <b>{{ game.winningScore }}</b>
+
+        <div class="header-score">
+          {{ game.loserGames[0].playerName }} &
+          {{ game.loserGames[1].playerName }}:
+        </div>
+
+        <b>{{ game.losingScore }}</b>
+      </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <h2>Score</h2>
-    {{ game.score }}
+    <ng-container *ngIf="game.playerGames.length === 4">
+      <h2 class="center">Winners</h2>
+      <app-game-results [playerGame]="game.winnerGames[0]">
+      </app-game-results>
 
-    <h2>Winners</h2>
-    <app-game-results [playerGame]="game.playerGames[0]">
-    </app-game-results>
+      <app-game-results [playerGame]="game.winnerGames[1]">
+      </app-game-results>
 
-    <app-game-results [playerGame]="game.playerGames[1]">
-    </app-game-results>
+      <h2 class="center" *ngIf="game.playerGames.length === 4">Losers</h2>
+      <app-game-results [playerGame]="game.loserGames[0]">
+      </app-game-results>
 
-    <h2>Losers</h2>
-    <app-game-results [playerGame]="game.playerGames[2]">
-    </app-game-results>
+      <app-game-results [playerGame]="game.loserGames[1]">
+      </app-game-results>
+    </ng-container>
 
-    <app-game-results [playerGame]="game.playerGames[3]">
-    </app-game-results>
+    <ng-container *ngIf="game.playerGames.length !== 4">
+      <app-game-results *ngFor="let playerGame of game.playerGames"
+        [playerGame]="playerGame">
+      </app-game-results>
+    </ng-container>
 
     <mat-action-row>
       <button mat-button color="warn" (click)="deleteGame(game.id)">Delete</button>
@@ -32,6 +52,7 @@
 </mat-accordion>
 </main>
 
+<!-- TODO - make this nicer looking and link to something -->
 <div *ngIf="games.length == 0 && !isLoading">
   You have no games yet! Click on the top right to add one
 </div>
