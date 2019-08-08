@@ -10,8 +10,10 @@
       <mat-error *ngIf="passwordInput.invalid">Please enter a valid password (5 characters or more)</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input type="username" name="username" ngModel matInput placeholder="Username" #usernameInput="ngModel" required>
-      <mat-error *ngIf="usernameInput.invalid">Please input your username</mat-error>
+      <input type="username" name="username" ngModel
+        matInput placeholder="Username" #usernameInput="ngModel"
+        required [pattern]="'^[a-zA-Z\\d ]*$'" minlength="4">
+      <mat-error *ngIf="usernameInput.invalid">Please input a valid username (4+ characters, alphanumeric)</mat-error>
     </mat-form-field>
     <button mat-raised-button color="accent" type="submit">SIGNUP</button>
   </form>
