@@ -52,7 +52,7 @@ router.post("/login", (req, res, next) => {
         email: fetchedUser.email,
         userId: fetchedUser._id
       },
-      "this-is-a-super-secret-message-should-be-hidden-TODO-make-hidden",
+      process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
     res.status(200).json({

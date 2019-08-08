@@ -4,21 +4,21 @@ import { Injectable } from '@angular/core';
 import { Subject, of, Observable } from 'rxjs';
 
 import { AuthService } from '../auth/auth.service';
+import { environment } from 'src/environments/environment';
 import { Group } from './group.model';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+const API_URL = environment.apiUrl + 'groups';
+
+@Injectable({ providedIn: 'root' })
 export class GroupService {
   private groups: Group[] = [];
   private groupsUpdated = new Subject<Group[]>();
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-  }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   public getGroups() {
-    this.http.get<{ message: string, groups}>('http://localhost:3001/api/groups/' + this.authService.getUserId())
+    this.http.get<{ message: string, groups}>(API_URL + '/' + this.authService.getUserId())
       .subscribe((response) => {
         this.groups = response.groups.map((group) => {
           return {
@@ -34,13 +34,13 @@ export class GroupService {
     return this.http.get<{
       message: string,
       groups: any }>
-      ('http://localhost:3001/api/groups/find/' + search);
+      (API_URL + '/find/' + search);
   }
 
   public getGroupById(id: string): Observable<Group> {
     const foundGroup = this.groups.find((group) => group.id === id);
     if (!foundGroup) {
-      return this.http.get<{message: string, group}>('http://localhost:3001/api/groups/byId/' + id).pipe(
+      return this.http.get<{message: string, group}>(API_URL + '/byId/' + id).pipe(
         map((response) => {
           return {
             ...response.group,
@@ -57,7 +57,7 @@ export class GroupService {
   }
 
   public joinGroup(password: string, groupId: string) {
-    return this.http.put<{message: string}>('http://localhost:3001/api/groups/join/', {
+    return this.http.put<{message: string}>(API_URL + '/join/', {
       userId: this.authService.getUserId(),
       groupId: groupId,
       password: password
@@ -81,7 +81,7 @@ export class GroupService {
     };
     this.groups.push(group);
     this.groupsUpdated.next(this.groups);
-    this.http.post<{message: string, groupId: string}>('http://localhost:3001/api/groups/add', postData)
+    this.http.post<{message: string, groupId: string}>(API_URL + '/add', postData)
     .subscribe((responseData) => {
       console.log(responseData.message);
       this.addGroup({
@@ -92,7 +92,7 @@ export class GroupService {
   }
 
   private addGroup(group: Group) {
-    this.http.post<{message: string}>('http://localhost:3001/api/groups/addToUser/', {
+    this.http.post<{message: string}>(API_URL + '/addToUser/', {
       userId: this.authService.getUserId(),
       groupId: group.id
     }).subscribe((response) => {

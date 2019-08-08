@@ -5,18 +5,20 @@ import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { AuthService } from '../auth/auth.service';
+import { environment } from 'src/environments/environment';
 import { Game } from './game.model';
+
+const API_URL = environment.apiUrl + 'games';
 
 @Injectable({providedIn: 'root'})
 export class GameService {
   private games: Game[] = [];
   private gamesUpdated = new Subject<Game[]>();
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-  }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   public getGames() {
-    this.http.post<{message: string, games: any}>('http://localhost:3001/api/games/get', {
+    this.http.post<{message: string, games: any}>(API_URL + '/get', {
       userId: this.authService.getUserId(),
       groupId: this.authService.getCurrentGroup()
     })
@@ -49,7 +51,7 @@ export class GameService {
       userId: this.authService.getUserId()
     };
     if (!postData.groupId) {
-      this.http.post<{message: string, id: string}>('http://localhost:3001/api/games/addToUser', postData)
+      this.http.post<{message: string, id: string}>(API_URL + '/addToUser', postData)
         .subscribe((responseData) => {
           console.log(responseData.message);
           game.id = responseData.id;
@@ -57,7 +59,7 @@ export class GameService {
           this.gamesUpdated.next([...this.games]);
         });
     } else {
-      this.http.post<{message: string, id: string}>('http://localhost:3001/api/games/addToGroup', postData)
+      this.http.post<{message: string, id: string}>(API_URL + '/addToGroup', postData)
         .subscribe((responseData) => {
           console.log(responseData.message);
           game.id = responseData.id;
@@ -69,7 +71,7 @@ export class GameService {
 
   public deleteGame(gameId: string) {
     // TODO: fix this to work with groups
-    this.http.delete('http://localhost:3001/api/games/' + this.authService.getUserId() + '/' + gameId)
+    this.http.delete(API_URL + this.authService.getUserId() + '/' + gameId)
       .subscribe(() => {
         console.log(gameId);
         const updatedGames = this.games.filter(game => {

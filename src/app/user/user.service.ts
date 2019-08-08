@@ -7,6 +7,9 @@ import { map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { TeamStats } from './team.stats.model';
 import { User } from './user.model';
+import { environment } from 'src/environments/environment';
+
+const API_URL = environment.apiUrl + 'user';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -25,7 +28,7 @@ export class UserService {
   public findUsers(search: string) {
     // returns array of usernames
     return this.http.get<{ message: string, users: string[]}>
-      ('http://localhost:3001/api/users/' + search).pipe(
+      (API_URL + '/' + search).pipe(
         map((response) => response.users)
       );
   }
@@ -35,7 +38,7 @@ export class UserService {
       return of([this.authService.getUserName()]);
     }
     return this.http.get<{ message: string, users: string[]}>
-      ('http://localhost:3001/api/user/usernames/'
+      (API_URL + '/usernames/'
         + this.authService.getUserId() + '/'
         + this.authService.getCurrentGroup()).pipe(
           map((response) => response.users)
@@ -47,7 +50,7 @@ export class UserService {
       // TODO
     }
     return this.http.get<{ message: string, users: User[]}>
-      ('http://localhost:3001/api/user/allTimeStats/'
+      (API_URL + '/allTimeStats/'
         + this.authService.getUserId()
         + '/' + this.authService.getCurrentGroup()).pipe(
           map((response) => response.users)
@@ -59,7 +62,7 @@ export class UserService {
       // TODO
     }
     return this.http.get<{ message: string, users: User[]}>
-      ('http://localhost:3001/api/user/groupStats/'
+      (API_URL + '/groupStats/'
         + this.authService.getUserId()
         + '/' + this.authService.getCurrentGroup()).pipe(
           map((response) => response.users)
