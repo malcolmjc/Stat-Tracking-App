@@ -124,11 +124,11 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  private setAuthTimer(duration: number) {
-    console.log('Setting timer for: ' + duration);
+  private setAuthTimer(seconds: number) {
+    console.log('Setting timer for: ' + seconds);
     this.tokenTimer = setTimeout(() => {
       this.logout();
-    }, duration * 1000);
+    }, seconds * 1000);
   }
 
   private saveAuthData(token: string, expirationDate: Date, userId: string, username: string) {

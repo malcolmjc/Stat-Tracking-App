@@ -48,16 +48,17 @@ router.post("/login", (req, res, next) => {
         message: "authentication failed for unknown reason"
       });
     }
+    const expiresInHours = 2;
     const token = jwt.sign({
         email: fetchedUser.email,
         userId: fetchedUser._id
       },
       process.env.JWT_SECRET,
-      { expiresIn: "2h" }
+      { expiresIn: expiresInHours + "h" }
     );
     res.status(200).json({
       token: token,
-      expiresIn: 3000,
+      expiresIn: expiresInHours * 60 * 60,
       userId: fetchedUser._id,
       username: fetchedUser.username
     });
