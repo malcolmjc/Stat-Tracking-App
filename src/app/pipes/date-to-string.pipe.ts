@@ -20,6 +20,13 @@ export class DateToStringPipe implements PipeTransform {
     const date = new Date(value);
     return `${monthNames[date.getMonth()]}
             ${date.getDate()}, ${date.getFullYear()}
-            ${date.getHours()}:${date.getMinutes()}`;
+            ${date.getHours()}:${this.doubleDigit(date.getMinutes())}`;
+  }
+
+  private doubleDigit(num: number) {
+    if (num <= 9) {
+      return '0' + num;
+    }
+    return '' + num;
   }
 }
