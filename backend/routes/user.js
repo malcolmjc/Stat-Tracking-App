@@ -8,8 +8,21 @@ const checkGroup = require("../middleware/check-belongs-to-group");
 const Group = require("../model/group").model;
 const User = require("../model/user");
 
+const validateUsername = (username) => {
+  return username && username.length >= 4 && /^[a-zA-Z\d ]*$/.test(username);
+};
+
+const validatePassword = (password) => {
+  return password && password.length >= 5;
+};
+
 router.post("/signup", (req, res, next) => {
   console.log('signing up');
+  if (!validateUsername(req.body.username) || !validatePassword(req.body.password)) {
+    return res.status(405).json({
+      message: 'Invalid Username or Password'
+    });
+  }
   bcrypt.hash(req.body.password, 14).then(hash => {
     const user = new User({
       email: req.body.email,
