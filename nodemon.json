@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MONGODB_PASSWORD": "uR2P7vVIrtlVhwVr",
+    "JWT_SECRET": "this-is-a-super-secret-message-should-be-hidden-TODO-make-hidden"
+  }
+}
