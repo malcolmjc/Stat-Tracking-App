@@ -115,7 +115,7 @@ router.get("/find/:search", (req, res, next) => {
       groups: null
     });
   } else {
-    Group.find({ name: new RegExp(search) }, 'name slogan description members').then((groups) => {
+    Group.find({ name: new RegExp(search, 'i') }, 'name slogan description members').then((groups) => {
       res.status(200).json({
         message: 'these groups found',
         groups: groups
