@@ -2,8 +2,9 @@
 <mat-card *ngIf="!isLoading">
   <form (submit)="onCreateGroup(createGroupForm)" #createGroupForm="ngForm">
     <mat-form-field>
-      <input matInput name="groupName" type="groupName" ngModel placeholder="Group Name" #groupNameInput="ngModel" required>
-      <mat-error *ngIf="groupNameInput.invalid">Please enter a valid email</mat-error>
+      <input matInput name="groupName" type="groupName" ngModel placeholder="Group Name" #groupNameInput="ngModel"
+        required [pattern]="'^[a-zA-Z\\d ]*$'" minlength="4">
+      <mat-error *ngIf="groupNameInput.invalid">Please enter a valid group name (4+ characters, alphanumeric)</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput type="password" name="password" ngModel  placeholder="Password" #passwordInput="ngModel" required minlength="5">
