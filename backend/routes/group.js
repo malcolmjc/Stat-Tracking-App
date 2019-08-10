@@ -9,10 +9,23 @@ const User = require("../model/user");
 
 const checkAuth = require("../middleware/check-auth");
 
+const validateGroupName = (groupName) => {
+  return groupName && groupName.length >= 4 && /^[a-zA-Z\d ]*$/.test(groupName);
+};
+
+const validateGroupPassword = (groupPassword) => {
+  return groupPassword && groupPassword.length >= 5;
+};
+
 router.post(
   '/add',
   checkAuth,
   (req, res, next) => {
+    if (!validateGroupName(req.body.name) || !validateGroupPassword(req.body.password)) {
+      return res.status(405).json({
+        message: 'Invalid Group Name or Password'
+      });
+    }
     bcrypt.hash(req.body.password, 14).then(hash => {
       const group = new Group({
         name: req.body.name,
