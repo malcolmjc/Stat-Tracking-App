@@ -69,16 +69,16 @@ export class GameService {
     }
   }
 
-  public deleteGame(gameId: string) {
-    // TODO: fix this to work with groups
-    this.http.delete(API_URL + this.authService.getUserId() + '/' + gameId)
-      .subscribe(() => {
-        console.log(gameId);
-        const updatedGames = this.games.filter(game => {
-          return game.id !== gameId;
-        });
-        this.games = updatedGames;
-        this.gamesUpdated.next([...this.games]);
-      });
-  }
+  // REMOVING GAME DELETION FOR NOW
+  // public deleteGame(gameId: string) {
+  //   this.http.delete(API_URL + this.authService.getUserId() + '/' + gameId)
+  //     .subscribe(() => {
+  //       console.log(gameId);
+  //       const updatedGames = this.games.filter(game => {
+  //         return game.id !== gameId;
+  //       });
+  //       this.games = updatedGames;
+  //       this.gamesUpdated.next([...this.games]);
+  //     });
+  // }
 }

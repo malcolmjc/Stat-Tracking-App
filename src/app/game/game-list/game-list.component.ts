@@ -63,8 +63,4 @@ export class GameListComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.gameListener.unsubscribe();
   }
-
-  public deleteGame(id: string) {
-    this.gameService.deleteGame(id);
-  }
 }
