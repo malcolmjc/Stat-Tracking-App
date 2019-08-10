@@ -15,8 +15,6 @@ import { PlayerGame } from '../player-game.model';
 export class GameListComponent implements OnInit, OnDestroy {
   public isLoading = false;
   public games: GameDisplay[] = [];
-  public winningScore = 0;
-  public losingScore = 0;
 
   private gameListener: Subscription;
 
