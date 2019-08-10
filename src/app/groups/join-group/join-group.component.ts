@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged, map, catchError } from 'rxjs/operat
 import { of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
+import { AuthService } from 'src/app/auth/auth.service';
 import { Group } from '../group.model';
 import { GroupService } from '../group.service';
 
@@ -24,6 +25,7 @@ export class JoinGroupComponent implements OnInit {
 
   constructor(
     public groupService: GroupService,
+    public authService: AuthService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -82,6 +84,7 @@ export class JoinGroupComponent implements OnInit {
         return of(false);
       })
     ).subscribe((response) => {
+        this.selectedGroup.members.push(this.authService.getUserName());
         if (response) {
           this.toastr.success(`Joined group ${groupName}`, 'Joined!');
         }
