@@ -14,6 +14,7 @@ const API_URL = environment.apiUrl + 'groups';
 export class GroupService {
   private groups: Group[] = [];
   private groupsUpdated = new Subject<Group[]>();
+  private groupCreated = new Subject<boolean>();
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -52,6 +53,10 @@ export class GroupService {
     }
   }
 
+  public getGroupCreatedListener() {
+    return this.groupCreated.asObservable();
+  }
+
   public getGroupUpdateListener() {
     return this.groupsUpdated.asObservable();
   }
@@ -79,16 +84,14 @@ export class GroupService {
       ...group,
       userId: this.authService.getUserId(),
     };
-    this.groups.push(group);
-    this.groupsUpdated.next(this.groups);
     this.http.post<{message: string, groupId: string}>(API_URL + '/add', postData)
-    .subscribe((responseData) => {
-      console.log(responseData.message);
-      this.addGroup({
-        ...group,
-        id: responseData.groupId
+      .subscribe((responseData) => {
+        console.log(responseData.message);
+        this.addGroup({
+          ...group,
+          id: responseData.groupId
+        });
       });
-    });
   }
 
   private addGroup(group: Group) {
@@ -96,7 +99,11 @@ export class GroupService {
       userId: this.authService.getUserId(),
       groupId: group.id
     }).subscribe((response) => {
-        console.log(response.message);
-      });
+      console.log(response.message);
+      this.groupCreated.next(true);
+    }, (err) => {
+      console.error(err);
+      this.groupCreated.next(false);
+    });
   }
 }
