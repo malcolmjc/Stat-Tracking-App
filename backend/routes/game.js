@@ -115,20 +115,20 @@ router.post(
     }
   });
 
-// TODO - doesn't work with groups, doesn't update stats
-router.delete(
-  '/:userId/:gameId',
-  checkAuth,
-  (req, res, next) => {
-    console.log('deleting game');
-    User.findById(req.params.userId, 'games').then((user) => {
-      user.games.id(req.params.gameId).remove();
-      user.save().then((user) => {
-        res.status(200).json({
-          message: 'game deleted'
-        });
-      });
-    });
-  });
+// GAME DELETION DISABLED FOR NOW
+// router.delete(
+//   '/:userId/:gameId',
+//   checkAuth,
+//   (req, res, next) => {
+//     console.log('deleting game');
+//     User.findById(req.params.userId, 'games').then((user) => {
+//       user.games.id(req.params.gameId).remove();
+//       user.save().then((user) => {
+//         res.status(200).json({
+//           message: 'game deleted'
+//         });
+//       });
+//     });
+//   });
 
 module.exports = router;
