@@ -97,12 +97,35 @@ router.post(
   (req, res, next) => {
     if (!req.body.groupId) { // get all games for user
       console.log('getting games for user');
-      User.findById(req.body.userId, 'games').then((user) => {
-        // TODO: fetch games from groups user belongs to
-        res.status(200).json({
-          message: 'games fetched for user',
-          games: user.games
-        });
+      User.findById(req.body.userId, 'games groups username').then((user) => {
+        const resGames = user.games ? user.games : [];
+        if (user.groups) {
+          requests = 0;
+          user.groups.forEach((groupId) => {
+            Group.findById(groupId, 'games').then((group) => {
+              if (group.games) {
+                group.games.forEach((game) => {
+                  if (game.playerGames && game.playerGames.some((playerGame) => {
+                    return playerGame.playerName === user.username;
+                  })) {
+                    resGames.push(game);
+                  }
+                });
+              }
+              if (++requests === user.groups.length) {
+                res.status(200).json({
+                  message: 'games fetched for user and their groups',
+                  games: resGames
+                });
+              }
+            });
+          });
+        } else {
+          res.status(200).json({
+            message: 'games fetched only for users games',
+            games: resGames
+          });
+        }
       });
     } else {
       console.log('getting games for group');
