@@ -16,7 +16,6 @@ export class AuthService {
   private tokenTimer: any;
   private userId: string;
   private userName: string;
-  private currentGroup: string = null; // group id
   private authStatusListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -39,15 +38,6 @@ export class AuthService {
 
   public getAuthStatusListener() {
     return this.authStatusListener.asObservable();
-  }
-
-  public setCurrentGroup(groupId: string) {
-    this.currentGroup = groupId;
-    localStorage.setItem('currentGroup', groupId);
-  }
-
-  public getCurrentGroup() {
-    return this.currentGroup;
   }
 
   public createUser(email: string, password: string, username: string) {
@@ -119,7 +109,6 @@ export class AuthService {
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
     this.userId = null;
-    this.currentGroup = null;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.router.navigate(['/login']);
@@ -152,10 +141,6 @@ export class AuthService {
     const expirationDate = localStorage.getItem('expiration');
     const userId = localStorage.getItem('userId');
     const username = localStorage.getItem('username');
-    const groupId = localStorage.getItem('currentGroup');
-    if (groupId) {
-      this.currentGroup = groupId;
-    }
     if (!token || !expirationDate) {
       return;
     }

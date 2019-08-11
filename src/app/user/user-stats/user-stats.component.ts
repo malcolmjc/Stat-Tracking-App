@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from 'src/app/auth/auth.service';
+import { GroupService } from 'src/app/groups/group.service';
 import { User } from '../user.model';
 import { UserService } from '../user.service';
 
@@ -23,10 +23,10 @@ export class UserStatsComponent implements OnInit {
   public inGroupUsersStats: User[];
 
   constructor(public userService: UserService,
-              private authService: AuthService) { }
+              private groupService: GroupService) { }
 
   public ngOnInit() {
-    if (this.authService.getCurrentGroup()) {
+    if (this.groupService.getCurrentGroup()) {
       this.isInGroup = true;
     }
     this.userService.getUserStatsAllTime().subscribe((users) => {

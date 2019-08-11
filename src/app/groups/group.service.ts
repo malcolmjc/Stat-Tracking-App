@@ -15,6 +15,8 @@ export class GroupService {
   private groups: Group[] = [];
   private groupsUpdated = new Subject<Group[]>();
   private groupCreated = new Subject<boolean>();
+  private groupNameListener = new Subject<string>();
+  private currentGroup: string = null; // group id
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -29,6 +31,36 @@ export class GroupService {
         });
         this.groupsUpdated.next(this.groups);
       });
+  }
+
+  public getCurrentGroup() {
+    return this.currentGroup;
+  }
+
+  public unselectGroup() {
+    this.currentGroup = null;
+    localStorage.removeItem('currentGroup');
+    this.groupNameListener.next('');
+  }
+
+  public setCurrentGroup(groupId: string) {
+    this.currentGroup = groupId;
+    localStorage.setItem('currentGroup', groupId);
+    this.getCurrentGroupName();
+  }
+
+  public getCurrentGroupName() {
+    this.checkLocalStorage();
+    if (this.currentGroup) {
+      this.http.get<{ message: string, name: string }>(API_URL + '/name/' + this.currentGroup)
+        .subscribe((response) => {
+          this.groupNameListener.next(response.name);
+        });
+    }
+  }
+
+  public getCurrentGroupListener() {
+    return this.groupNameListener.asObservable();
   }
 
   public findGroups(search: string) {
@@ -92,6 +124,12 @@ export class GroupService {
           id: responseData.groupId
         });
       });
+  }
+
+  private checkLocalStorage() {
+    if (!this.currentGroup) {
+      this.currentGroup = localStorage.getItem('currentGroup');
+    }
   }
 
   private addGroup(group: Group) {

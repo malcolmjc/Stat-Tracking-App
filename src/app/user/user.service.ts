@@ -8,6 +8,7 @@ import { AuthService } from '../auth/auth.service';
 import { TeamStats } from './team.stats.model';
 import { User } from './user.model';
 import { environment } from 'src/environments/environment';
+import { GroupService } from '../groups/group.service';
 
 const API_URL = environment.apiUrl + 'user';
 
@@ -23,7 +24,7 @@ export class UserService {
     won: boolean
   }[]>();
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private groupService: GroupService) { }
 
   public findUsers(search: string) {
     // returns array of usernames
@@ -34,37 +35,37 @@ export class UserService {
   }
 
   public getUsers(): Observable<string[]> {
-    if (!this.authService.getCurrentGroup()) {
+    if (!this.groupService.getCurrentGroup()) {
       return of([this.authService.getUserName()]);
     }
     return this.http.get<{ message: string, users: string[]}>
       (API_URL + '/usernames/'
         + this.authService.getUserId() + '/'
-        + this.authService.getCurrentGroup()).pipe(
+        + this.groupService.getCurrentGroup()).pipe(
           map((response) => response.users)
         );
   }
 
   public getUserStatsAllTime(): Observable<User[]> {
-    if (!this.authService.getCurrentGroup()) {
+    if (!this.groupService.getCurrentGroup()) {
       // TODO
     }
     return this.http.get<{ message: string, users: User[]}>
       (API_URL + '/allTimeStats/'
         + this.authService.getUserId()
-        + '/' + this.authService.getCurrentGroup()).pipe(
+        + '/' + this.groupService.getCurrentGroup()).pipe(
           map((response) => response.users)
         );
   }
 
   public getUserStatsInGroup(): Observable<User[]> {
-    if (!this.authService.getCurrentGroup()) {
+    if (!this.groupService.getCurrentGroup()) {
       // TODO
     }
     return this.http.get<{ message: string, users: User[]}>
       (API_URL + '/groupStats/'
         + this.authService.getUserId()
-        + '/' + this.authService.getCurrentGroup()).pipe(
+        + '/' + this.groupService.getCurrentGroup()).pipe(
           map((response) => response.users)
         );
   }
