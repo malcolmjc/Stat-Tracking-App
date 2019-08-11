@@ -1,5 +1,8 @@
 <app-loading-indicator *ngIf="isLoading"></app-loading-indicator>
 <mat-card *ngIf="!isLoading">
+  <mat-card-header>
+    <mat-card-title>Sign Up</mat-card-title>
+  </mat-card-header>
   <form (submit)="onSignup(signupForm)" #signupForm="ngForm">
     <mat-form-field>
       <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
@@ -15,6 +18,6 @@
         required [pattern]="'^[a-zA-Z\\d ]*$'" minlength="4">
       <mat-error *ngIf="usernameInput.invalid">Please input a valid username (4+ characters, alphanumeric)</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="accent" type="submit">SIGNUP</button>
+    <button mat-raised-button color="accent" type="submit">SIGN UP</button>
   </form>
 </mat-card>
