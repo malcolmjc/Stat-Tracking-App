@@ -2,8 +2,10 @@
   <span>
     <a routerLink="/">
       <span>
-        Dye Stats:
-        {{ username }}
+        Dye Stats
+        <ng-container *ngIf="userIsAuthenticated">
+          : {{ username }}
+        </ng-container>
       </span>
     </a>
   </span>
