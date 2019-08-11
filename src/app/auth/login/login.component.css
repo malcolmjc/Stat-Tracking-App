@@ -7,4 +7,9 @@ mat-card {
   margin-left: 10%;
   margin-right: 10%;
   min-height: 90%;
+  background-color: lightblue;
+}
+
+button {
+  margin-top: 8px;
 }
