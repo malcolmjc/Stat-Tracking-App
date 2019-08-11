@@ -132,6 +132,26 @@ router.get('/groupStats/:userId/:groupId',
     });
   });
 
+router.get('/userStats/:userId',
+  checkAuth,
+  (req, res, next) => {
+    if (!req.params.userId) {
+      return res.status(400).json({
+        message: 'Requesting user stats without user id',
+        user: null
+      });
+    }
+    User.findById(req.params.userId, 'stats username').then((user) => {
+      return res.status(201).json({
+        message: 'retrieved stats for user',
+        user: {
+          stats: user.stats,
+          username: user.username
+        }
+      });
+    });
+  });
+
 router.get("/find/:search",
   checkAuth,
   (req, res, next) => {
