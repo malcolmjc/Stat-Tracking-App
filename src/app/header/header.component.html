@@ -2,7 +2,8 @@
   <span>
     <a routerLink="/">
       <span>
-        Dye Stats
+        <fa-icon [icon]="['fas', 'dice']" size="lg"></fa-icon>
+        Stats
         <ng-container *ngIf="userIsAuthenticated">
           : {{ username }}
         </ng-container>
@@ -42,14 +43,14 @@
         <a mat-button
           routerLink="/login"
           routerLinkActive="mat-accent">
-          Login
+          <fa-icon [icon]="['fas', 'sign-in-alt']" size="lg" alt="Log In" title="Log In"></fa-icon>
         </a>
       </li>
       <li>
         <a mat-button
           routerLink="/signup"
           routerLinkActive="mat-accent">
-          Signup
+          <fa-icon [icon]="['fas', 'user-plus']" size="lg" alt="Sign Up" title="Sign Up"></fa-icon>
         </a>
       </li>
     </ng-container>
