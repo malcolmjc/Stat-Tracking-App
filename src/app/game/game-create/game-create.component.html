@@ -1,9 +1,9 @@
 <div class="game-field-container" *ngIf="!singlePlayer">
   <div class="image-bar">
-    <img *ngIf="mvp" src="assets/star.svg" alt="MVP" title="MVP">
-    <img *ngIf="lvp" src="assets/thumbs-down.svg" alt="LVP" title="LVP">
-    <img *ngIf="catchLeader" src="assets/hand.svg" alt="Catch Leader" title="Catch Leader">
-    <img *ngIf="pointLeader" src="assets/points.svg" alt="Points Leader" title="Points Leader">
+    <fa-icon *ngIf="mvp" [icon]="['fas', 'star']" size="lg" alt="MVP" title="MVP"></fa-icon>
+    <fa-icon *ngIf="lvp" [icon]="['fas', 'thumbs-down']" size="lg" alt="LVP" title="LVP"></fa-icon>
+    <fa-icon *ngIf="catchLeader" [icon]="['fas', 'hand-paper']" size="lg" alt="Catch Leader" title="Catch Leader"></fa-icon>
+    <fa-icon *ngIf="pointLeader" [icon]="['fas', 'sort-amount-up']" size="lg" alt="Points Leader" title="Points Leader"></fa-icon>
   </div>
 </div>
 

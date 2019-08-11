@@ -1,6 +1,11 @@
 <mat-toolbar color="primary">
   <span>
-    <a routerLink="/">Dye Stats</a>
+    <a routerLink="/">
+      <span>
+        Dye Stats:
+        {{ username }}
+      </span>
+    </a>
   </span>
   <span class="spacer"></span>
   <ul>
@@ -8,23 +13,25 @@
       <li>
         <a mat-button
           routerLink="/my-groups" routerLinkActive="mat-accent">
-          Groups
+          <fa-icon [icon]="['fas', 'users']" size="lg" alt="Groups" title="Groups"></fa-icon>
         </a>
       </li>
       <li>
         <a mat-button
           routerLink="/leaderboard" routerLinkActive="mat-accent">
-          Leaderboard
+          <fa-icon [icon]="['fas', 'chart-line']" size="lg" alt="Leaderboard" title="Leaderboard"></fa-icon>
         </a>
       </li>
       <li>
         <a mat-button
           routerLink="/select-players" routerLinkActive="mat-accent">
-          Add New Game
+          <fa-icon [icon]="['fas', 'plus-square']" size="lg" alt="Add New Game" title="Add New Game"></fa-icon>
         </a>
       </li>
       <li>
-        <button mat-button (click)="onLogout()">Logout</button>
+        <button mat-button (click)="onLogout()">
+          <fa-icon [icon]="['fas', 'sign-out-alt']" size="lg" alt="Log Out" title="Log Out"></fa-icon>
+        </button>
       </li>
     </ng-container>
     <ng-container *ngIf="!userIsAuthenticated">

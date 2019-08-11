@@ -4,12 +4,15 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from '../app-routing.module';
 import { HeaderComponent } from './header.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
     HeaderComponent
   ],
   imports: [
+    FontAwesomeModule,
+
     CommonModule,
     MatToolbarModule,
     MatButtonModule,

@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faStar, faThumbsDown, faHandPaper, faSortAmountUp, faUsers, faChartLine, faPlusSquare, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
@@ -31,6 +34,7 @@ import { UserModule } from './user/user.module';
     GroupsModule,
     HeaderModule,
     UserModule,
+    FontAwesomeModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
     })
@@ -40,4 +44,9 @@ import { UserModule } from './user/user.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    // For now just use all font awesome solid icons
+    library.add(faStar, faThumbsDown, faHandPaper, faSortAmountUp, faUsers, faChartLine, faPlusSquare, faSignOutAlt);
+  }
+}
