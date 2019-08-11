@@ -28,16 +28,14 @@ export class UserStatsComponent implements OnInit {
   public ngOnInit() {
     if (this.groupService.getCurrentGroup()) {
       this.isInGroup = true;
+      this.userService.getUserStatsInGroup().subscribe((users) => {
+        this.inGroupUsersStats = users;
+        this.users = users;
+      });
     }
     this.userService.getUserStatsAllTime().subscribe((users) => {
       this.allTimeUsersStats = users;
       if (!this.isInGroup) {
-        this.users = users;
-      }
-    });
-    this.userService.getUserStatsInGroup().subscribe((users) => {
-      this.inGroupUsersStats = users;
-      if (this.isInGroup) {
         this.users = users;
       }
     });

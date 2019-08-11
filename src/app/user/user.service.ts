@@ -48,7 +48,11 @@ export class UserService {
 
   public getUserStatsAllTime(): Observable<User[]> {
     if (!this.groupService.getCurrentGroup()) {
-      // TODO
+      return this.http.get<{ message: string, user: User}>
+      (API_URL + '/userStats/'
+        + this.authService.getUserId()).pipe(
+          map((response) => [response.user])
+        );
     }
     return this.http.get<{ message: string, users: User[]}>
       (API_URL + '/allTimeStats/'
@@ -60,7 +64,7 @@ export class UserService {
 
   public getUserStatsInGroup(): Observable<User[]> {
     if (!this.groupService.getCurrentGroup()) {
-      // TODO
+      return null;
     }
     return this.http.get<{ message: string, users: User[]}>
       (API_URL + '/groupStats/'
