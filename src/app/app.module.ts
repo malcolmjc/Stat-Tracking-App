@@ -4,7 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faThumbsDown, faHandPaper, faSortAmountUp } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -47,6 +47,6 @@ import { UserModule } from './user/user.module';
 export class AppModule {
   constructor() {
     // For now just use all font awesome solid icons
-    library.add(fas);
+    library.add(faStar, faThumbsDown, faHandPaper, faSortAmountUp);
   }
 }
