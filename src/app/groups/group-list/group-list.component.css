@@ -19,4 +19,5 @@ mat-card {
   width: 90%;
   display: inline-block;
   cursor: pointer;
+  background-color: lightblue;
 }
