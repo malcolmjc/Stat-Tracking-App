@@ -1,6 +1,6 @@
 
 <div class="container">
-  <mat-card style="display: flex; justify-content: space-around">
+  <mat-card style="display: flex; justify-content: space-around" *ngIf="isInGroup">
     <span>
       <mat-form-field>
         <mat-label>Sort By</mat-label>
@@ -36,23 +36,23 @@
       </mat-radio-group>
     </span>
 
-    <span *ngIf="isInGroup">
-        <h3>Filter Stats</h3>
-        <mat-radio-group aria-label="Select an option" id="radio-group">
-          <mat-radio-button
-            (click)="setWithinGroup()"
-            name="within-group"
-            value="within"
-            checked="checked">
-            Within Group
-          </mat-radio-button>
-          <mat-radio-button
-            (click)="setAllTime()"
-            name="all-time"
-            value="all-time">
-            All Time
-          </mat-radio-button>
-        </mat-radio-group>
+    <span>
+      <h3>Filter Stats</h3>
+      <mat-radio-group aria-label="Select an option" id="radio-group">
+        <mat-radio-button
+          (click)="setWithinGroup()"
+          name="within-group"
+          value="within"
+          checked="checked">
+          Within Group
+        </mat-radio-button>
+        <mat-radio-button
+          (click)="setAllTime()"
+          name="all-time"
+          value="all-time">
+          All Time
+        </mat-radio-button>
+      </mat-radio-group>
     </span>
   </mat-card>
 
