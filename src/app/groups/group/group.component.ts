@@ -19,7 +19,6 @@ export class GroupComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private groupService: GroupService,
-    private authService: AuthService,
     private toastr: ToastrService) { }
 
   public ngOnInit() {
@@ -44,17 +43,17 @@ export class GroupComponent implements OnInit {
   }
 
   public viewLeaderboardClicked(id: string) {
-    this.authService.setCurrentGroup(id);
+    this.groupService.setCurrentGroup(id);
     this.router.navigate(['/leaderboard']);
   }
 
   public viewAllGamesClicked(id: string) {
-    this.authService.setCurrentGroup(id);
+    this.groupService.setCurrentGroup(id);
     this.router.navigate(['']);
   }
 
   public addNewGameClicked(id: string) {
-    this.authService.setCurrentGroup(id);
+    this.groupService.setCurrentGroup(id);
     this.router.navigate(['/select-players']);
   }
 }

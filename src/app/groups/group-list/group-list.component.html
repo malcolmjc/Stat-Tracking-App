@@ -2,8 +2,9 @@
 <h1 *ngIf="!isLoading && groups.length === 0">You have no groups!</h1>
 <ul *ngIf="!isLoading && groups.length >= 1">
   <li *ngFor="let group of groups">
-    <mat-radio-button
-      (click)="onGroupSelected(group)">
+    <mat-radio-button #radioBtn
+      [checked]="selectedGroupId === group.id"
+      (click)="onGroupSelected(group, $event)">
     </mat-radio-button>
     <mat-card
       (click)="onGroupClicked(group.id)">

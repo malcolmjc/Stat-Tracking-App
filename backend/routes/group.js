@@ -160,4 +160,23 @@ router.put(
     });
   });
 
+router.get(
+  '/name/:groupId',
+  checkAuth,
+  (req, res, next) => {
+    const groupId = req.params.groupId;
+    if (!groupId) {
+      return res.status(501).json({
+        message: 'no groupId provided',
+        name: null
+      });
+    }
+    Group.findById(groupId, 'name').then((group) => {
+      res.status(200).json({
+        message: 'Group name found',
+        name: group.name
+      });
+    });
+  });
+
 module.exports = router;

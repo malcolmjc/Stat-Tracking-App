@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { Game } from './game.model';
+import { GroupService } from '../groups/group.service';
 
 const API_URL = environment.apiUrl + 'games';
 
@@ -15,12 +16,12 @@ export class GameService {
   private games: Game[] = [];
   private gamesUpdated = new Subject<Game[]>();
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private groupService: GroupService) { }
 
   public getGames() {
     this.http.post<{message: string, games: any}>(API_URL + '/get', {
       userId: this.authService.getUserId(),
-      groupId: this.authService.getCurrentGroup()
+      groupId: this.groupService.getCurrentGroup()
     })
     .pipe(map((gameData) => {
       return gameData.games.map(game => {
@@ -47,7 +48,7 @@ export class GameService {
   public addGame(game: Game) {
     const postData = {
       ...game,
-      groupId: this.authService.getCurrentGroup(),
+      groupId: this.groupService.getCurrentGroup(),
       userId: this.authService.getUserId()
     };
     if (!postData.groupId) {
