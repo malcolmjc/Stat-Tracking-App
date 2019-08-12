@@ -1,0 +1,11 @@
+<mat-card>
+  <h1>{{ message }}</h1>
+  <div class="button-bar">
+    <button mat-raised-button color="accent"
+      routerLink="/select-players">ADD GAME</button>
+    <button mat-raised-button color="accent"
+      routerLink="/join-group" *ngIf="!inGroup">JOIN GROUP</button>
+    <button mat-raised-button color="accent"
+      routerLink="/create-group" *ngIf="!inGroup">CREATE GROUP</button>
+  </div>
+</mat-card>
