@@ -7,8 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "start:server": "nodemon backend/server.js"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -25,13 +24,7 @@
     "@fortawesome/angular-fontawesome": "0.3.0",
     "@fortawesome/fontawesome-svg-core": "1.2.21",
     "@fortawesome/free-solid-svg-icons": "5.10.1",
-    "bcrypt": "3.0.6",
-    "body-parser": "1.19.0",
     "core-js": "2.6.5",
-    "express": "4.16.4",
-    "jsonwebtoken": "8.5.1",
-    "mongoose": "5.5.8",
-    "mongoose-unique-validator": "2.0.3",
     "ngx-toastr": "10.0.4",
     "rxjs": "6.3.3",
     "tslib": "1.9.3",
