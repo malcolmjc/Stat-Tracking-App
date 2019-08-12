@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const Game = require("../model/game").model;
 const Group = require("../model/group").model;
