@@ -99,7 +99,7 @@ router.post(
       console.log('getting games for user');
       User.findById(req.body.userId, 'games groups username').then((user) => {
         const resGames = user.games ? user.games : [];
-        if (user.groups) {
+        if (user.groups && user.groups.length > 0) {
           requests = 0;
           user.groups.forEach((groupId) => {
             Group.findById(groupId, 'games').then((group) => {
