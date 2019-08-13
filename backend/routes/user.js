@@ -19,8 +19,8 @@ const validatePassword = (password) => {
 router.post("/signup", (req, res, next) => {
   console.log('signing up');
   if (!validateUsername(req.body.username) || !validatePassword(req.body.password)) {
-    return res.status(405).json({
-      message: 'Invalid Username or Password'
+    return res.status(400).json({
+      message: 'Username or Password not provided or invalid'
     });
   }
   bcrypt.hash(req.body.password, 14).then(hash => {
@@ -29,36 +29,40 @@ router.post("/signup", (req, res, next) => {
       password: hash,
       username: req.body.username
     });
-    user.save().then(result => {
+    user.save().then((result) => {
       res.status(201).json({
         message: "new user created",
         result: result
       });
-    })
-    .catch(err => {
-      console.log(err);
+    }).catch((error) => {
+      console.log(error);
       res.status(500).json({
-        error: err
+        error: error
       });
     });
+  }).catch((error) => {
+    res.status(500).json({
+      message: 'Unable to hash password',
+      error: error
+    })
   });
 });
 
 router.post("/login", (req, res, next) => {
   let fetchedUser;
   console.log('logging in');
-  User.findOne({ email: req.body.email }, 'email password username').then(user => {
+  User.findOne({ email: req.body.email }, 'email password username').then((user) => {
     if (!user) {
-      return res.status(401).json({
-        message: "authentication failed - user was not found"
+      return res.status(404).json({
+        message: "Authentication failed - user was not found"
       });
     }
     fetchedUser = user;
     return bcrypt.compare(req.body.password, user.password);
-  }).then(result => {
+  }).then((result) => {
     if (!result) {
       return res.status(401).json({
-        message: "authentication failed for unknown reason"
+        message: "Authentication failed - password was incorrect"
       });
     }
     const expiresInHours = 2;
@@ -75,10 +79,10 @@ router.post("/login", (req, res, next) => {
       userId: fetchedUser._id,
       username: fetchedUser.username
     });
-  }).catch(err => {
-    return res.status(401).json({
-      message: "authentication failed - password was not valid",
-      error: err
+  }).catch((error) => {
+    return res.status(500).json({
+      message: "Authentication failed for unknown reason",
+      error: error
     });
   });
 });
