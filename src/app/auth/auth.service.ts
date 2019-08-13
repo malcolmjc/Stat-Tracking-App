@@ -43,7 +43,7 @@ export class AuthService {
   public createUser(email: string, password: string, username: string) {
     const userData = { email: email, password: password, username: username };
     this.http.post(API_URL + '/signup', userData).subscribe(() => {
-        this.router.navigate(['/']);
+        this.login(email, password);
       }, (error) => {
         this.authStatusListener.next(false);
       });
