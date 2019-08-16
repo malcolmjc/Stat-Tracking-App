@@ -111,11 +111,16 @@ router.get('/allTimeStats/:userId/:groupId',
           username: username
         });
         if (foundUserStats.length === res.locals.group.members.length) {
-          return res.status(201).json({
+          return res.status(200).json({
             message: 'retrieved stats for all users in group',
             users: foundUserStats
           });
         }
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong',
+          error: error
+        });
       });
     });
   });
@@ -125,7 +130,7 @@ router.get('/groupStats/:userId/:groupId',
   checkGroup,
   (req, res, next) => {
     const group = res.locals.group;
-    return res.status(201).json({
+    return res.status(200).json({
       message: 'retrieved stats for all users in group',
       users: group.memberStats.map((stats) => {
         return {
@@ -146,12 +151,17 @@ router.get('/userStats/:userId',
       });
     }
     User.findById(req.params.userId, 'stats username').then((user) => {
-      return res.status(201).json({
+      return res.status(200).json({
         message: 'retrieved stats for user',
         user: {
           stats: user.stats,
           username: user.username
         }
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong',
+          error: error
+        });
       });
     });
   });
