@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { GameService } from '../game.service';
 import { PlayerSelectionFormFieldComponent } from 'src/app/user/player-selection-form-field/player-selection-form-field.component';
 import { UserService } from 'src/app/user/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-game-player-select',
@@ -28,6 +29,12 @@ export class GamePlayerSelectComponent implements OnInit {
     this.userService.getUsers().subscribe((usernames) => {
       console.log(usernames);
       this.playerNames = usernames;
+    }, (error: HttpErrorResponse) => {
+      if (error.status === 500) {
+        this.toastr.error('Something went wrong', 'Error retrieving users');
+      } else if (error.status === 401) {
+        this.toastr.error('You are not a member of this group', 'Unauthorized!');
+      }
     });
   }
 
