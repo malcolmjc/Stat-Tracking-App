@@ -5,8 +5,8 @@ module.exports = (req, res, next) => {
   const groupId = req.params.groupId ? req.params.groupId : req.body.groupId;
   const userId = req.params.userId ? req.params.userId : req.body.userId;
   if (!groupId || !userId) {
-    return res.status(401).json({
-      message: 'user doesnt belong to group',
+    return res.status(400).json({
+      message: 'Missing either groupId or userId',
     });
   }
   Group.findById(groupId, 'members memberStats games').then((group) => {
@@ -21,6 +21,11 @@ module.exports = (req, res, next) => {
       res.locals.group = group;
       res.locals.user = user;
       next();
+    }).catch((error) => {
+      res.status(500).json({
+        message: 'Something went wrong',
+        error: error
+      });
     });
   });
 }

@@ -93,7 +93,7 @@ router.get('/usernames/:userId/:groupId',
   checkAuth,
   checkGroup,
   (req, res, next) => {
-    res.status(201).json({
+    res.status(200).json({
       message: 'found users that belong to group',
       users: res.locals.group.members
     });
