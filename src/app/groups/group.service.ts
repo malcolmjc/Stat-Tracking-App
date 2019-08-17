@@ -33,7 +33,7 @@ export class GroupService {
           };
         });
         this.groupsUpdated.next(this.groups);
-      });
+      }, this.handleGetError);
   }
 
   public getCurrentGroup() {
@@ -150,6 +150,15 @@ export class GroupService {
 
   private handleCreateError(error: HttpErrorResponse) {
     const message = 'Unable to add group';
+    if (error.status === 401) {
+      this.toastr.error(message, 'Unauthorized!');
+    } else if (error.status === 500) {
+      this.toastr.error(message, 'Something went wrong');
+    }
+  }
+
+  private handleGetError(error: HttpErrorResponse) {
+    const message = 'Unable to get groups';
     if (error.status === 401) {
       this.toastr.error(message, 'Unauthorized!');
     } else if (error.status === 500) {
