@@ -99,6 +99,11 @@ router.get(
                 groups: groups
               });
             }
+          }).catch((error) => {
+            res.status(500).json({
+              message: 'Something went group finding groups for user',
+              error: error
+            });
           });
         });
       }
@@ -115,10 +120,10 @@ router.get(
         message: 'group found by id',
         group: group
       });
-    }).catch((err) => {
-      res.status(404).json({
-        message: 'Error: ' + err,
-        group: null
+    }).catch((error) => {
+      res.status(500).json({
+        message: 'Something went srong finding group',
+        error: error
       });
     });
   });
