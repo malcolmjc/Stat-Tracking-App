@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { GameService } from '../game.service';
 import { PlayerSelectionFormFieldComponent } from 'src/app/user/player-selection-form-field/player-selection-form-field.component';
 import { UserService } from 'src/app/user/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -22,7 +21,6 @@ export class GamePlayerSelectComponent implements OnInit {
 
   constructor(private router: Router,
               public userService: UserService,
-              public gameService: GameService,
               private toastr: ToastrService) { }
 
   public ngOnInit() {
