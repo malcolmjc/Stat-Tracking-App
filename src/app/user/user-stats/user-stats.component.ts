@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { ToastrService } from 'ngx-toastr';
 
 import { GroupService } from 'src/app/groups/group.service';
 import { User } from '../user.model';
@@ -23,7 +26,8 @@ export class UserStatsComponent implements OnInit {
   public inGroupUsersStats: User[];
 
   constructor(public userService: UserService,
-              private groupService: GroupService) { }
+              private groupService: GroupService,
+              private toastr: ToastrService) { }
 
   public ngOnInit() {
     if (this.groupService.getCurrentGroup()) {
@@ -31,14 +35,14 @@ export class UserStatsComponent implements OnInit {
       this.userService.getUserStatsInGroup().subscribe((users) => {
         this.inGroupUsersStats = users;
         this.users = users;
-      });
+      }, this.handleError);
     }
     this.userService.getUserStatsAllTime().subscribe((users) => {
       this.allTimeUsersStats = users;
       if (!this.isInGroup) {
         this.users = users;
       }
-    });
+    }, this.handleError);
   }
 
   public setAllTime() {
@@ -126,6 +130,14 @@ export class UserStatsComponent implements OnInit {
         });
         break;
       }
+    }
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 401) {
+      this.toastr.error('You are not a member of this group', 'Unauthorized!');
+    } else if (error.status === 500) {
+      this.toastr.error('Something went wrong', 'Unable to get all time stats');
     }
   }
 }

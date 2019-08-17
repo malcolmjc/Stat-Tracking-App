@@ -35,6 +35,11 @@ router.post(
             message: 'game added to user',
             id: game._id
         });
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong',
+          error: error
+        });
       });
     });
   });
@@ -53,8 +58,6 @@ router.post(
     group.games.push(game);
     game.playerGames.forEach((playerGame) => {
       // update group stats
-      // console.log(playerGame.playerName);
-      // console.log(group.memberStats);
       const groupMemberStats = group.memberStats.find((memberStat) => {
         return memberStat.username === playerGame.playerName
       });
@@ -84,8 +87,18 @@ router.post(
                 id: game._id
               });
             }
+          }).catch((error) => {
+            res.status(500).json({
+              message: 'Something went wrong saving user',
+              error: error
+            });
           });
         })
+      });
+    }).catch((error) => {
+      res.status(500).json({
+        message: 'Something went wrong saving group',
+        error: error
       });
     });
   });
@@ -126,6 +139,11 @@ router.post(
             games: resGames
           });
         }
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong getting games for user',
+          error: error
+        });
       });
     } else {
       console.log('getting games for group');
@@ -134,7 +152,12 @@ router.post(
           message: 'games fetched for group',
           games: group.games
         });
-      });
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong getting games for group',
+          error: error
+        });
+      });;
     }
   });
 

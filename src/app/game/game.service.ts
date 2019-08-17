@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { Game } from './game.model';
 import { GroupService } from '../groups/group.service';
+import { ToastrService } from 'ngx-toastr';
 
 const API_URL = environment.apiUrl + 'games';
 
@@ -16,7 +17,10 @@ export class GameService {
   private games: Game[] = [];
   private gamesUpdated = new Subject<Game[]>();
 
-  constructor(private http: HttpClient, private authService: AuthService, private groupService: GroupService) { }
+  constructor(private http: HttpClient,
+              private authService: AuthService,
+              private groupService: GroupService,
+              private toastr: ToastrService) { }
 
   public getGames() {
     this.http.post<{message: string, games: any}>(API_URL + '/get', {
@@ -38,7 +42,14 @@ export class GameService {
     .subscribe(mappedGames => {
       this.games = mappedGames;
       this.gamesUpdated.next([...this.games]);
-    });
+    }, ((error: HttpErrorResponse) => {
+      const message = 'Unable to retrieve games';
+      if (error.status === 401) {
+        this.toastr.error(message, 'Unauthorized!');
+      } else if (error.status === 500) {
+        this.toastr.error(message, 'Something went wrong');
+      }
+    }));
   }
 
   public getGameUpdateListener() {
@@ -58,7 +69,7 @@ export class GameService {
           game.id = responseData.id;
           this.games.push(game);
           this.gamesUpdated.next([...this.games]);
-        });
+        }, this.handleAddError);
     } else {
       this.http.post<{message: string, id: string}>(API_URL + '/addToGroup', postData)
         .subscribe((responseData) => {
@@ -66,7 +77,16 @@ export class GameService {
           game.id = responseData.id;
           this.games.push(game);
           this.gamesUpdated.next([...this.games]);
-        });
+        }, this.handleAddError);
+    }
+  }
+
+  private handleAddError(error: HttpErrorResponse) {
+    const message = 'Unable to add game';
+    if (error.status === 401) {
+      this.toastr.error(message, 'Unauthorized!');
+    } else if (error.status === 500) {
+      this.toastr.error(message, 'Something went wrong');
     }
   }
 

@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Subject, of, Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment';
@@ -18,7 +19,9 @@ export class GroupService {
   private groupNameListener = new Subject<string>();
   private currentGroup: string = null; // group id
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient,
+              private authService: AuthService,
+              private toastr: ToastrService) { }
 
   public getGroups() {
     this.http.get<{ message: string, groups}>(API_URL + '/' + this.authService.getUserId())
@@ -30,7 +33,7 @@ export class GroupService {
           };
         });
         this.groupsUpdated.next(this.groups);
-      });
+      }, this.handleGetError);
   }
 
   public getCurrentGroup() {
@@ -123,7 +126,7 @@ export class GroupService {
           ...group,
           id: responseData.groupId
         });
-      });
+      }, this.handleCreateError);
   }
 
   private checkLocalStorage() {
@@ -139,9 +142,27 @@ export class GroupService {
     }).subscribe((response) => {
       console.log(response.message);
       this.groupCreated.next(true);
-    }, (err) => {
-      console.error(err);
+    }, (error: HttpErrorResponse) => {
+      this.handleCreateError(error);
       this.groupCreated.next(false);
     });
+  }
+
+  private handleCreateError(error: HttpErrorResponse) {
+    const message = 'Unable to add group';
+    if (error.status === 401) {
+      this.toastr.error(message, 'Unauthorized!');
+    } else if (error.status === 500) {
+      this.toastr.error(message, 'Something went wrong');
+    }
+  }
+
+  private handleGetError(error: HttpErrorResponse) {
+    const message = 'Unable to get groups';
+    if (error.status === 401) {
+      this.toastr.error(message, 'Unauthorized!');
+    } else if (error.status === 500) {
+      this.toastr.error(message, 'Something went wrong');
+    }
   }
 }

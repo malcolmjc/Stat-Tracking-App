@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 import { AuthData } from './auth-data.model';
 import { environment } from 'src/environments/environment';
@@ -18,7 +19,7 @@ export class AuthService {
   private userName: string;
   private authStatusListener = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {}
 
   public getToken() {
     return this.token;
@@ -44,7 +45,10 @@ export class AuthService {
     const userData = { email: email, password: password, username: username };
     this.http.post(API_URL + '/signup', userData).subscribe(() => {
         this.login(email, password);
-      }, (error) => {
+      }, (error: HttpErrorResponse) => {
+        if (error.status === 500) {
+          this.toastr.error('The server had issues processing your request', 'Server Error');
+        }
         this.authStatusListener.next(false);
       });
   }
@@ -54,37 +58,41 @@ export class AuthService {
       email: email,
       password: password
     };
-    this.http
-      .post<{ token: string; expiresIn: number; userId: string, username: string }>(
-        API_URL + '/login',
-        authData
-      )
-      .subscribe(
-        (response) => {
-          const token = response.token;
-          this.token = token;
-          if (token) {
-            console.log(response);
-            const expiresInDuration = response.expiresIn;
-            this.setAuthTimer(expiresInDuration);
-            this.isAuthenticated = true;
-            this.userId = response.userId;
-            console.log('response username ' + response.username);
-            this.userName = response.username;
-            this.authStatusListener.next(true);
-            const now = new Date();
-            const expirationDate = new Date(
-              now.getTime() + expiresInDuration * 1000
-            );
-            console.log(expirationDate);
-            this.saveAuthData(token, expirationDate, this.userId, this.userName);
-            this.router.navigate(['/']);
-          }
-        },
-        (error) => {
-          this.authStatusListener.next(false);
+    this.http.post<{ token: string; expiresIn: number; userId: string, username: string }>(API_URL + '/login', authData)
+      .subscribe((response) => {
+        const token = response.token;
+        this.token = token;
+        if (token) {
+          console.log(response);
+          const expiresInDuration = response.expiresIn;
+          this.setAuthTimer(expiresInDuration);
+          this.isAuthenticated = true;
+          this.userId = response.userId;
+          console.log('response username ' + response.username);
+          this.userName = response.username;
+          this.authStatusListener.next(true);
+          const now = new Date();
+          const expirationDate = new Date(
+            now.getTime() + expiresInDuration * 1000
+          );
+          console.log(expirationDate);
+          this.saveAuthData(token, expirationDate, this.userId, this.userName);
+          this.router.navigate(['/']);
         }
-      );
+      }, (error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 401:
+            this.toastr.error('The provided password is invalid', 'Invalid Password!');
+            break;
+          case 404:
+            this.toastr.error('The provided email was not found', 'Invalid Email!');
+            break;
+          case 500:
+            this.toastr.error('The server had issues processing your request', 'Server Error');
+            break;
+        }
+        this.authStatusListener.next(false);
+      });
   }
 
   public autoAuthUser() {
