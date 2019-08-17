@@ -139,6 +139,11 @@ router.post(
             games: resGames
           });
         }
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong getting games for user',
+          error: error
+        });
       });
     } else {
       console.log('getting games for group');
@@ -147,7 +152,12 @@ router.post(
           message: 'games fetched for group',
           games: group.games
         });
-      });
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong getting games for group',
+          error: error
+        });
+      });;
     }
   });
 
