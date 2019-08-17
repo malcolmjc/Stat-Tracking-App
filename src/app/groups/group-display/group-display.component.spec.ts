@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MatCardModule } from '@angular/material';
+
 import { GroupDisplayComponent } from './group-display.component';
 
 describe('GroupDisplayComponent', () => {
@@ -8,6 +10,9 @@ describe('GroupDisplayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatCardModule
+      ],
       declarations: [ GroupDisplayComponent ]
     })
     .compileComponents();
