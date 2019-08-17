@@ -128,22 +128,30 @@ router.get(
     });
   });
 
-router.get("/find/:search", (req, res, next) => {
-  const search = req.params.search;
-  if (!search) {
-    res.status(501).json({
-      message: 'bad search',
-      groups: null
-    });
-  } else {
-    Group.find({ name: new RegExp(search, 'i') }, 'name slogan description members').then((groups) => {
-      res.status(200).json({
-        message: 'these groups found',
-        groups: groups
+router.get(
+  "/find/:search",
+  checkAuth,
+  (req, res, next) => {
+    const search = req.params.search;
+    if (!search) {
+      res.status(400).json({
+        message: 'bad search',
+        groups: null
       });
-    });
-  }
-});
+    } else {
+      Group.find({ name: new RegExp(search, 'i') }, 'name slogan description members').then((groups) => {
+        res.status(200).json({
+          message: 'these groups found',
+          groups: groups
+        });
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong finding groups',
+          error: error
+        });
+      });
+    }
+  });
 
 router.put(
   '/join',
@@ -176,7 +184,22 @@ router.put(
               message: 'Joined group'
             });
           });
+        }).catch((error) => {
+          res.status(500).json({
+            message: 'Something went wrong saving user',
+            error: error
+          });
         });
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong finding user',
+          error: error
+        });
+      });
+    }).catch((error) => {
+      res.status(500).json({
+        message: 'Something went wrong finding group',
+        error: error
       });
     });
   });
@@ -187,7 +210,7 @@ router.get(
   (req, res, next) => {
     const groupId = req.params.groupId;
     if (!groupId) {
-      return res.status(501).json({
+      return res.status(400).json({
         message: 'no groupId provided',
         name: null
       });
@@ -196,6 +219,11 @@ router.get(
       res.status(200).json({
         message: 'Group name found',
         name: group.name
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong finding group',
+          error: error
+        });
       });
     });
   });
