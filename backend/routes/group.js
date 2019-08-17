@@ -22,7 +22,7 @@ router.post(
   checkAuth,
   (req, res, next) => {
     if (!validateGroupName(req.body.name) || !validateGroupPassword(req.body.password)) {
-      return res.status(405).json({
+      return res.status(400).json({
         message: 'Invalid Group Name or Password'
       });
     }
@@ -38,10 +38,21 @@ router.post(
         memberStats: [{ username: req.body.admin }]
       });
 
-      group.save();
-      res.status(200).json({
-        message: 'Group created',
-        groupId: group._id
+      group.save().then((group) => {
+        res.status(200).json({
+          message: 'Group created',
+          groupId: group._id
+        });
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong saving group',
+          error: error
+        });
+      });
+    }).catch((error) => {
+      res.status(500).json({
+        message: 'Something went wrong adding hashing password',
+        error: error
       });
     });
   });
