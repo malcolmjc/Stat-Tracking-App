@@ -42,7 +42,14 @@ export class GameService {
     .subscribe(mappedGames => {
       this.games = mappedGames;
       this.gamesUpdated.next([...this.games]);
-    });
+    }, ((error: HttpErrorResponse) => {
+      const message = 'Unable to retrieve games';
+      if (error.status === 401) {
+        this.toastr.error(message, 'Unauthorized!');
+      } else if (error.status === 500) {
+        this.toastr.error(message, 'Something went wrong');
+      }
+    }));
   }
 
   public getGameUpdateListener() {
