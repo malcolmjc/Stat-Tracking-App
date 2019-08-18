@@ -1,17 +1,27 @@
 import { async, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
+import { AuthService } from './auth/auth.service';
+import { HeaderModule } from './header/header.module';
+import { AppRootComponent } from './app-root.component';
 
 describe('AppComponent', () => {
+  let authService: SpyObject<AuthService>;
+
   beforeEach(async(() => {
+    authService = createSpyObject(['autoAuthUser']);
+
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        // TODO: Mock this component
+        HeaderModule
       ],
       declarations: [
         AppComponent
       ],
+      providers: [
+        { provide: AuthService, useValue: authService }
+      ]
     }).compileComponents();
   }));
 
@@ -19,18 +29,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'stat-tracking-app'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('stat-tracking-app');
-  });
-
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to stat-tracking-app!');
   });
 });
