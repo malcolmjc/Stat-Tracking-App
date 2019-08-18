@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { CreateGroupComponent } from './create-group.component';
 import { GroupService } from '../group.service';
-import { LoadingIndicatorModule } from 'src/app/loading-indicator/loading-indicator.module';
+import { MockLoadingIndicatorComponent } from 'src/app/loading-indicator/loading-indicator.component.mock';
 
 describe('CreateGroupComponent', () => {
   let component: CreateGroupComponent;
@@ -32,10 +32,11 @@ describe('CreateGroupComponent', () => {
         MatButtonModule,
         MatCardModule,
         MatInputModule,
-        // TODO: mock this component
-        LoadingIndicatorModule
       ],
-      declarations: [ CreateGroupComponent ],
+      declarations: [
+        CreateGroupComponent,
+        MockLoadingIndicatorComponent
+      ],
       providers: [
         { provide: GroupService, useValue: groupService },
         { provide: Router, useValue: router },

@@ -6,8 +6,8 @@ import { MatButtonModule } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 
 import { GroupComponent } from './group.component';
-import { GroupDisplayModule } from '../group-display/group-display.module';
 import { GroupService } from '../group.service';
+import { MockGroupDisplayComponent } from '../group-display/group-display.component.mock';
 
 describe('GroupComponent', () => {
   let component: GroupComponent;
@@ -29,11 +29,12 @@ describe('GroupComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        MatButtonModule,
-        // TODO: mock this component
-        GroupDisplayModule
+        MatButtonModule
       ],
-      declarations: [ GroupComponent ],
+      declarations: [
+        GroupComponent,
+        MockGroupDisplayComponent
+      ],
       providers: [
         { provide: ActivatedRoute, useValue: route },
         { provide: Router, useValue: router },
