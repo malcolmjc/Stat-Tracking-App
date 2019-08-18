@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material';
 
 import { GroupHomepageComponent } from './group-homepage.component';
-import { GroupListComponent } from '../group-list/group-list.component';
+import { MockGroupListComponent } from '../group-list/group-list.component.mock';
 
 describe('GroupHomepageComponent', () => {
   let component: GroupHomepageComponent;
@@ -16,8 +16,7 @@ describe('GroupHomepageComponent', () => {
       ],
       declarations: [
         GroupHomepageComponent,
-        // TODO: mock this component
-        GroupListComponent
+        MockGroupListComponent
       ]
     })
     .compileComponents();

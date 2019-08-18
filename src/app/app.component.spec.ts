@@ -1,9 +1,10 @@
 import { async, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
-import { AuthService } from './auth/auth.service';
-import { HeaderModule } from './header/header.module';
 import { AppRootComponent } from './app-root.component';
+import { AuthService } from './auth/auth.service';
+import { MockHeaderComponent } from './header/header.component.mock';
 
 describe('AppComponent', () => {
   let authService: SpyObject<AuthService>;
@@ -13,11 +14,12 @@ describe('AppComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        // TODO: Mock this component
-        HeaderModule
+        RouterTestingModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        MockHeaderComponent,
+        AppRootComponent
       ],
       providers: [
         { provide: AuthService, useValue: authService }

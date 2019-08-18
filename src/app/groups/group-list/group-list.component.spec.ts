@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { GroupListComponent } from './group-list.component';
 import { GroupService } from '../group.service';
-import { LoadingIndicatorModule } from 'src/app/loading-indicator/loading-indicator.module';
+import { MockLoadingIndicatorComponent } from 'src/app/loading-indicator/loading-indicator.component.mock';
 
 describe('GroupListComponent', () => {
   let component: GroupListComponent;
@@ -31,10 +31,11 @@ describe('GroupListComponent', () => {
       imports: [
         MatCardModule,
         MatRadioModule,
-        // TODO: mock this component
-        LoadingIndicatorModule
       ],
-      declarations: [ GroupListComponent ],
+      declarations: [
+        GroupListComponent,
+        MockLoadingIndicatorComponent
+      ],
       providers: [
         { provide: GroupService, useValue: groupService },
         { provide: ToastrService, useValue: toastr },

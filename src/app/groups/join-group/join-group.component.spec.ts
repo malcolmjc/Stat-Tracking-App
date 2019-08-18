@@ -1,5 +1,6 @@
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, Observable } from 'rxjs';
@@ -8,11 +9,10 @@ import { ToastrService } from 'ngx-toastr';
 import { MatButtonModule, MatCardModule, MatAutocompleteModule, MatInputModule } from '@angular/material';
 
 import { AuthService } from 'src/app/auth/auth.service';
-import { GroupDisplayModule } from '../group-display/group-display.module';
 import { GroupService } from '../group.service';
 import { JoinGroupComponent } from './join-group.component';
-import { LoadingIndicatorModule } from 'src/app/loading-indicator/loading-indicator.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MockGroupDisplayComponent } from '../group-display/group-display.component.mock';
+import { MockLoadingIndicatorComponent } from 'src/app/loading-indicator/loading-indicator.component.mock';
 
 describe('JoinGroupComponent', () => {
   let component: JoinGroupComponent;
@@ -42,12 +42,13 @@ describe('JoinGroupComponent', () => {
         MatCardModule,
         MatAutocompleteModule,
         MatInputModule,
-        ReactiveFormsModule,
-        // TODO: Mock these components
-        LoadingIndicatorModule,
-        GroupDisplayModule
+        ReactiveFormsModule
       ],
-      declarations: [ JoinGroupComponent ],
+      declarations: [
+        JoinGroupComponent,
+        MockLoadingIndicatorComponent,
+        MockGroupDisplayComponent
+      ],
       providers: [
         { provide: ActivatedRoute, useValue: route },
         { provide: Router, useValue: router },
