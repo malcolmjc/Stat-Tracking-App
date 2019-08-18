@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatProgressSpinnerModule } from '@angular/material';
 
 import { LoadingIndicatorComponent } from './loading-indicator.component';
 
@@ -8,6 +11,10 @@ describe('LoadingIndicatorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        MatProgressSpinnerModule
+      ],
       declarations: [ LoadingIndicatorComponent ]
     })
     .compileComponents();
