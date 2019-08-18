@@ -4,7 +4,7 @@ import { StatType } from '../stat-types-enum';
 
 @Component({
   selector: 'app-game-create-field',
-  templateUrl: 'MOCK game-create-field',
+  template: 'MOCK game-create-field',
 })
 export class MockGameCreateFieldComponent {
   @Input() public statType: StatType;

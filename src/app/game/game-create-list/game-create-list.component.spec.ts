@@ -6,8 +6,8 @@ import { of, Observable } from 'rxjs';
 import { MatButtonModule, MatDialogModule, MatDialog } from '@angular/material';
 
 import { GameCreateListComponent } from './game-create-list.component';
-import { GameCreateModule } from '../game-create/game-create-module';
 import { GameService } from '../game.service';
+import { MockGameCreateComponent } from '../game-create/game-create.component.mock';
 
 describe('GameCreateListComponent', () => {
   let component: GameCreateListComponent;
@@ -33,10 +33,11 @@ describe('GameCreateListComponent', () => {
       imports: [
         MatButtonModule,
         MatDialogModule,
-        // TODO: mock GameCreateComponent
-        GameCreateModule
       ],
-      declarations: [ GameCreateListComponent ],
+      declarations: [
+        GameCreateListComponent,
+        MockGameCreateComponent
+      ],
       providers: [
         { provide: GameService, useValue: gameService },
         { provide: MatDialog, useValue: dialog },

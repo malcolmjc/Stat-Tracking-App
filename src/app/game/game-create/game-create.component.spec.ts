@@ -4,7 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatButtonModule, MatCardModule, MatRadioModule } from '@angular/material';
 
 import { GameCreateComponent } from './game-create.component';
-import { GameCreateFieldModule } from '../game-create-field/game-create-field.module';
+import { MockGameCreateFieldComponent } from '../game-create-field/game-create-field.component.mock';
 
 describe('GameCreateComponent', () => {
   let component: GameCreateComponent;
@@ -16,11 +16,12 @@ describe('GameCreateComponent', () => {
         FontAwesomeModule,
         MatButtonModule,
         MatCardModule,
-        MatRadioModule,
-        // TODO - mock GameCreateFieldComponent
-        GameCreateFieldModule
+        MatRadioModule
       ],
-      declarations: [ GameCreateComponent ]
+      declarations: [
+        GameCreateComponent,
+        MockGameCreateFieldComponent
+      ]
     })
     .compileComponents();
   }));

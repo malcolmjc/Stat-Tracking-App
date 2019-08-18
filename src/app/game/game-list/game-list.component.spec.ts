@@ -1,16 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
 
 import { MatButtonModule, MatCardModule, MatExpansionModule, MatGridListModule } from '@angular/material';
+import { of } from 'rxjs';
 
 import { DateToStringPipe } from 'src/app/pipes/date-to-string.pipe';
 import { GameListComponent } from './game-list.component';
-import { GameResultsModule } from '../game-results/game-results.module';
 import { GameService } from '../game.service';
-import { LoadingIndicatorModule } from 'src/app/loading-indicator/loading-indicator.module';
-import { NoGamesModule } from '../no-games/no-games.module';
-import { NoGamesComponent } from '../no-games/no-games.component';
-import { LoadingIndicatorComponent } from 'src/app/loading-indicator/loading-indicator.component';
-import { GameResultsComponent } from '../game-results/game-results.component';
+import { MockNoGamesComponent } from '../no-games/no-games.component.mock';
+import { MockGameResultsComponent } from '../game-results/game-results.component.mock';
+import { MockLoadingIndicatorComponent } from 'src/app/loading-indicator/loading-indicator.component.mock';
 
 describe('GameListComponent', () => {
   let component: GameListComponent;
@@ -19,22 +18,22 @@ describe('GameListComponent', () => {
 
   beforeEach(async(() => {
     gameService = createSpyObject(['getGames', 'getGameUpdateListener']);
-
+    gameService.getGameUpdateListener.mockReturnValue(of([]));
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         MatButtonModule,
         MatCardModule,
         MatExpansionModule,
         MatGridListModule
       ],
       declarations: [
-        // TODO - mock these components
-        NoGamesComponent,
-        LoadingIndicatorComponent,
-        GameResultsComponent,
-        GameListComponent,
-        // TODO: Mock this
-        DateToStringPipe
+        MockNoGamesComponent,
+        MockLoadingIndicatorComponent,
+        MockGameResultsComponent,
+        DateToStringPipe,
+
+        GameListComponent
       ],
       providers: [
         { provide: GameService, useValue: gameService }
