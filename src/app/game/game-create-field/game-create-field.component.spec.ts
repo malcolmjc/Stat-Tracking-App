@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameCreateFieldComponent } from './game-create-field.component';
+import { MatButtonModule, MatCardModule, MatRadioModule } from '@angular/material';
 
 describe('GameCreateFieldComponent', () => {
   let component: GameCreateFieldComponent;
@@ -8,6 +9,11 @@ describe('GameCreateFieldComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatButtonModule,
+        MatCardModule,
+        MatRadioModule
+      ],
       declarations: [ GameCreateFieldComponent ]
     })
     .compileComponents();

@@ -1,8 +1,6 @@
 import { AbstractControl, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
-import { UserService } from '../user.service';
-
 @Component({
   selector: 'app-player-selection-form-field',
   templateUrl: './player-selection-form-field.component.html',
@@ -16,8 +14,6 @@ export class PlayerSelectionFormFieldComponent implements OnInit, OnChanges {
   ]);
   public selectedUsername = '';
   public filteredPlayers: string[];
-
-  constructor(public userService: UserService) { }
 
   public ngOnInit() {
     this.filteredPlayers = this.playerNames;

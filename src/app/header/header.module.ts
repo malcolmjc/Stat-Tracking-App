@@ -12,7 +12,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   imports: [
     FontAwesomeModule,
-
     CommonModule,
     MatToolbarModule,
     MatButtonModule,

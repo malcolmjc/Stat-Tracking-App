@@ -33,8 +33,6 @@ export class GameCreateComponent {
 
   private listIndex = 0;
 
-  constructor(public gameService: GameService) {}
-
   public getIndex() {
     return this.listIndex;
   }

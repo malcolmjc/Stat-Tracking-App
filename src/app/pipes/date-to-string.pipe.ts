@@ -18,9 +18,8 @@ const monthNames = [
 export class DateToStringPipe implements PipeTransform {
   public transform(value: Date): string {
     const date = new Date(value);
-    return `${monthNames[date.getMonth()]}
-            ${date.getDate()}, ${date.getFullYear()}
-            ${date.getHours()}:${this.doubleDigit(date.getMinutes())}`;
+    return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} ` +
+           `${date.getHours()}:${this.doubleDigit(date.getMinutes())}`;
   }
 
   private doubleDigit(num: number) {

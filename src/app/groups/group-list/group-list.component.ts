@@ -21,10 +21,9 @@ export class GroupListComponent implements OnInit, OnDestroy {
 
   private groupListener: Subscription;
 
-  constructor(
-     private groupService: GroupService,
-     private toastr: ToastrService,
-     private router: Router) { }
+  constructor(private groupService: GroupService,
+              private toastr: ToastrService,
+              private router: Router) { }
 
   public ngOnInit() {
     this.isLoading = true;

@@ -23,12 +23,11 @@ export class JoinGroupComponent implements OnInit {
   public selectedGroup: Group = null;
   public isLoading = false;
 
-  constructor(
-    public groupService: GroupService,
-    public authService: AuthService,
-    private toastr: ToastrService,
-    private route: ActivatedRoute,
-    private router: Router) { }
+  constructor(public groupService: GroupService,
+              public authService: AuthService,
+              private toastr: ToastrService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   public ngOnInit() {
     this.route.queryParams.subscribe((params) => {

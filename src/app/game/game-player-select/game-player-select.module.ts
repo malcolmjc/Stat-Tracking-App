@@ -13,8 +13,8 @@ import { PlayerSelectionFormFieldModule } from 'src/app/user/player-selection-fo
     CommonModule,
     MatButtonModule,
     MatCardModule,
-    PlayerSelectionFormFieldModule,
-    MatRadioModule
+    MatRadioModule,
+    PlayerSelectionFormFieldModule
   ],
   exports: [
     GamePlayerSelectComponent

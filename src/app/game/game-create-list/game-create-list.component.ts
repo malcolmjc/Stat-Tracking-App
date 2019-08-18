@@ -9,7 +9,6 @@ import { Game } from '../game.model';
 import { GameCreateComponent } from '../game-create/game-create.component';
 import { GameService } from '../game.service';
 import { GameStats } from '../game-stats.model';
-import { UserService } from 'src/app/user/user.service';
 
 interface PlayerRating {
   name: string;
@@ -47,7 +46,6 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
               public dialog: MatDialog,
               private router: Router,
               private route: ActivatedRoute,
-              public userService: UserService,
               private renderer: Renderer2) { }
 
   public ngOnInit() {
