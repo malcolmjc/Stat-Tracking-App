@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgForm, Validators  } from '@angular/forms';
 
 import { debounceTime, distinctUntilChanged, map, catchError } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { GroupService } from '../group.service';
   styleUrls: ['./join-group.component.css']
 })
 export class JoinGroupComponent implements OnInit {
+  @ViewChild(NgForm) public form;
   public groupControl = new FormControl('', [
     Validators.minLength(4)
   ]);
@@ -67,13 +68,13 @@ export class JoinGroupComponent implements OnInit {
     });
   }
 
-  public onJoin(form: NgForm) {
-    if (form.invalid) {
+  public onJoin() {
+    if (this.form.invalid) {
       return;
     }
     const groupName = this.selectedGroup.name;
     this.isLoading = true;
-    this.groupService.joinGroup(form.value.password, this.selectedGroup.id).pipe(
+    this.groupService.joinGroup(this.form.value.password, this.selectedGroup.id).pipe(
       catchError((err) => {
         if (err.status === 409) {
           this.toastr.error(`You've already joined this group`, 'Already Joined');
@@ -83,8 +84,8 @@ export class JoinGroupComponent implements OnInit {
         return of(false);
       })
     ).subscribe((response) => {
-        this.selectedGroup.members.push(this.authService.getUserName());
         if (response) {
+          this.selectedGroup.members.push(this.authService.getUserName());
           this.toastr.success(`Joined group ${groupName}`, 'Joined!');
         }
         this.isLoading = false;
