@@ -77,24 +77,24 @@ describe('SignupComponent', () => {
   });
 
   it('should deny invalid empty form', () => {
-    const authServiceCreateUserSpy = spyOn(authService, 'createUser');
-    const onSignupSpy = spyOn(component, 'onSignup');
+    jest.spyOn(authService, 'createUser');
+    jest.spyOn(component, 'onSignup');
 
-    expect(authServiceCreateUserSpy).toHaveBeenCalledTimes(0);
-    expect(onSignupSpy).toHaveBeenCalledTimes(0);
+    expect(authService.createUser).toHaveBeenCalledTimes(0);
+    expect(component.onSignup).toHaveBeenCalledTimes(0);
     expect(component.isLoading).toBeFalsy();
     fixture.debugElement.query(By.css('button')).nativeElement.click();
 
-    expect(onSignupSpy).toHaveBeenCalledTimes(1);
+    expect(component.onSignup).toHaveBeenCalledTimes(1);
     expect(component.form.invalid).toBeTruthy();
   });
 
   it('should accept valid form', () => {
-    const authServiceCreateUserSpy = spyOn(authService, 'createUser');
-    const onSignupSpy = spyOn(component, 'onSignup');
+    jest.spyOn(authService, 'createUser');
+    jest.spyOn(component, 'onSignup');
 
-    expect(authServiceCreateUserSpy).toHaveBeenCalledTimes(0);
-    expect(onSignupSpy).toHaveBeenCalledTimes(0);
+    expect(authService.createUser).toHaveBeenCalledTimes(0);
+    expect(component.onSignup).toHaveBeenCalledTimes(0);
     expect(component.isLoading).toBeFalsy();
 
     const form = component.form;

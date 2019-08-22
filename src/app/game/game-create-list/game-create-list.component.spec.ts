@@ -77,7 +77,7 @@ describe('GameCreateListComponent', () => {
     });
 
     test('should navigate back to select-players if no players param', async(() => {
-      const navigateSpy = spyOn(router, 'navigate');
+      jest.spyOn(router, 'navigate');
 
       TestBed.resetTestingModule();
       const newRoute = {
@@ -89,8 +89,8 @@ describe('GameCreateListComponent', () => {
       configureTestingModule(newRoute);
       getComponents();
 
-      expect(navigateSpy).toHaveBeenCalled();
-      expect(navigateSpy).toHaveBeenCalledWith(['select-players']);
+      expect(router.navigate).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['select-players']);
     }));
 
     test('works with single player', () => {
@@ -158,20 +158,20 @@ describe('GameCreateListComponent', () => {
   describe('onDoneClicked behavior', () => {
     test('opens dialog', () => {
       const doneButton = fixture.debugElement.queryAll(By.css('button'))[1].nativeElement;
-      const dialogOpenSpy = spyOn(component.dialog, 'open');
+      jest.spyOn(component.dialog, 'open');
       expect(component.playerNames.length).toEqual(4);
       doneButton.click();
-      expect(dialogOpenSpy).toHaveBeenCalled();
+      expect(component.dialog.open).toHaveBeenCalled();
     });
   });
 
   describe('onCancelClicked behavior', () => {
     test('opens cancel dialog', () => {
       const cancelButton = fixture.debugElement.queryAll(By.css('button'))[0].nativeElement;
-      const dialogOpenSpy = spyOn(component.dialog, 'open');
+      jest.spyOn(component.dialog, 'open');
       expect(component.playerNames.length).toEqual(4);
       cancelButton.click();
-      expect(dialogOpenSpy).toHaveBeenCalledWith(DialogContentCancelComponent);
+      expect(component.dialog.open).toHaveBeenCalledWith(DialogContentCancelComponent);
     });
   });
 
