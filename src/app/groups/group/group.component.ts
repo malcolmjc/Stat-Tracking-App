@@ -33,7 +33,6 @@ export class GroupComponent implements OnInit {
           }
           this.group = group;
         });
-        this.groupService.getGroupById(params.id);
       }
     });
   }
