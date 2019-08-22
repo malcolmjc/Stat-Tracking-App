@@ -1,5 +1,5 @@
 <app-loading-indicator *ngIf="isLoading"></app-loading-indicator>
-<h1 *ngIf="!isLoading && groups.length === 0">You have no groups!</h1>
+<h1 class="no-groups-message" *ngIf="!isLoading && groups.length === 0">You have no groups!</h1>
 <ul *ngIf="!isLoading && groups.length >= 1">
   <li *ngFor="let group of groups">
     <mat-radio-button #radioBtn
