@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,9 @@ import { GroupService } from '../group.service';
   styleUrls: ['./create-group.component.css']
 })
 export class CreateGroupComponent implements OnInit, OnDestroy {
+  @ViewChild(NgForm) public form;
   public isLoading = false;
+
   private groupCreatedListener: Subscription;
 
   constructor(private groupService: GroupService, private router: Router, private toastr: ToastrService) {}
@@ -31,11 +33,12 @@ export class CreateGroupComponent implements OnInit, OnDestroy {
     this.groupCreatedListener.unsubscribe();
   }
 
-  public onCreateGroup(form: NgForm) {
-    if (form.invalid) {
+  public onCreateGroup() {
+    if (this.form.invalid) {
       return;
     }
     this.isLoading = true;
-    this.groupService.createGroup(form.value.groupName, form.value.password, form.value.slogan, form.value.description);
+    this.groupService.createGroup(this.form.value.groupName, this.form.value.password,
+                                  this.form.value.slogan, this.form.value.description);
   }
 }
