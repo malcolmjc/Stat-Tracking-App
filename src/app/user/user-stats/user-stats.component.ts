@@ -14,20 +14,20 @@ import { UserService } from '../user.service';
 })
 
 export class UserStatsComponent implements OnInit {
-  public ascending = true;
+  public ascending = false;
   public isInGroup = false;
   public currentSortMethod = 'wins';
   public displayedColumns: string[] = [
     'win', 'loss', 'point', 'catch', 'drop', 'fifa', 'sinker'
   ];
   public selectedSort = '';
-  public users: User[];
+  public users: User[] = [];
   public allTimeUsersStats: User[];
   public inGroupUsersStats: User[];
 
   constructor(public userService: UserService,
               private groupService: GroupService,
-              private toastr: ToastrService) { }
+              public toastr: ToastrService) { }
 
   public ngOnInit() {
     if (this.groupService.getCurrentGroup()) {
@@ -35,14 +35,24 @@ export class UserStatsComponent implements OnInit {
       this.userService.getUserStatsInGroup().subscribe((users) => {
         this.inGroupUsersStats = users;
         this.users = users;
-      }, this.handleError);
+        this.onSelection({
+          value: this.currentSortMethod
+        });
+      }, (error: HttpErrorResponse) => {
+        this.handleError(error);
+      });
     }
     this.userService.getUserStatsAllTime().subscribe((users) => {
       this.allTimeUsersStats = users;
       if (!this.isInGroup) {
         this.users = users;
+        this.onSelection({
+          value: this.currentSortMethod
+        });
       }
-    }, this.handleError);
+    }, (error: HttpErrorResponse) => {
+      this.handleError(error);
+    });
   }
 
   public setAllTime() {
@@ -72,13 +82,13 @@ export class UserStatsComponent implements OnInit {
     switch (evt.value) {
       case 'wins': {
         this.users = this.users.sort((a, b) => {
-          return this.ascending ? b.stats.gamesWon - a.stats.gamesWon : a.stats.gamesWon - b.stats.gamesWon;
+          return !this.ascending ? b.stats.gamesWon - a.stats.gamesWon : a.stats.gamesWon - b.stats.gamesWon;
         });
         break;
       }
       case 'losses': {
         this.users = this.users.sort((a, b) => {
-          return this.ascending ? b.stats.gamesLost - a.stats.gamesLost : a.stats.gamesLost - b.stats.gamesLost;
+          return !this.ascending ? b.stats.gamesLost - a.stats.gamesLost : a.stats.gamesLost - b.stats.gamesLost;
         });
         break;
       }
@@ -86,7 +96,7 @@ export class UserStatsComponent implements OnInit {
         this.users = this.users.sort((a, b) => {
           const aWL = a.stats.gamesWon / (a.stats.gamesWon + a.stats.gamesLost);
           const bWL = b.stats.gamesWon / (b.stats.gamesLost + b.stats.gamesWon);
-          return this.ascending ? bWL - aWL : aWL - bWL;
+          return !this.ascending ? bWL - aWL : aWL - bWL;
         });
         break;
       }
@@ -94,7 +104,7 @@ export class UserStatsComponent implements OnInit {
         this.users = this.users.sort((a, b) => {
           const aRes = a.stats.catches / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.catches / (b.stats.gamesLost + b.stats.gamesWon);
-          return this.ascending ? bRes - aRes : aRes - bRes;
+          return !this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
@@ -102,7 +112,7 @@ export class UserStatsComponent implements OnInit {
         this.users = this.users.sort((a, b) => {
           const aRes = a.stats.points / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.points / (b.stats.gamesLost + b.stats.gamesWon);
-          return this.ascending ? bRes - aRes : aRes - bRes;
+          return !this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
@@ -110,7 +120,7 @@ export class UserStatsComponent implements OnInit {
         this.users = this.users.sort((a, b) => {
           const aRes = a.stats.drops / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.drops / (b.stats.gamesLost + b.stats.gamesWon);
-          return this.ascending ? bRes - aRes : aRes - bRes;
+          return !this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
@@ -118,7 +128,7 @@ export class UserStatsComponent implements OnInit {
         this.users = this.users.sort((a, b) => {
           const aRes = a.stats.fifas / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.fifas / (b.stats.gamesLost + b.stats.gamesWon);
-          return this.ascending ? bRes - aRes : aRes - bRes;
+          return !this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
@@ -126,7 +136,7 @@ export class UserStatsComponent implements OnInit {
         this.users = this.users.sort((a, b) => {
           const aRes = a.stats.sinkers / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.sinkers / (b.stats.gamesLost + b.stats.gamesWon);
-          return this.ascending ? bRes - aRes : aRes - bRes;
+          return !this.ascending ? bRes - aRes : aRes - bRes;
         });
         break;
       }
