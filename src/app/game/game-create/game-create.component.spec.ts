@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatButtonModule, MatCardModule, MatRadioModule } from '@angular/material';
 
 import { GameCreateComponent } from './game-create.component';
+import { MockFontAwesomeModule } from 'src/app/font-awesome.mock.module';
 import { MockGameCreateFieldComponent } from '../game-create-field/game-create-field.component.mock';
 import { StatType } from '../stat-types-enum';
 
@@ -39,6 +40,7 @@ describe('GameCreateComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FontAwesomeModule,
+        MockFontAwesomeModule,
         MatButtonModule,
         MatCardModule,
         MatRadioModule

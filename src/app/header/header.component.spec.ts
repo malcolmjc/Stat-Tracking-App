@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { GroupService } from '../groups/group.service';
 import { HeaderComponent } from './header.component';
+import { MockFontAwesomeModule } from '../font-awesome.mock.module';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -38,6 +39,7 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FontAwesomeModule,
+        MockFontAwesomeModule,
         MatButtonModule,
         MatToolbarModule,
       ],
