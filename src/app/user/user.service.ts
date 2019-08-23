@@ -24,7 +24,9 @@ export class UserService {
     won: boolean
   }[]>();
 
-  constructor(private http: HttpClient, private authService: AuthService, private groupService: GroupService) { }
+  constructor(private http: HttpClient,
+              private authService: AuthService,
+              private groupService: GroupService) { }
 
   public findUsers(search: string) {
     // returns array of usernames

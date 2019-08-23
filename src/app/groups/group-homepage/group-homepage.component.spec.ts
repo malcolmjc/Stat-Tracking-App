@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { MatButtonModule } from '@angular/material';
 
@@ -30,5 +31,10 @@ describe('GroupHomepageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  test('has a list of groups', () => {
+    const groupList = fixture.debugElement.query(By.css('app-group-list'));
+    expect(groupList).toBeTruthy();
   });
 });

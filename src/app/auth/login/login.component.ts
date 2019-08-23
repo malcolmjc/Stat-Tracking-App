@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnDestroy, OnInit {
+  @ViewChild(NgForm) public form;
   public isLoading = false;
 
   private authStatusSubscription: Subscription;
@@ -24,12 +25,12 @@ export class LoginComponent implements OnDestroy, OnInit {
     );
   }
 
-  public onLogin(form: NgForm) {
-    if (form.invalid) {
+  public onLogin() {
+    if (this.form.invalid) {
       return;
     }
     this.isLoading = true;
-    this.authService.login(form.value.email, form.value.password);
+    this.authService.login(this.form.value.email, this.form.value.password);
   }
 
   public ngOnDestroy() {

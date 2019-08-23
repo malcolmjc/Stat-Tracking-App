@@ -22,15 +22,15 @@
       <mat-radio-group aria-label="Select an option" id="radio-group">
         <mat-radio-button
           (click)="setAscending()"
-          name="ascending-descending"
-          value="ascending"
-          checked="checked">
+          name="ascending"
+          value="ascending">
           Ascending
         </mat-radio-button>
         <mat-radio-button
           (click)="setDescending()"
-          name="ascending-descending"
-          value="descending">
+          name="descending"
+          value="descending"
+          checked="checked">
           Descending
         </mat-radio-button>
       </mat-radio-group>
@@ -42,7 +42,7 @@
         <mat-radio-button
           (click)="setWithinGroup()"
           name="within-group"
-          value="within"
+          value="within-group"
           checked="checked">
           Within Group
         </mat-radio-button>

@@ -19,13 +19,12 @@ export class GamePlayerSelectComponent implements OnInit {
   public numberOfPlayers = 4;
   public possiblePlayerNumbers = [1, 2, 3, 4];
 
-  constructor(private router: Router,
+  constructor(public router: Router,
               public userService: UserService,
-              private toastr: ToastrService) { }
+              public toastr: ToastrService) { }
 
   public ngOnInit() {
     this.userService.getUsers().subscribe((usernames) => {
-      console.log(usernames);
       this.playerNames = usernames;
     }, (error: HttpErrorResponse) => {
       if (error.status === 500) {
@@ -36,7 +35,8 @@ export class GamePlayerSelectComponent implements OnInit {
     });
   }
 
-  public onCancelClicked() {
+  public onCancelClicked(event: any) {
+    event.preventDefault();
     this.router.navigate(['']);
   }
 

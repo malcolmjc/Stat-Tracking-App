@@ -1,5 +1,3 @@
-
-
 <mat-card>
   <mat-form-field>
     <input
@@ -25,7 +23,8 @@
   </mat-autocomplete>
 
   <ng-container *ngIf="selectedGroup">
-    <form (submit)="onJoin(passwordForm)" #passwordForm="ngForm">
+    <!-- TODO: this form would be better as its own component -->
+    <form (submit)="onJoin()">
       <span *ngIf="!isLoading">
         <mat-form-field class="password-input">
           <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required minlength="5">

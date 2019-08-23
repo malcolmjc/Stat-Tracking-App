@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { AfterViewInit, Component, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, DebugElement, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { DialogContentCancelComponent } from './dialogs/dialog-cancel/dialog-content-cancel.component';
@@ -20,7 +20,7 @@ interface PlayerRating {
   styleUrls: ['./game-create-list.component.css']
 })
 export class GameCreateListComponent implements OnInit, AfterViewInit {
-  @ViewChild('finishButtons') public finishButtonsElement;
+  @ViewChild('finishButtons') public finishButtonsElement: DebugElement;
   @ViewChildren(GameCreateComponent) public children!: QueryList<GameCreateComponent>;
 
   public topScoreOne = 0;
@@ -90,12 +90,14 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
   public onCancelClicked() {
     const dialogRef = this.dialog.open(DialogContentCancelComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      // user approved the cancel of this game
-      if (result) {
-        this.router.navigate(['']);
-      }
-    });
+    if (dialogRef) {
+      dialogRef.afterClosed().subscribe((result) => {
+        // user approved the cancel of this game
+        if (result) {
+          this.router.navigate(['']);
+        }
+      });
+    }
   }
 
   public onStatsChanged(playerName: string) {
@@ -199,20 +201,22 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
   private openSuccessDialog(playerGames) {
     const dialogRef = this.dialog.open(DialogContentDoneComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      // user did not approve the save of this game
-      if (!result) {
-        return;
-      }
+    if (dialogRef) {
+      dialogRef.afterClosed().subscribe(result => {
+        // user did not approve the save of this game
+        if (!result) {
+          return;
+        }
 
-      const savedGame: Game = {
-        id: null,
-        date: new Date(),
-        playerGames: playerGames
-      };
+        const savedGame: Game = {
+          id: null,
+          date: new Date(),
+          playerGames: playerGames
+        };
 
-      this.gameService.addGame(savedGame);
-      this.router.navigate(['']);
-    });
+        this.gameService.addGame(savedGame);
+        this.router.navigate(['']);
+      });
+    }
   }
 }

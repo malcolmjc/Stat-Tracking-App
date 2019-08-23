@@ -75,19 +75,6 @@ export class GameCreateComponent {
     };
   }
 
-  public getPlayerGameStats(): PlayerGame {
-    return {
-      id: null,
-      catches: this.numCatches,
-      sinkers: this.numSinkers,
-      drops: this.numDrops,
-      points: this.numPoints,
-      fifas: this.numFifas,
-      playerName: this.playerName,
-      won: this.isWin
-    };
-  }
-
   public onWinClicked() {
     this.isWin = true;
   }

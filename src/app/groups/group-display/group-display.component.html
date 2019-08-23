@@ -1,11 +1,11 @@
 <ng-container *ngIf="group">
-  <h1>{{ group.name }}</h1>
+  <h1 class="group-name">{{ group.name }}</h1>
   <hr>
   <div class="member-header">
     <h2>Members</h2>
   </div>
   <mat-card>
-    <h3 *ngFor="let member of group.members">{{ member }}</h3>
+    <h3 class="member-name" *ngFor="let member of group.members">{{ member }}</h3>
   </mat-card>
 
   <ng-container *ngIf="group.slogan">
@@ -13,7 +13,7 @@
       <h2>Slogan</h2>
     </div>
     <mat-card>
-      <h3>{{ group.slogan }}</h3>
+      <h3 class="group-slogan">{{ group.slogan }}</h3>
     </mat-card>
   </ng-container>
 
@@ -22,7 +22,7 @@
       <h2>Description</h2>
     </div>
     <mat-card>
-      <h3>{{ group.description }}</h3>
+      <h3 class="group-description">{{ group.description }}</h3>
     </mat-card>
   </ng-container>
 </ng-container>

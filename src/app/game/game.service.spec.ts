@@ -1,33 +1,37 @@
 import { async, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { AuthService } from '../auth/auth.service';
-import { GroupService } from './group.service';
 import { ToastrService } from 'ngx-toastr';
 
-describe('GroupService', () => {
+import { AuthService } from '../auth/auth.service';
+import { GameService } from './game.service';
+import { GroupService } from '../groups/group.service';
+
+describe('GameService', () => {
   let toastr: SpyObject<ToastrService>;
   let authService: SpyObject<AuthService>;
+  let groupService: SpyObject<GroupService>;
 
   beforeEach(async(() => {
-    toastr = createSpyObject(['error', 'success']);
+    groupService = createSpyObject(['getCurrentGroup']);
     authService = createSpyObject(['getUserId', 'getUserName']);
+    toastr = createSpyObject(['error', 'success']);
 
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule
       ],
       providers: [
-        { provide: AuthService, useValue: authService },
         { provide: ToastrService, useValue: toastr },
-        GroupService
+        { provide: AuthService, useValue: authService },
+        GameService
       ]
     })
     .compileComponents();
   }));
 
   it('should be created', () => {
-    const service: GroupService = TestBed.get(GroupService);
+    const service: GameService = TestBed.get(GameService);
     expect(service).toBeTruthy();
   });
 });
