@@ -49,7 +49,6 @@ import { UserModule } from './user/user.module';
 })
 export class AppModule {
   constructor() {
-    // For now just use all font awesome solid icons
     library.add(faStar, faThumbsDown, faHandPaper, faSortAmountUp, faUsers, faChartLine, faPlusSquare, faSignOutAlt, faDice, faSignInAlt, faUserPlus);
   }
 }
