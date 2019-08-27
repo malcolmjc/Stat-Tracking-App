@@ -1,97 +1,38 @@
+<div *ngFor="let user of users">
+  <h1>{{ user.username }}</h1>
 
-<div class="container">
-  <mat-card style="display: flex; justify-content: space-around" *ngIf="isInGroup">
-    <span>
-      <mat-form-field>
-        <mat-label>Sort By</mat-label>
-        <mat-select
-          matNativeControl
-          (selectionChange)="onSelection($event)"
-          value="wins">
-          <mat-option value="wins">Wins</mat-option>
-          <mat-option value="losses">Losses</mat-option>
-          <mat-option value="W/L">W/L</mat-option>
-          <mat-option value="points">Points</mat-option>
-          <mat-option value="catches">Catches</mat-option>
-          <mat-option value="drops">Drops</mat-option>
-          <mat-option value="fifas">Fifas</mat-option>
-          <mat-option value="sinkers">Sinkers</mat-option>
-          </mat-select>
-      </mat-form-field>
-
-      <mat-radio-group aria-label="Select an option" id="radio-group">
-        <mat-radio-button
-          (click)="setAscending()"
-          name="ascending"
-          value="ascending">
-          Ascending
-        </mat-radio-button>
-        <mat-radio-button
-          (click)="setDescending()"
-          name="descending"
-          value="descending"
-          checked="checked">
-          Descending
-        </mat-radio-button>
-      </mat-radio-group>
-    </span>
-
-    <span>
-      <h3>Filter Stats</h3>
-      <mat-radio-group aria-label="Select an option" id="radio-group">
-        <mat-radio-button
-          (click)="setWithinGroup()"
-          name="within-group"
-          value="within-group"
-          checked="checked">
-          Within Group
-        </mat-radio-button>
-        <mat-radio-button
-          (click)="setAllTime()"
-          name="all-time"
-          value="all-time">
-          All Time
-        </mat-radio-button>
-      </mat-radio-group>
-    </span>
-  </mat-card>
-
-  <div *ngFor="let user of users">
-    <h1>{{ user.username }}</h1>
-
-    <mat-grid-list cols="2" rowHeight="4:1">
-      <mat-grid-tile>
-        <mat-grid-tile-header>Wins</mat-grid-tile-header>
-        {{  user.stats.gamesWon | convertNaN }}
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-grid-tile-header>Losses</mat-grid-tile-header>
-        {{ user.stats.gamesLost | convertNaN}}
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-grid-tile-header>W/L</mat-grid-tile-header>
-        {{ (((user.stats.gamesWon) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-grid-tile-header>Points per Game</mat-grid-tile-header>
-        {{ (((user.stats.points) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-grid-tile-header>Catches per Game</mat-grid-tile-header>
-        {{ (((user.stats.catches) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-grid-tile-header>Drops per Game</mat-grid-tile-header>
-        {{ (((user.stats.drops) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-grid-tile-header>Fifas per Game</mat-grid-tile-header>
-        {{ (((user.stats.fifas) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-grid-tile-header>Sinkers per Game</mat-grid-tile-header>
-        {{ (((user.stats.sinkers) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
+  <mat-grid-list cols="2" rowHeight="4:1">
+    <mat-grid-tile>
+      <mat-grid-tile-header>Wins</mat-grid-tile-header>
+      {{  user.stats.gamesWon | convertNaN }}
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-grid-tile-header>Losses</mat-grid-tile-header>
+      {{ user.stats.gamesLost | convertNaN}}
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-grid-tile-header>W/L</mat-grid-tile-header>
+      {{ (((user.stats.gamesWon) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-grid-tile-header>Points per Game</mat-grid-tile-header>
+      {{ (((user.stats.points) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-grid-tile-header>Catches per Game</mat-grid-tile-header>
+      {{ (((user.stats.catches) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-grid-tile-header>Drops per Game</mat-grid-tile-header>
+      {{ (((user.stats.drops) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-grid-tile-header>Fifas per Game</mat-grid-tile-header>
+      {{ (((user.stats.fifas) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-grid-tile-header>Sinkers per Game</mat-grid-tile-header>
+      {{ (((user.stats.sinkers) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>

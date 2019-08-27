@@ -15,10 +15,7 @@ import { UserStatsComponent } from './user-stats.component';
   ],
   imports: [
     CommonModule,
-    MatGridListModule,
-    MatSelectModule,
-    MatCardModule,
-    MatRadioModule
+    MatGridListModule
   ]
 })
 export class UserStatsModule { }
