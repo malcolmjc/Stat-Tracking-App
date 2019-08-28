@@ -1,18 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 
-import { MatGridListModule } from '@angular/material';
-
-import { ConvertNaNPipe } from 'src/app/pipes/convert-nan.pipe';
 import { User } from '../user.model';
-import { UserStatsComponent } from './user-stats.component';
+import { UserChartsComponent } from './user-charts.component';
 
 @Component({
-  template: '<app-user-stats [users]="users"></app-user-stats>'
+  template: '<app-user-charts [users]="users"></app-user-charts>'
 })
 class TestComponent {
-  @ViewChild(UserStatsComponent) public component: UserStatsComponent;
+  @ViewChild(UserChartsComponent) public component: UserChartsComponent;
   public users: User[] = [{
     stats: {
       catches: 0,
@@ -27,20 +23,15 @@ class TestComponent {
   }];
 }
 describe('UserChartsComponent', () => {
-  let component: UserStatsComponent;
+  let component: UserChartsComponent;
   let testComponent: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        MatGridListModule
-      ],
       declarations: [
-        UserStatsComponent,
-        TestComponent,
-        ConvertNaNPipe
+        UserChartsComponent,
+        TestComponent
       ]
     })
     .compileComponents();
@@ -59,5 +50,15 @@ describe('UserChartsComponent', () => {
 
   test('should get users input', () => {
     expect(component.users).toEqual(testComponent.users);
+  });
+
+  test('should chart data when users input is changed', () => {
+    jest.spyOn(component, 'chartData');
+    jest.spyOn(component, 'ngOnChanges');
+
+    testComponent.users = [...testComponent.users];
+    fixture.detectChanges();
+    expect(component.ngOnChanges).toHaveBeenCalled();
+    expect(component.chartData).toHaveBeenCalled();
   });
 });

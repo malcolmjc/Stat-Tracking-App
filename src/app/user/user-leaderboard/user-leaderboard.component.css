@@ -1,0 +1,14 @@
+.container {
+  width: 80%;
+  margin: auto;
+}
+
+mat-radio-group, mat-radio-button {
+  display: block;
+}
+
+mat-card {
+  background-color: lightblue;
+  display: flex;
+  justify-content: space-around
+}

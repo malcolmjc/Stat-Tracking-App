@@ -1,0 +1,59 @@
+<div class="container">
+  <mat-card *ngIf="isInGroup">
+    <span>
+      <mat-form-field>
+        <mat-label>Sort By</mat-label>
+        <mat-select
+          matNativeControl
+          (selectionChange)="onSelection($event)"
+          value="wins">
+          <mat-option value="wins">Wins</mat-option>
+          <mat-option value="losses">Losses</mat-option>
+          <mat-option value="W/L">W/L</mat-option>
+          <mat-option value="points">Points Per Game</mat-option>
+          <mat-option value="catches">Catches Per Game</mat-option>
+          <mat-option value="drops">Drops Per Game</mat-option>
+          <mat-option value="fifas">Fifas Per Game</mat-option>
+          <mat-option value="sinkers">Sinkers Per Game</mat-option>
+          </mat-select>
+      </mat-form-field>
+
+      <mat-radio-group aria-label="Select an option" id="radio-group">
+        <mat-radio-button
+          (click)="setAscending()"
+          name="ascending"
+          value="ascending">
+          Ascending
+        </mat-radio-button>
+        <mat-radio-button
+          (click)="setDescending()"
+          name="descending"
+          value="descending"
+          checked="checked">
+          Descending
+        </mat-radio-button>
+      </mat-radio-group>
+    </span>
+
+    <span>
+      <h3>Filter Stats</h3>
+      <mat-radio-group aria-label="Select an option" id="radio-group">
+        <mat-radio-button
+          (click)="setWithinGroup()"
+          name="within-group"
+          value="within-group"
+          checked="checked">
+          Within Group
+        </mat-radio-button>
+        <mat-radio-button
+          (click)="setAllTime()"
+          name="all-time"
+          value="all-time">
+          All Time
+        </mat-radio-button>
+      </mat-radio-group>
+    </span>
+  </mat-card>
+  <app-user-charts [users]="users"></app-user-charts>
+  <app-user-stats [users]="users"></app-user-stats>
+</div>
