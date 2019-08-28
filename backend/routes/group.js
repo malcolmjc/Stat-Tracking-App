@@ -1,9 +1,10 @@
+'use strict';
+
 const express = require('express');
 const router = express.Router();
 
 const bcrypt = require('bcryptjs');
 
-const Game = require('../model/game').model;
 const Group = require('../model/group').model;
 const User = require('../model/user');
 
@@ -21,7 +22,8 @@ router.post(
   '/add',
   checkAuth,
   (req, res, next) => {
-    if (!validateGroupName(req.body.name) || !validateGroupPassword(req.body.password)) {
+    if (!validateGroupName(req.body.name)
+      || !validateGroupPassword(req.body.password)) {
       return res.status(400).json({
         message: 'Invalid Group Name or Password'
       });
@@ -139,7 +141,8 @@ router.get(
         groups: null
       });
     } else {
-      Group.find({ name: new RegExp(search, 'i') }, 'name slogan description members').then((groups) => {
+      Group.find({ name: new RegExp(search, 'i') },
+        'name slogan description members').then((groups) => {
         res.status(200).json({
           message: 'these groups found',
           groups: groups
@@ -159,7 +162,8 @@ router.put(
   (req, res, next) => {
     console.log('joining group');
     let foundGroup;
-    Group.findById(req.body.groupId, 'password members memberStats').then((group) => {
+    Group.findById(req.body.groupId,
+      'password members memberStats').then((group) => {
       foundGroup = group;
       return bcrypt.compare(req.body.password, group.password);
     }).then((result) => {
@@ -170,7 +174,8 @@ router.put(
       }
 
       User.findById(req.body.userId, 'groups username').then((user) => {
-        if (foundGroup.members.includes(user.username) || user.groups.includes(req.body.groupId)) {
+        if (foundGroup.members.includes(user.username)
+          || user.groups.includes(req.body.groupId)) {
           return res.status(409).json({
             message: 'Already joined group'
           });
@@ -219,11 +224,11 @@ router.get(
       res.status(200).json({
         message: 'Group name found',
         name: group.name
-      }).catch((error) => {
-        res.status(500).json({
-          message: 'Something went wrong finding group',
-          error: error
-        });
+      });
+    }).catch((error) => {
+      res.status(500).json({
+        message: 'Something went wrong finding group',
+        error: error
       });
     });
   });

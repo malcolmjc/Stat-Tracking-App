@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -8,7 +10,8 @@ const gameRoutes = require('./routes/game');
 const groupRoutes = require('./routes/group');
 
 mongoose.connect(
-  'mongodb+srv://malcolmjc:' + process.env.MONGODB_PASSWORD + '@cluster0-85oau.mongodb.net/dye-stats',
+  'mongodb+srv://malcolmjc:' + process.env.MONGODB_PASSWORD +
+  '@cluster0-85oau.mongodb.net/dye-stats',
   { useNewUrlParser: true }).then(() => {
   console.log('connected to database');
 }).catch(() => {
@@ -22,7 +25,9 @@ app.use(bodyParser.json());
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization, Authentication');
+    'Origin, X-Requested-With, Content-Type, ' +
+    'Accept, Authorization, Authentication'
+  );
 
   res.setHeader('Access-Control-Allow-Methods',
     'GET, POST, PUT, PATCH, DELETE, OPTIONS'

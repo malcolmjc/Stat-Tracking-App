@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const router = express.Router();
 
@@ -5,7 +7,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const checkGroup = require('../middleware/check-belongs-to-group');
 
-const Group = require('../model/group').model;
 const User = require('../model/user');
 
 const validateUsername = (username) => {
@@ -18,7 +19,8 @@ const validatePassword = (password) => {
 
 router.post('/signup', (req, res, next) => {
   console.log('signing up');
-  if (!validateUsername(req.body.username) || !validatePassword(req.body.password)) {
+  if (!validateUsername(req.body.username)
+    || !validatePassword(req.body.password)) {
     return res.status(400).json({
       message: 'Username or Password not provided or invalid'
     });
@@ -51,7 +53,8 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', (req, res, next) => {
   let fetchedUser;
   console.log('logging in');
-  User.findOne({ email: req.body.email }, 'email password username').then((user) => {
+  User.findOne({ email: req.body.email },
+    'email password username').then((user) => {
     if (!user) {
       return res.status(404).json({
         message: 'Authentication failed - user was not found'

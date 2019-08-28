@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const router = express.Router();
 
@@ -20,7 +22,9 @@ router.post(
     User.findById(req.body.userId, 'stats games').then((user) => {
       user.games.push(game);
       // update users stats if they played
-      const usersGame = req.body.playerGames.find((game) => game.name === req.body.name);
+      const usersGame = req.body.playerGames.find((game) => {
+        return game.name === req.body.name;
+      });
       if (usersGame) {
         user.stats.catches += usersGame.catches;
         user.stats.sinkers += usersGame.sinkers;
@@ -66,13 +70,16 @@ router.post(
       groupMemberStats.drops += playerGame.drops;
       groupMemberStats.points += playerGame.points;
       groupMemberStats.fifas += playerGame.fifas;
-      playerGame.won ? groupMemberStats.gamesWon++ : groupMemberStats.gamesLost++;
+      playerGame.won ? groupMemberStats.gamesWon++
+        : groupMemberStats.gamesLost++;
     });
     group.save().then((group) => {
       let updatedCount = 0;
       game.playerGames.forEach((playerGame) => {
         // Update user's individual stats
-        User.findOne({ username: playerGame.playerName }, 'stats').then((user) => {
+        User.findOne({
+          username: playerGame.playerName
+        }, 'stats').then((user) => {
           user.stats.catches += playerGame.catches;
           user.stats.sinkers += playerGame.sinkers;
           user.stats.drops += playerGame.drops;
@@ -113,13 +120,13 @@ router.post(
       User.findById(req.body.userId, 'games groups username').then((user) => {
         const resGames = user.games ? user.games : [];
         if (user.groups && user.groups.length > 0) {
-          requests = 0;
+          let requests = 0;
           user.groups.forEach((groupId) => {
             Group.findById(groupId, 'games').then((group) => {
               if (group.games) {
                 group.games.forEach((game) => {
-                  if (game.playerGames && game.playerGames.some((playerGame) => {
-                    return playerGame.playerName === user.username;
+                  if (game.playerGames && game.playerGames.some((pGame) => {
+                    return pGame.playerName === user.username;
                   })) {
                     resGames.push(game);
                   }

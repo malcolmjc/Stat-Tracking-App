@@ -1,3 +1,5 @@
+'use strict';
+
 const app = require('./app');
 const debug = require('debug')('dye-app');
 const http = require('http');
@@ -40,7 +42,7 @@ const onError = error => {
 const onListening = () => {
   const addr = server.address();
   const bind = typeof port === 'string' ? 'pipe ' + port : 'port ' + port;
-  debug('Listening on ' + bind);
+  debug('Listening on: ' + bind + ' address: ' + addr);
 };
 
 const port = normalizePort(process.env.PORT || '3001');

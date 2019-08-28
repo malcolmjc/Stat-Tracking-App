@@ -1,3 +1,5 @@
+'use strict';
+
 const mongoose = require('mongoose');
 const gameSchema = require('./game').schema;
 const uniqueValidator = require('mongoose-unique-validator');
