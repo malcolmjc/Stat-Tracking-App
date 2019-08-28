@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const checkGroup = require("../middleware/check-belongs-to-group");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const checkGroup = require('../middleware/check-belongs-to-group');
 
-const Group = require("../model/group").model;
-const User = require("../model/user");
+const Group = require('../model/group').model;
+const User = require('../model/user');
 
 const validateUsername = (username) => {
   return username && username.length >= 4 && /^[a-zA-Z\d ]*$/.test(username);
@@ -16,7 +16,7 @@ const validatePassword = (password) => {
   return password && password.length >= 5;
 };
 
-router.post("/signup", (req, res, next) => {
+router.post('/signup', (req, res, next) => {
   console.log('signing up');
   if (!validateUsername(req.body.username) || !validatePassword(req.body.password)) {
     return res.status(400).json({
@@ -31,7 +31,7 @@ router.post("/signup", (req, res, next) => {
     });
     user.save().then((result) => {
       res.status(201).json({
-        message: "new user created",
+        message: 'new user created',
         result: result
       });
     }).catch((error) => {
@@ -44,17 +44,17 @@ router.post("/signup", (req, res, next) => {
     res.status(500).json({
       message: 'Unable to hash password',
       error: error
-    })
+    });
   });
 });
 
-router.post("/login", (req, res, next) => {
+router.post('/login', (req, res, next) => {
   let fetchedUser;
   console.log('logging in');
   User.findOne({ email: req.body.email }, 'email password username').then((user) => {
     if (!user) {
       return res.status(404).json({
-        message: "Authentication failed - user was not found"
+        message: 'Authentication failed - user was not found'
       });
     }
     fetchedUser = user;
@@ -62,16 +62,16 @@ router.post("/login", (req, res, next) => {
   }).then((result) => {
     if (!result) {
       return res.status(401).json({
-        message: "Authentication failed - password was incorrect"
+        message: 'Authentication failed - password was incorrect'
       });
     }
     const expiresInHours = 2;
     const token = jwt.sign({
-        email: fetchedUser.email,
-        userId: fetchedUser._id
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: expiresInHours + "h" }
+      email: fetchedUser.email,
+      userId: fetchedUser._id
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: expiresInHours + 'h' }
     );
     res.status(200).json({
       token: token,
@@ -81,13 +81,13 @@ router.post("/login", (req, res, next) => {
     });
   }).catch((error) => {
     return res.status(500).json({
-      message: "Authentication failed for unknown reason",
+      message: 'Authentication failed for unknown reason',
       error: error
     });
   });
 });
 
-const checkAuth = require("../middleware/check-auth");
+const checkAuth = require('../middleware/check-auth');
 
 router.get('/usernames/:userId/:groupId',
   checkAuth,
@@ -166,7 +166,7 @@ router.get('/userStats/:userId',
     });
   });
 
-router.get("/find/:search",
+router.get('/find/:search',
   checkAuth,
   (req, res, next) => {
     const search = req.params.search;

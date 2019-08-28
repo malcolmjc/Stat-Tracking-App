@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const checkAuth = require("../middleware/check-auth");
-const checkGroup = require("../middleware/check-belongs-to-group");
+const checkAuth = require('../middleware/check-auth');
+const checkGroup = require('../middleware/check-belongs-to-group');
 
-const Game = require("../model/game").model;
-const Group = require("../model/group").model
-const User = require("../model/user");
+const Game = require('../model/game').model;
+const Group = require('../model/group').model;
+const User = require('../model/user');
 
 router.post(
   '/addToUser',
@@ -14,7 +14,7 @@ router.post(
   (req, res, next) => {
     const game = new Game({
       date: req.body.date,
-      playerGames: req.body.playerGames,
+      playerGames: req.body.playerGames
     });
     console.log('adding game to user');
     User.findById(req.body.userId, 'stats games').then((user) => {
@@ -32,8 +32,8 @@ router.post(
 
       user.save().then((user) => {
         res.status(201).json({
-            message: 'game added to user',
-            id: game._id
+          message: 'game added to user',
+          id: game._id
         });
       }).catch((error) => {
         res.status(500).json({
@@ -51,7 +51,7 @@ router.post(
   (req, res, next) => {
     const game = new Game({
       date: req.body.date,
-      playerGames: req.body.playerGames,
+      playerGames: req.body.playerGames
     });
     console.log('adding game to group');
     const group = res.locals.group;
@@ -59,7 +59,7 @@ router.post(
     game.playerGames.forEach((playerGame) => {
       // update group stats
       const groupMemberStats = group.memberStats.find((memberStat) => {
-        return memberStat.username === playerGame.playerName
+        return memberStat.username === playerGame.playerName;
       });
       groupMemberStats.catches += playerGame.catches;
       groupMemberStats.sinkers += playerGame.sinkers;
@@ -93,7 +93,7 @@ router.post(
               error: error
             });
           });
-        })
+        });
       });
     }).catch((error) => {
       res.status(500).json({
@@ -157,7 +157,7 @@ router.post(
           message: 'Something went wrong getting games for group',
           error: error
         });
-      });;
+      });
     }
   });
 

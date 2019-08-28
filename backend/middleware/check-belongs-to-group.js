@@ -1,12 +1,12 @@
-const Group = require("../model/group").model;
-const User = require("../model/user");
+const Group = require('../model/group').model;
+const User = require('../model/user');
 
 module.exports = (req, res, next) => {
   const groupId = req.params.groupId ? req.params.groupId : req.body.groupId;
   const userId = req.params.userId ? req.params.userId : req.body.userId;
   if (!groupId || !userId) {
     return res.status(400).json({
-      message: 'Missing either groupId or userId',
+      message: 'Missing either groupId or userId'
     });
   }
   Group.findById(groupId, 'members memberStats games').then((group) => {
@@ -28,4 +28,4 @@ module.exports = (req, res, next) => {
       });
     });
   });
-}
+};

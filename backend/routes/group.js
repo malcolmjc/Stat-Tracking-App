@@ -1,13 +1,13 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 
-const Game = require("../model/game").model;
-const Group = require("../model/group").model;
-const User = require("../model/user");
+const Game = require('../model/game').model;
+const Group = require('../model/group').model;
+const User = require('../model/user');
 
-const checkAuth = require("../middleware/check-auth");
+const checkAuth = require('../middleware/check-auth');
 
 const validateGroupName = (groupName) => {
   return groupName && groupName.length >= 4 && /^[a-zA-Z\d ]*$/.test(groupName);
@@ -129,7 +129,7 @@ router.get(
   });
 
 router.get(
-  "/find/:search",
+  '/find/:search',
   checkAuth,
   (req, res, next) => {
     const search = req.params.search;
@@ -165,7 +165,7 @@ router.put(
     }).then((result) => {
       if (!result) {
         return res.status(401).json({
-          message: "joining group failed - bad password"
+          message: 'joining group failed - bad password'
         });
       }
 

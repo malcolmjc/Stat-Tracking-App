@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const gameSchema = require('./game').schema;
-const uniqueValidator = require("mongoose-unique-validator");
+const uniqueValidator = require('mongoose-unique-validator');
 
 const groupSchema = mongoose.Schema({
   name: { type: String, required: true, unique: true },
