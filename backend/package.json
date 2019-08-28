@@ -2,7 +2,9 @@
   "name": "stat-tracking-app-backend",
   "version": "0.0.0",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "lint": "eslint --ignore-path ../.gitignore .",
+    "lint:fix": "eslint --fix --ignore-path ../.gitignore ."
   },
   "private": true,
   "dependencies": {
@@ -12,5 +14,9 @@
     "jsonwebtoken": "8.5.1",
     "mongoose": "5.5.8",
     "mongoose-unique-validator": "2.0.3"
+  },
+  "devDependencies": {
+    "eslint": "6.2.2",
+    "eslint-config-strongloop": "2.1.0"
   }
 }
