@@ -1,8 +1,10 @@
+'use strict';
+
 const mongoose = require('mongoose');
 
 const gameSchema = mongoose.Schema({
   date: { type: Date, required: true },
-  playerGames: {},
+  playerGames: {}
 });
 
 module.exports = {
