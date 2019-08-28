@@ -21,7 +21,7 @@ noData(Highcharts);
 })
 export class UserChartsComponent implements OnChanges {
   @ViewChild('chart') public chart;
-  @Input() public users: User[];
+  @Input() public users: User[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.users) {
@@ -29,7 +29,7 @@ export class UserChartsComponent implements OnChanges {
     }
   }
 
-  private chartData() {
+  public chartData() {
     if (!this.users || this.users.length === 0) {
       return;
     }
