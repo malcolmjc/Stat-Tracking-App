@@ -68,22 +68,21 @@ export class UserLeaderboardComponent implements OnInit {
     if (evt && evt.any) {
       this.currentSortMethod = evt.value;
     }
-    console.log('on selection');
     switch (this.currentSortMethod) {
       case 'wins': {
-        this.users = this.users.sort((a, b) => {
+        this.users.sort((a, b) => {
           return !this.ascending ? b.stats.gamesWon - a.stats.gamesWon : a.stats.gamesWon - b.stats.gamesWon;
         });
         break;
       }
       case 'losses': {
-        this.users = this.users.sort((a, b) => {
+        this.users.sort((a, b) => {
           return !this.ascending ? b.stats.gamesLost - a.stats.gamesLost : a.stats.gamesLost - b.stats.gamesLost;
         });
         break;
       }
       case 'W/L': {
-        this.users = this.users.sort((a, b) => {
+        this.users.sort((a, b) => {
           const aWL = a.stats.gamesWon / (a.stats.gamesWon + a.stats.gamesLost);
           const bWL = b.stats.gamesWon / (b.stats.gamesLost + b.stats.gamesWon);
           return !this.ascending ? bWL - aWL : aWL - bWL;
@@ -91,7 +90,7 @@ export class UserLeaderboardComponent implements OnInit {
         break;
       }
       case 'catches': {
-        this.users = this.users.sort((a, b) => {
+        this.users.sort((a, b) => {
           const aRes = a.stats.catches / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.catches / (b.stats.gamesLost + b.stats.gamesWon);
           return !this.ascending ? bRes - aRes : aRes - bRes;
@@ -99,7 +98,7 @@ export class UserLeaderboardComponent implements OnInit {
         break;
       }
       case 'points': {
-        this.users = this.users.sort((a, b) => {
+        this.users.sort((a, b) => {
           const aRes = a.stats.points / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.points / (b.stats.gamesLost + b.stats.gamesWon);
           return !this.ascending ? bRes - aRes : aRes - bRes;
@@ -107,7 +106,7 @@ export class UserLeaderboardComponent implements OnInit {
         break;
       }
       case 'drops': {
-        this.users = this.users.sort((a, b) => {
+        this.users.sort((a, b) => {
           const aRes = a.stats.drops / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.drops / (b.stats.gamesLost + b.stats.gamesWon);
           return !this.ascending ? bRes - aRes : aRes - bRes;
@@ -115,7 +114,7 @@ export class UserLeaderboardComponent implements OnInit {
         break;
       }
       case 'fifas': {
-        this.users = this.users.sort((a, b) => {
+        this.users.sort((a, b) => {
           const aRes = a.stats.fifas / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.fifas / (b.stats.gamesLost + b.stats.gamesWon);
           return !this.ascending ? bRes - aRes : aRes - bRes;
@@ -123,7 +122,7 @@ export class UserLeaderboardComponent implements OnInit {
         break;
       }
       case 'sinkers': {
-        this.users = this.users.sort((a, b) => {
+        this.users.sort((a, b) => {
           const aRes = a.stats.sinkers / (a.stats.gamesLost + a.stats.gamesWon);
           const bRes = b.stats.sinkers / (b.stats.gamesLost + b.stats.gamesWon);
           return !this.ascending ? bRes - aRes : aRes - bRes;
@@ -132,7 +131,7 @@ export class UserLeaderboardComponent implements OnInit {
       }
     }
 
-    this.users = this.users.slice(0); // necessary to trigger change detection
+    this.users = [...this.users]; // necessary to trigger change detection
   }
 
   private handleError(error: HttpErrorResponse) {
