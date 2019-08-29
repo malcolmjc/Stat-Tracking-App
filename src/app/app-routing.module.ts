@@ -13,6 +13,7 @@ import { JoinGroupComponent } from './groups/join-group/join-group.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { UserLeaderboardComponent } from './user/user-leaderboard/user-leaderboard.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
       {
         path: 'join-group',
         component: JoinGroupComponent
+      },
+      {
+        path: 'user',
+        component: UserProfileComponent
       }
     ]
   },
