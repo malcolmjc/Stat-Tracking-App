@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -21,6 +22,7 @@ mongoose.connect(
 const app = express();
 
 app.use(bodyParser.json());
+app.use('/images', express.static(path.join('./images')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
