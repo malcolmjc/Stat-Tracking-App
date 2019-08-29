@@ -1,0 +1,10 @@
+<form *ngIf="form" [formGroup]="form" (submit)="onSaveImage()">
+  <div>
+    <button mat-stroked-button type="button" (click)="filePicker.click()">SELECT IMAGE</button>
+    <input type="file" #filePicker (change)="imageSelected($event)">
+  </div>
+  <div class="image-preview">
+    <img [src]="imagePreview !== '' && imagePreview && form.get('image').valid ? imagePreview : defaultImagePath">
+  </div>
+  <button mat-raised-button color="accent" type="submit">SAVE IMAGE</button>
+</form>

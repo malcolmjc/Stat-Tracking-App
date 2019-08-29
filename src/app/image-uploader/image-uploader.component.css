@@ -1,0 +1,26 @@
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview img {
+  height: 100%;
+  max-width: 100%;
+}
+
+form {
+  margin: auto;
+}
+
+.image-preview {
+  height: 8rem;
+  margin-bottom: 2rem;
+}
+
+button {
+  width: 124px;
+}
+
+button, img {
+  margin: auto;
+  display: block;
+}
