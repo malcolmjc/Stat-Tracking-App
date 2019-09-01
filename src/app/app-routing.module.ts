@@ -55,7 +55,7 @@ const routes: Routes = [
         component: JoinGroupComponent
       },
       {
-        path: 'user',
+        path: 'my-profile',
         component: UserProfileComponent
       }
     ]
