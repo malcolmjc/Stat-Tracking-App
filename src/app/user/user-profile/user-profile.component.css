@@ -7,6 +7,10 @@ mat-card {
   margin: auto;
 }
 
+mat-card-subtitle {
+  text-align: center;
+}
+
 .username-card {
   text-align: center;
   background-color: lightblue;

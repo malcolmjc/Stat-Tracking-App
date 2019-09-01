@@ -1,0 +1,17 @@
+.medium-img {
+  width: 64px;
+}
+
+.large-img {
+  width: 100px;
+}
+
+img {
+  padding-right: 1rem;
+}
+
+div {
+  display: flex;
+  align-items: center;
+}
+

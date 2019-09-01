@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema({
     gamesWon: { type: Number, default: 0 },
     gamesLost: { type: Number, default: 0 }
   },
-  profileImagePath: { type: String, required: false }
+  profileImagePath: { type: String, required: true }
 });
 
 userSchema.plugin(uniqueValidator);

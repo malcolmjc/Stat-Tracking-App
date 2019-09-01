@@ -84,6 +84,11 @@ export class UserService {
       (API_URL + '/profileImage', imageData);
   }
 
+  public getProfileImageLink(username: string) {
+    return this.http.get<{ path: string }>
+      (API_URL + '/profileImage/' + username);
+  }
+
   private getKey(nameOne: string, nameTwo: string): string {
     let firstAlpha = '';
     let secondAlpha = '';

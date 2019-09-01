@@ -29,7 +29,8 @@ router.post('/signup', (req, res, next) => {
     const user = new User({
       email: req.body.email,
       password: hash,
-      username: req.body.username
+      username: req.body.username,
+      profileImagePath: 'assets/question.png'
     });
     user.save().then((result) => {
       res.status(201).json({
@@ -119,7 +120,8 @@ const storage = multer.diskStorage({
   }
 });
 
-router.post('/profileImage',
+router.post(
+  '/profileImage',
   checkAuth,
   multer({ storage: storage }).single('image'),
   (req, res, next) => {
@@ -138,6 +140,26 @@ router.post('/profileImage',
       });
   });
 
+router.get(
+  '/profileImage/:username',
+  checkAuth,
+  (req, res, next) => {
+    const username = req.params.username;
+    if (!username) {
+      return res.status(400).json({
+        error: 'username not provided'
+      });
+    }
+    User.findOne({ username: username }, 'profileImagePath').then((user) => {
+      res.status(200).json({
+        path: user.profileImagePath
+      });
+    }).catch((error) => {
+      res.status(500).json({
+        error: error
+      });
+    });
+  });
 router.get('/usernames/:userId/:groupId',
   checkAuth,
   checkGroup,

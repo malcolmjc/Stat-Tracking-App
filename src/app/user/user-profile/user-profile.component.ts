@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserService } from '../user.service';
 
@@ -10,19 +12,32 @@ import { UserService } from '../user.service';
 })
 export class UserProfileComponent implements OnInit {
   public username = '';
+  public profileImagePath;
+  public imageUploading = false;
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private authService: AuthService,
+              private userService: UserService,
+              private toastr: ToastrService) { }
 
   public ngOnInit() {
     this.username = this.authService.getUserName();
+    this.getProfileImage();
   }
 
   public imageSelected(image: File) {
-    console.log('image selected');
+    this.imageUploading = true;
     this.userService.updateProfileImage(image, this.username).subscribe((result) => {
-      console.log(result);
+      this.toastr.success('Updated profile image!');
+      this.getProfileImage();
     }, (error) => {
-      console.log(error);
+      this.toastr.error('Failed to update profile image');
     });
+  }
+
+  private getProfileImage() {
+    this.userService.getProfileImageLink(this.username).subscribe((result: { path: string }) => {
+      this.profileImagePath = result.path ? result.path : 'assets/question.png';
+    });
+    this.imageUploading = false;
   }
 }

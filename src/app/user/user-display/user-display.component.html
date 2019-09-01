@@ -1,0 +1,5 @@
+<div>
+  <img class="{{ size }}-img" *ngIf="profilePath" [src]="profilePath">
+  <h3 *ngIf="size === 'medium'">{{ username }}</h3>
+  <h1 *ngIf="size === 'large'">{{ username }}</h1>
+</div>

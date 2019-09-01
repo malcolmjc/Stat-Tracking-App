@@ -3,8 +3,13 @@
 </mat-card>
 
 <mat-card>
-  <app-image-uploader
-    defaultImagePath="assets/question.png"
+  <mat-card-subtitle>
+    Try and choose a square shaped image!
+  </mat-card-subtitle>
+  <app-image-uploader *ngIf="!imageUploading && profileImagePath"
+    [defaultImagePath]="profileImagePath"
     (imageChosen)="imageSelected($event)">
   </app-image-uploader>
+  <app-loading-indicator *ngIf="imageUploading">
+  </app-loading-indicator>
 </mat-card>
