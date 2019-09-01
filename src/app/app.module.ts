@@ -3,12 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-  faStar, faThumbsDown, faHandPaper, faSortAmountUp, faUsers, faChartLine,
-  faPlusSquare, faSignOutAlt, faDice, faSignInAlt, faUserPlus
-} from '@fortawesome/free-solid-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
@@ -19,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { GameModule } from './game/game.module';
 import { GroupsModule } from './groups/groups.module';
 import { HeaderModule } from './header/header.module';
+import { MockFontAwesomeModule } from './font-awesome.mock.module';
 import { UserModule } from './user/user.module';
 
 @NgModule({
@@ -37,18 +32,14 @@ import { UserModule } from './user/user.module';
     GroupsModule,
     HeaderModule,
     UserModule,
-    FontAwesomeModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
-    })
+    }),
+    MockFontAwesomeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor() {
-    library.add(faStar, faThumbsDown, faHandPaper, faSortAmountUp, faUsers, faChartLine, faPlusSquare, faSignOutAlt, faDice, faSignInAlt, faUserPlus);
-  }
-}
+export class AppModule { }
