@@ -1,4 +1,13 @@
+hr {
+  border: 5px solid lightblue;
+}
+
 mat-card {
-  width: 30%;
+  width: 80%;
   margin: auto;
+}
+
+.username-card {
+  text-align: center;
+  background-color: lightblue;
 }
