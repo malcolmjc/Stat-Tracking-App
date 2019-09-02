@@ -29,7 +29,8 @@ router.post('/signup', (req, res, next) => {
     const user = new User({
       email: req.body.email,
       password: hash,
-      username: req.body.username
+      username: req.body.username,
+      profileImagePath: 'assets/question.png'
     });
     user.save().then((result) => {
       res.status(201).json({
@@ -92,6 +93,73 @@ router.post('/login', (req, res, next) => {
 
 const checkAuth = require('../middleware/check-auth');
 
+const multer = require('multer');
+const MIME_TYPE_MAP = {
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/jpg": "jpg"
+};
+const fs = require('fs');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const isValid = MIME_TYPE_MAP[file.mimetype];
+    let error = null;
+    if (!isValid) {
+      error = new Error('Mime type not supported');
+    }
+
+    const dir = './profile-images/' + file.originalname;
+    if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
+    }
+    cb(error, dir);
+  },
+  filename: (req, file, cb) => {
+    const extension = MIME_TYPE_MAP[file.mimetype];
+    cb(null, Date.now() + '.' + extension);
+  }
+});
+
+router.post(
+  '/profileImage',
+  checkAuth,
+  multer({ storage: storage }).single('image'),
+  (req, res, next) => {
+    console.log('updating users profile image');
+    const url = req.protocol + '://' + req.get('host');
+    const profilePath = url + '/profile-images/' + req.file.originalname + '/' + req.file.filename;
+    User.updateOne({ username: req.body.username },
+      { profileImagePath: profilePath }).then((user) => {
+        res.status(200).json({
+          message: 'User profile image updated!'
+        });
+      }).catch((error) => {
+        res.status(500).json({
+          error: error
+        });
+      });
+  });
+
+router.get(
+  '/profileImage/:username',
+  checkAuth,
+  (req, res, next) => {
+    const username = req.params.username;
+    if (!username) {
+      return res.status(400).json({
+        error: 'username not provided'
+      });
+    }
+    User.findOne({ username: username }, 'profileImagePath').then((user) => {
+      res.status(200).json({
+        path: user.profileImagePath
+      });
+    }).catch((error) => {
+      res.status(500).json({
+        error: error
+      });
+    });
+  });
 router.get('/usernames/:userId/:groupId',
   checkAuth,
   checkGroup,
@@ -160,11 +228,11 @@ router.get('/userStats/:userId',
           stats: user.stats,
           username: user.username
         }
-      }).catch((error) => {
-        res.status(500).json({
-          message: 'Something went wrong',
-          error: error
-        });
+      });
+    }).catch((error) => {
+      res.status(500).json({
+        message: 'Something went wrong',
+        error: error
       });
     });
   });

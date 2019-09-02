@@ -20,7 +20,8 @@ const userSchema = mongoose.Schema({
     fifas: { type: Number, default: 0 },
     gamesWon: { type: Number, default: 0 },
     gamesLost: { type: Number, default: 0 }
-  }
+  },
+  profileImagePath: { type: String, required: true }
 });
 
 userSchema.plugin(uniqueValidator);

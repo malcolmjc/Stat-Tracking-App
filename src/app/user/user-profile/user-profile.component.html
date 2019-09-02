@@ -1,0 +1,15 @@
+<mat-card class="username-card">
+  <h1>{{ username }}</h1>
+</mat-card>
+
+<mat-card>
+  <mat-card-subtitle>
+    Try and choose a square shaped image!
+  </mat-card-subtitle>
+  <app-image-uploader *ngIf="!imageUploading && profileImagePath"
+    [defaultImagePath]="profileImagePath"
+    (imageChosen)="imageSelected($event)">
+  </app-image-uploader>
+  <app-loading-indicator *ngIf="imageUploading">
+  </app-loading-indicator>
+</mat-card>

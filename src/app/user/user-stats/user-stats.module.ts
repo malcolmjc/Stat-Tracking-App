@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { MatCardModule, MatGridListModule, MatRadioModule, MatSelectModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
+import { MatGridListModule } from '@angular/material';
+
 import { ConvertNaNPipe } from 'src/app/pipes/convert-nan.pipe';
+import { UserDisplayModule } from '../user-display/user-display.module';
 import { UserStatsComponent } from './user-stats.component';
 
 @NgModule({
@@ -15,7 +17,8 @@ import { UserStatsComponent } from './user-stats.component';
   ],
   imports: [
     CommonModule,
-    MatGridListModule
+    MatGridListModule,
+    UserDisplayModule
   ]
 })
 export class UserStatsModule { }

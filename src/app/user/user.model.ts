@@ -4,4 +4,5 @@ export interface User {
   stats: UserStats;
   username: string;
   name?: string;
+  profileImagePath?: string;
 }

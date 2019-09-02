@@ -1,5 +1,8 @@
 <div *ngFor="let user of users">
-  <h1>{{ user.username }}</h1>
+  <app-user-display
+    [username]="user.username"
+    size="large">
+  </app-user-display>
 
   <mat-grid-list cols="2" rowHeight="4:1">
     <mat-grid-tile>

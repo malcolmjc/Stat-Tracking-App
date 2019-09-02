@@ -5,7 +5,10 @@
     <h2>Members</h2>
   </div>
   <mat-card>
-    <h3 class="member-name" *ngFor="let member of group.members">{{ member }}</h3>
+    <ng-container *ngFor="let member of group.members">
+      <app-user-display [username]="member" class="member-display">
+      </app-user-display>
+    </ng-container>
   </mat-card>
 
   <ng-container *ngIf="group.slogan">

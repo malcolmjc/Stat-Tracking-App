@@ -6,6 +6,6 @@ const globalVar = (global as any);
 
 globalVar.createSpyObject = createSpyObject;
 globalVar.console = {
-  ...globalVar,
+  ...globalVar.console,
   log: jest.fn() // calls to console.log will be ignored in tests
 };

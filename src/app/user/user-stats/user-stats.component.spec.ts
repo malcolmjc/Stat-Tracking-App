@@ -5,6 +5,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatGridListModule } from '@angular/material';
 
 import { ConvertNaNPipe } from 'src/app/pipes/convert-nan.pipe';
+import { MockUserDisplayComponent } from '../user-display/user-display.component.mock';
 import { User } from '../user.model';
 import { UserStatsComponent } from './user-stats.component';
 
@@ -39,6 +40,7 @@ describe('UserChartsComponent', () => {
       ],
       declarations: [
         UserStatsComponent,
+        MockUserDisplayComponent,
         TestComponent,
         ConvertNaNPipe
       ]

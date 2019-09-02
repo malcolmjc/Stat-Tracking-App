@@ -76,6 +76,19 @@ export class UserService {
         );
   }
 
+  public updateProfileImage(image: File, username: string) {
+    const imageData = new FormData();
+    imageData.append('image', image, username);
+    imageData.append('username', username);
+    return this.http.post<{ message: string}>
+      (API_URL + '/profileImage', imageData);
+  }
+
+  public getProfileImageLink(username: string) {
+    return this.http.get<{ path: string }>
+      (API_URL + '/profileImage/' + username);
+  }
+
   private getKey(nameOne: string, nameTwo: string): string {
     let firstAlpha = '';
     let secondAlpha = '';

@@ -1,0 +1,17 @@
+hr {
+  border: 5px solid lightblue;
+}
+
+mat-card {
+  width: 80%;
+  margin: auto;
+}
+
+mat-card-subtitle {
+  text-align: center;
+}
+
+.username-card {
+  text-align: center;
+  background-color: lightblue;
+}

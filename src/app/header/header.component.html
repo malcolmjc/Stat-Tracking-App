@@ -4,15 +4,19 @@
       <span>
         <fa-icon [icon]="['fas', 'dice']" size="lg"></fa-icon>
         Stats
-        <ng-container *ngIf="userIsAuthenticated">
-          : {{ username }}
-        </ng-container>
       </span>
     </a>
   </span>
   <span class="spacer"></span>
   <ul>
     <ng-container *ngIf="userIsAuthenticated">
+      <li>
+        <a mat-button
+          routerLink="/my-profile" routerLinkActive="mat-accent">
+          {{ username }}
+          <fa-icon [icon]="['fas', 'user']" size="lg" alt="User" title="userIsAuthenticated"></fa-icon>
+        </a>
+      </li>
       <li>
         <a mat-button
           routerLink="/my-groups" routerLinkActive="mat-accent">
