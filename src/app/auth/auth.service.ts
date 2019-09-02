@@ -46,7 +46,13 @@ export class AuthService {
     this.http.post(API_URL + '/signup', userData).subscribe(() => {
         this.login(email, password);
       }, (error: HttpErrorResponse) => {
-        if (error.status === 500) {
+        if (error.status === 403) {
+          if (error.error && error.error.emailError) {
+            this.toastr.error('That email is already being used', 'Email Unavailable!');
+          } else if (error.error && error.error.usernameError) {
+            this.toastr.error('That username is already being used', 'Username Unavailable!');
+          }
+        } else if (error.status === 500) {
           this.toastr.error('The server had issues processing your request', 'Server Error');
         }
         this.authStatusListener.next(false);

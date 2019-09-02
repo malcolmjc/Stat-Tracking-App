@@ -38,10 +38,19 @@ router.post('/signup', (req, res, next) => {
         result: result
       });
     }).catch((error) => {
-      console.log(error);
-      res.status(500).json({
-        error: error
-      });
+      if (error.errors && error.errors.email) {
+        res.status(403).json({
+          emailError: true
+        });
+      } else if (error.errors && error.errors.username) {
+        res.status(403).json({
+          usernameError: true
+        });
+      } else {
+        res.status(500).json({
+          error: error
+        });
+      }
     });
   }).catch((error) => {
     res.status(500).json({
