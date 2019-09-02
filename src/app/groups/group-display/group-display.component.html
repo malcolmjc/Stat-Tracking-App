@@ -5,8 +5,8 @@
     <h2>Members</h2>
   </div>
   <mat-card>
-    <ng-container *ngFor="let member of group.members" class="member-display">
-      <app-user-display [username]="member">
+    <ng-container *ngFor="let member of group.members">
+      <app-user-display [username]="member" class="member-display">
       </app-user-display>
     </ng-container>
   </mat-card>

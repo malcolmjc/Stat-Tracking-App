@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material';
 
 import { Group } from '../group.model';
 import { GroupDisplayComponent } from './group-display.component';
+import { MockUserDisplayComponent } from 'src/app/user/user-display/user-display.component.mock';
 
 @Component({
   template: `<app-group-display [group]="group"></app-group-display>`
@@ -38,7 +39,8 @@ describe('GroupDisplayComponent', () => {
       ],
       declarations: [
         GroupDisplayComponent,
-        TestComponent
+        TestComponent,
+        MockUserDisplayComponent
       ]
     })
     .compileComponents();
@@ -66,11 +68,8 @@ describe('GroupDisplayComponent', () => {
     });
 
     test('should display group members correctly', () => {
-      const memberNames = fixture.debugElement.queryAll(By.css('.member-name'));
-      expect(memberNames.length).toEqual(testComponent.group.members.length);
-      memberNames.forEach((memberNameDebugElem, index) => {
-        expect(memberNameDebugElem.nativeElement.textContent).toEqual(testComponent.group.members[index]);
-      });
+      const members = fixture.debugElement.queryAll(By.css('.member-display'));
+      expect(members.length).toEqual(testComponent.group.members.length);
     });
 
     test('should display group slogan correctly', () => {
