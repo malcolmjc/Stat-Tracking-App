@@ -14,6 +14,7 @@ import { GameModule } from './game/game.module';
 import { GroupsModule } from './groups/groups.module';
 import { HeaderModule } from './header/header.module';
 import { MockFontAwesomeModule } from './font-awesome.mock.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { UserModule } from './user/user.module';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { UserModule } from './user/user.module';
     GroupsModule,
     HeaderModule,
     UserModule,
+    NotificationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
     }),

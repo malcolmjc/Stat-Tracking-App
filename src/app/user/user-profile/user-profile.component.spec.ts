@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/auth/auth.service';
 import { MockImageUploaderComponent } from 'src/app/image-uploader/image-uploader.component.mock';
 import { MockLoadingIndicatorComponent } from 'src/app/loading-indicator/loading-indicator.component.mock';
+import { MockNotificationsDisplayComponent } from 'src/app/notifications/notifications-display/notifications-display.component.mock';
 import { UserProfileComponent } from './user-profile.component';
 import { UserService } from '../user.service';
 
@@ -36,7 +37,8 @@ describe('UserProfileComponent', () => {
       declarations: [
         UserProfileComponent,
         MockImageUploaderComponent,
-        MockLoadingIndicatorComponent
+        MockLoadingIndicatorComponent,
+        MockNotificationsDisplayComponent
       ],
       providers: [
         { provide: AuthService, useValue: authService },
