@@ -1,4 +1,4 @@
-<mat-card class="username-card">
+<mat-card class="header-card">
   <h1>{{ username }}</h1>
 </mat-card>
 
@@ -13,3 +13,7 @@
   <app-loading-indicator *ngIf="imageUploading">
   </app-loading-indicator>
 </mat-card>
+
+<!-- TODO, pass in notifications -->
+<app-notifications-display>
+</app-notifications-display>

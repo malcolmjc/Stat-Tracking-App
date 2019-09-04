@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material';
 
 import { ImageUploaderModule } from 'src/app/image-uploader/image-uploader.module';
 import { LoadingIndicatorModule } from 'src/app/loading-indicator/loading-indicator.module';
+import { NotificationsDisplayModule } from 'src/app/notifications/notifications-display/notifications-display.module';
 import { UserProfileComponent } from './user-profile.component';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { UserProfileComponent } from './user-profile.component';
     CommonModule,
     ImageUploaderModule,
     MatCardModule,
-    LoadingIndicatorModule
+    LoadingIndicatorModule,
+    NotificationsDisplayModule
   ]
 })
 export class UserProfileModule { }

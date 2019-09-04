@@ -2,7 +2,7 @@ hr {
   border: 5px solid lightblue;
 }
 
-mat-card {
+::ng-deep mat-card {
   width: 80%;
   margin: auto;
 }
@@ -11,7 +11,7 @@ mat-card-subtitle {
   text-align: center;
 }
 
-.username-card {
+::ng-deep .header-card {
   text-align: center;
   background-color: lightblue;
 }
