@@ -169,6 +169,7 @@ router.get(
       });
     });
   });
+  
 router.get('/usernames/:userId/:groupId',
   checkAuth,
   checkGroup,
@@ -280,6 +281,28 @@ router.get('/find/:search',
           users: users.map((user) => user.username)
         });
       }
+    });
+  });
+
+router.get('/notifications/:userId',
+  checkAuth,
+  (req, res, next) => {
+    if (!req.params.userId) {
+      return res.status(400).json({
+        message: 'Requesting user notifications without user id',
+        user: null
+      });
+    }
+    User.findById(req.params.userId, 'notifications').then((user) => {
+      return res.status(200).json({
+        message: 'retrieved notifications for user',
+        notifications: user.notifications
+      });
+    }).catch((error) => {
+      res.status(500).json({
+        message: 'Something went wrong',
+        error: error
+      });
     });
   });
 

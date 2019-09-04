@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const gameSchema = require('./game').schema;
+const notificationSchema = require('./notification').schema;
 
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -21,7 +22,8 @@ const userSchema = mongoose.Schema({
     gamesWon: { type: Number, default: 0 },
     gamesLost: { type: Number, default: 0 }
   },
-  profileImagePath: { type: String, required: true }
+  profileImagePath: { type: String, required: true },
+  notifications: [notificationSchema]
 });
 
 userSchema.plugin(uniqueValidator);
