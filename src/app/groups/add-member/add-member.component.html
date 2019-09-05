@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      [formControl]="userControl"
+      placeholder="Search for users by username or exact email"
+      [matAutocomplete]="auto">
+    <mat-error
+      *ngIf="userControl.errors">
+        Search must be at least 4 characters
+    </mat-error>
+  </mat-form-field>
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)='selectUser($event.option.value)'>
+    <mat-option
+      *ngFor="let username of usernames"
+      [value]="username">
+      {{ username }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <ng-container *ngIf="selectedUsername">
+    <app-user-display [username]="selectedUsername">
+    </app-user-display>
+  </ng-container>
+</mat-card>

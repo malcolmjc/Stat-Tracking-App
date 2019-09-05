@@ -31,7 +31,7 @@ export class UserService {
   public findUsers(search: string) {
     // returns array of usernames
     return this.http.get<{ message: string, users: string[]}>
-      (API_URL + '/' + search).pipe(
+      (API_URL + '/find/' + search).pipe(
         map((response) => response.users)
       );
   }
