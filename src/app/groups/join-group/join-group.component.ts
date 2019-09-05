@@ -61,7 +61,7 @@ export class JoinGroupComponent implements OnInit {
           })
         ).subscribe((groups: Group[]) => {
           if (!groups || groups.length === 0) {
-            this.toastr.error(`Searched for ${search}`, 'No groups found!');
+            this.toastr.error(`Searched for "${search}"`, 'No groups found!');
           }
           this.groups = groups;
         });
