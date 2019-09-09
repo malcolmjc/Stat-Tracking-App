@@ -21,7 +21,7 @@ export class UserDisplayComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.username) {
+    if (changes.username && this.username) {
       this.getProfilePath();
     }
   }
