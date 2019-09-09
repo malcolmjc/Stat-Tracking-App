@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { MatCardModule } from '@angular/material';
 
+import { GroupJoinRequestModule } from '../group-join-request/group-join-request.module';
 import { NotificationsDisplayComponent } from './notifications-display.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    MatCardModule
+    MatCardModule,
+    GroupJoinRequestModule
   ],
   declarations: [
     NotificationsDisplayComponent
