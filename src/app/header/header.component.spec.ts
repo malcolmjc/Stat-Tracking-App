@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatToolbarModule, MatButtonModule } from '@angular/material';
@@ -8,14 +9,18 @@ import { AuthService } from '../auth/auth.service';
 import { GroupService } from '../groups/group.service';
 import { HeaderComponent } from './header.component';
 import { MockFontAwesomeModule } from '../font-awesome.mock.module';
+import { Notification } from '../notifications/notification.model';
+import { UserService } from '../user/user.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let authService: SpyObject<AuthService>;
   let groupService: SpyObject<GroupService>;
+  let userService: SpyObject<UserService>;
   const groupName$ = new Subject<string>();
   const authStatus$ = new Subject<boolean>();
+  const notifications$ = new Subject<Notification[]>();
   const username = 'username';
   const isAuthenticated = true;
 
@@ -36,6 +41,9 @@ describe('HeaderComponent', () => {
     ]);
     groupService.getCurrentGroupListener.mockReturnValue(groupName$.asObservable());
 
+    userService = createSpyObject(['getNotificationsForUser']);
+    userService.getNotificationsForUser.mockReturnValue(notifications$.asObservable());
+
     TestBed.configureTestingModule({
       imports: [
         FontAwesomeModule,
@@ -46,7 +54,8 @@ describe('HeaderComponent', () => {
       declarations: [ HeaderComponent ],
       providers: [
         { provide: AuthService, useValue: authService },
-        { provide: GroupService, useValue: groupService }
+        { provide: GroupService, useValue: groupService },
+        { provide: UserService, useValue: userService }
       ]
     })
     .compileComponents();
@@ -91,6 +100,30 @@ describe('HeaderComponent', () => {
       groupName = 'another';
       groupName$.next(groupName);
       expect(component.groupName).toEqual(groupName);
+    });
+
+    describe('notifications', () => {
+      test('gets notifications', () => {
+        jest.spyOn(userService, 'getNotificationsForUser');
+        expect(userService.getNotificationsForUser).toHaveBeenCalled();
+      });
+
+      test('adds class if user has notifications', () => {
+        notifications$.next([{
+          id: null,
+          type: 'group-join-request',
+          recipient: 'blah',
+          sender: 'blah2'
+        }]);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('.flicker'))).toBeTruthy();
+      });
+
+      test('doesnt add class if user has no notifications', () => {
+        notifications$.next([]);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('.flicker'))).toBeFalsy();
+      });
     });
   });
 });

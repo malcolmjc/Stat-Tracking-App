@@ -169,7 +169,7 @@ router.get(
       });
     });
   });
-  
+
 router.get('/usernames/:userId/:groupId',
   checkAuth,
   checkGroup,
@@ -261,39 +261,80 @@ router.get('/find/:search',
     if (search.includes('@')) {
       // searching by email, must be exact
       User.findOne({ email: search }, 'username').then((user) => {
-        res.status(200).json({
-          message: 'user found by email',
-          users: [user.username]
+        if (!user || user.length === 0) {
+          res.status(404).json({
+            message: 'no users found by email',
+            users: null
+          });
+        } else {
+          res.status(200).json({
+            message: 'user found by email',
+            users: [user.username]
+          });
+        }
+      }).catch((error) => {
+        console.error(error);
+        res.status(500).json({
+          message: 'something went wrong finding user by email',
+          error: error
+        });
+      });
+    } else {
+      // searching by username
+      User.find({ username: new RegExp(search) }, 'username').then((users) => {
+        if (!users || users.length === 0) {
+          res.status(404).json({
+            message: 'no users found by username',
+            users: null
+          });
+        } else {
+          res.status(200).json({
+            message: 'users found by username',
+            users: users.map((user) => user.username)
+          });
+        }
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'something went wrong finding user by username',
+          error: error
         });
       });
     }
-
-    // searching by username
-    User.find({ username: new RegExp(search) }, 'username').then((users) => {
-      if (!users || users.length === 0) {
-        res.status(404).json({
-          message: 'no users found by username',
-          users: null
-        });
-      } else {
-        res.status(200).json({
-          message: 'users found by username',
-          users: users.map((user) => user.username)
-        });
-      }
-    });
   });
 
-router.get('/notifications/:userId',
+const Notification = require('../model/notification').model;
+
+router.post('/notifications/add',
+  (req, res, next) => {
+    console.log('adding notification');
+    if (!req.body.username || !req.body.notification) {
+      return res.status(400).json({
+        message: 'Incorrect information for add notification request'
+      });
+    }
+    User.updateOne({ username: req.body.username },
+      { $push: { notifications: req.body.notification } }).then(() => {
+        res.status(201).json({
+          message: 'Notification added to user!'
+        });
+      }).catch((error) => {
+        res.status(500).json({
+          error: error
+        });
+      });
+  });
+
+router.get('/notifications/:username',
   checkAuth,
   (req, res, next) => {
-    if (!req.params.userId) {
+    console.log('getting notifications');
+    if (!req.params.username) {
       return res.status(400).json({
         message: 'Requesting user notifications without user id',
         user: null
       });
     }
-    User.findById(req.params.userId, 'notifications').then((user) => {
+    User.findOne({ username: req.params.username }, 'notifications').then((user) => {
       return res.status(200).json({
         message: 'retrieved notifications for user',
         notifications: user.notifications
@@ -304,6 +345,28 @@ router.get('/notifications/:userId',
         error: error
       });
     });
+  });
+
+router.delete('/notifications/:id/:userId',
+  checkAuth,
+  (req, res, next) => {
+    console.log('deleting notification');
+    if (!req.params.id || !req.params.userId) {
+      return res.status(400).json({
+        message: 'Need more information in request'
+      });
+    }
+    User.updateOne({ _id: req.params.userId },
+      { $pull: { notifications: { _id: req.params.id } } }).then((result) => {
+        return res.status(200).json({
+          message: 'succesfully deleted notification'
+        });
+      }).catch((error) => {
+        res.status(500).json({
+          message: 'Something went wrong',
+          error: error
+        });
+      });
   });
 
 module.exports = router;

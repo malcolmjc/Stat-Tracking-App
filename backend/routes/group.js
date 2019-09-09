@@ -79,7 +79,7 @@ router.post(
   });
 
 router.get(
-  '/:userId',
+  '/:userId/:fields',
   checkAuth,
   (req, res, next) => {
     console.log('getting groups for user');
@@ -93,7 +93,7 @@ router.get(
         });
       } else {
         user.groups.forEach((groupId) => {
-          Group.findById(groupId).then((group) => {
+          Group.findById(groupId, req.params.fields.split('-').join(' ')).then((group) => {
             groups.push(group);
             if (groups.length === user.groups.length) {
               res.status(200).json({
@@ -113,18 +113,17 @@ router.get(
   });
 
 router.get(
-  '/byId/:groupId',
+  '/byId/:groupId/:fields',
   checkAuth,
   (req, res, next) => {
-    console.log('getting group by id');
-    Group.findById(req.params.groupId).then((group) => {
+    Group.findById(req.params.groupId, req.params.fields.split('-').join(' ')).then((group) => {
       res.status(200).json({
         message: 'group found by id',
         group: group
       });
     }).catch((error) => {
       res.status(500).json({
-        message: 'Something went srong finding group',
+        message: 'Something went wrong finding group',
         error: error
       });
     });
@@ -165,7 +164,11 @@ router.put(
     Group.findById(req.body.groupId,
       'password members memberStats').then((group) => {
       foundGroup = group;
-      return bcrypt.compare(req.body.password, group.password);
+      if (req.body.password) {
+        return bcrypt.compare(req.body.password, group.password);
+      } else {
+        return Promise.resolve(req.body.encryptedPassword === group.password);
+      }
     }).then((result) => {
       if (!result) {
         return res.status(401).json({
@@ -190,42 +193,21 @@ router.put(
             });
           });
         }).catch((error) => {
+          console.log('here');
           res.status(500).json({
             message: 'Something went wrong saving user',
             error: error
           });
         });
       }).catch((error) => {
+        console.log('here2');
         res.status(500).json({
           message: 'Something went wrong finding user',
           error: error
         });
       });
     }).catch((error) => {
-      res.status(500).json({
-        message: 'Something went wrong finding group',
-        error: error
-      });
-    });
-  });
-
-router.get(
-  '/name/:groupId',
-  checkAuth,
-  (req, res, next) => {
-    const groupId = req.params.groupId;
-    if (!groupId) {
-      return res.status(400).json({
-        message: 'no groupId provided',
-        name: null
-      });
-    }
-    Group.findById(groupId, 'name').then((group) => {
-      res.status(200).json({
-        message: 'Group name found',
-        name: group.name
-      });
-    }).catch((error) => {
+      console.log('here3');
       res.status(500).json({
         message: 'Something went wrong finding group',
         error: error

@@ -1,5 +1,5 @@
 export interface Notification {
-  type: string;
+  type: 'group-join-request';
   message?: string;
   recipient: string; // username
   sender: string; // username

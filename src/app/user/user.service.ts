@@ -5,10 +5,11 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthService } from '../auth/auth.service';
-import { TeamStats } from './team.stats.model';
-import { User } from './user.model';
 import { environment } from 'src/environments/environment';
 import { GroupService } from '../groups/group.service';
+import { Notification } from '../notifications/notification.model';
+import { TeamStats } from './team.stats.model';
+import { User } from './user.model';
 
 const API_URL = environment.apiUrl + 'user';
 
@@ -31,7 +32,7 @@ export class UserService {
   public findUsers(search: string) {
     // returns array of usernames
     return this.http.get<{ message: string, users: string[]}>
-      (API_URL + '/' + search).pipe(
+      (API_URL + '/find/' + search).pipe(
         map((response) => response.users)
       );
   }
@@ -87,6 +88,32 @@ export class UserService {
   public getProfileImageLink(username: string) {
     return this.http.get<{ path: string }>
       (API_URL + '/profileImage/' + username);
+  }
+
+  public addNotificationToUser(username: string, notification: Notification) {
+    return this.http.post<{ message: string }>
+      (API_URL + '/notifications/add/', {
+        username: username,
+        notification: notification
+      });
+  }
+
+  public getNotificationsForUser(username: string) {
+    return this.http.get<{ message: string, notifications: any[] }>
+      (API_URL + '/notifications/' + username).pipe(
+        map((response) => {
+          return response.notifications.map((notification) => {
+            return {
+              ...notification,
+              id: notification._id
+            };
+          });
+        })
+      );
+  }
+
+  public deleteNotification(id: string, userId: string) {
+    return this.http.delete(API_URL + '/notifications/' + id + '/' + userId);
   }
 
   private getKey(nameOne: string, nameTwo: string): string {

@@ -4,5 +4,12 @@
 <mat-card>
   <ng-container *ngFor="let notification of notifications">
     <!-- Notification Type Subcomponent Display Goes Here -->
+    <div class="notification-display">
+      <app-group-join-request
+        *ngIf="notification.type === 'group-join-request'"
+        [notification]="notification"
+        (wasDeleted)="removeNotification($event)">
+      </app-group-join-request>
+    </div>
   </ng-container>
 </mat-card>

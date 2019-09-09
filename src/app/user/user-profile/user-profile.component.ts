@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from 'src/app/auth/auth.service';
+import { Notification } from '../../notifications/notification.model';
 import { UserService } from '../user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-profile',
@@ -14,6 +16,7 @@ export class UserProfileComponent implements OnInit {
   public username = '';
   public profileImagePath;
   public imageUploading = false;
+  public notifications: Notification[] = [];
 
   constructor(private authService: AuthService,
               private userService: UserService,
@@ -22,6 +25,13 @@ export class UserProfileComponent implements OnInit {
   public ngOnInit() {
     this.username = this.authService.getUserName();
     this.getProfileImage();
+    this.userService.getNotificationsForUser(this.username)
+      .subscribe((notifications: Notification[]) => {
+        console.log(notifications);
+        this.notifications = notifications;
+      }, (error: HttpErrorResponse) => {
+        this.toastr.error('Could not retrieve your notifications', 'Notification Retrieval Failure');
+      });
   }
 
   public imageSelected(image: File) {

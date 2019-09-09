@@ -26,7 +26,7 @@ export class GroupComponent implements OnInit {
       if (!params.id) {
         this.router.navigate(['/my-groups']);
       } else {
-        this.groupService.getGroupById(params.id).subscribe((group) => {
+        this.groupService.getGroupById(params.id, ['name', 'members', 'slogan', 'description']).subscribe((group) => {
           if (!group) {
             this.toastr.error('', 'Could not find specified group');
             this.router.navigate(['/my-groups']);
@@ -37,8 +37,9 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  public addMemberClicked() {
-    // TODO
+  public addMemberClicked(id: string) {
+    this.groupService.setCurrentGroup(id);
+    this.router.navigate(['add-member'], { queryParams: { groupId: id } });
   }
 
   public viewLeaderboardClicked(id: string) {

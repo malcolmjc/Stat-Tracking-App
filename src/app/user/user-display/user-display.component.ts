@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { UserService } from '../user.service';
 
@@ -7,7 +7,7 @@ import { UserService } from '../user.service';
   templateUrl: './user-display.component.html',
   styleUrls: ['./user-display.component.css']
 })
-export class UserDisplayComponent implements OnInit {
+export class UserDisplayComponent implements OnInit, OnChanges {
   @Input() public username: string;
   @Input() public size: 'medium' | 'large' = 'medium';
   public profilePath: string;
@@ -16,9 +16,19 @@ export class UserDisplayComponent implements OnInit {
 
   public ngOnInit() {
     if (this.username) {
-      this.userService.getProfileImageLink(this.username).subscribe((result) => {
-        this.profilePath = result.path;
-      });
+      this.getProfilePath();
     }
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes.username && this.username) {
+      this.getProfilePath();
+    }
+  }
+
+  private getProfilePath() {
+    this.userService.getProfileImageLink(this.username).subscribe((result) => {
+      this.profilePath = result.path;
+    });
   }
 }

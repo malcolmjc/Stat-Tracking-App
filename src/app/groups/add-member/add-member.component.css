@@ -1,0 +1,14 @@
+mat-form-field, mat-auto-complete {
+  width: 50%;
+}
+
+mat-card {
+  width: 80%;
+  min-height: 50vh;
+  margin: auto;
+}
+
+button {
+  display: block;
+  margin-top: 1rem;
+}

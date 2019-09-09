@@ -1,0 +1,37 @@
+<!-- TODO - Refactor AddMember and JoinGroup into generic search & autocomplete component -->
+<mat-card>
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      [formControl]="userControl"
+      placeholder="Search for users by username or exact email"
+      [matAutocomplete]="auto">
+    <mat-error *ngIf="userControl.errors">
+      <div *ngIf="userControl.errors.minlength">Search must be at least 4 characters</div>
+      <div *ngIf="userControl.errors.email">Email must be valid</div>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)='selectUser($event.option.value)'>
+    <mat-option
+      *ngFor="let username of usernames"
+      [value]="username">
+      {{ username }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <ng-container *ngIf="selectedUsername">
+    <app-user-display [username]="selectedUsername">
+    </app-user-display>
+    <button color="accent" mat-raised-button
+      (click)="addMemberClicked()">
+      <span *ngIf="!sendingNotification">
+        Add Member to group '{{ group.name }}'
+      </span>
+      <mat-spinner *ngIf="sendingNotification"></mat-spinner>
+    </button>
+  </ng-container>
+</mat-card>

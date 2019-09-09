@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AddMemberComponent } from './groups/add-member/add-member.component';
 import { AppRootComponent } from './app-root.component';
 import { AuthGuard } from './auth/auth.guard';
 import { CreateGroupComponent } from './groups/create-group/create-group.component';
@@ -53,6 +54,10 @@ const routes: Routes = [
       {
         path: 'join-group',
         component: JoinGroupComponent
+      },
+      {
+        path: 'add-member',
+        component: AddMemberComponent
       },
       {
         path: 'my-profile',
