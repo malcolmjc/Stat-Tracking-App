@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule } from '@angular/material';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AddMemberComponent } from './add-member.component';
 import { UserDisplayModule } from 'src/app/user/user-display/user-display.module';
@@ -17,6 +17,7 @@ import { UserDisplayModule } from 'src/app/user/user-display/user-display.module
     MatButtonModule,
     MatCardModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatAutocompleteModule,
     ReactiveFormsModule
   ],
