@@ -32,7 +32,7 @@ export class GroupListComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     });
     this.selectedGroupId = this.groupService.getCurrentGroup();
-    this.groupService.getGroups();
+    this.groupService.getGroups(['name']);
   }
 
   public ngOnDestroy() {

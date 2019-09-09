@@ -23,9 +23,9 @@ export class GroupService {
               private authService: AuthService,
               private toastr: ToastrService) { }
 
-  public getGroups() {
-    this.http.get<{ message: string, groups}>(API_URL + '/' + this.authService.getUserId())
-      .subscribe((response) => {
+  public getGroups(fields: string[]) {
+    this.http.get<{ message: string, groups}>
+      (API_URL + '/' + this.authService.getUserId() + '/' + fields.join('-')).subscribe((response) => {
         this.groups = response.groups.map((group) => {
           return {
             ...group,
@@ -55,9 +55,9 @@ export class GroupService {
   public getCurrentGroupName() {
     this.checkLocalStorage();
     if (this.currentGroup) {
-      this.http.get<{ message: string, name: string }>(API_URL + '/name/' + this.currentGroup)
-        .subscribe((response) => {
-          this.groupNameListener.next(response.name);
+      this.getGroupById(this.currentGroup, ['name'])
+        .subscribe((group: Group) => {
+          this.groupNameListener.next(group.name);
         });
     }
   }
@@ -73,19 +73,14 @@ export class GroupService {
       (API_URL + '/find/' + search);
   }
 
-  public getGroupById(id: string): Observable<Group> {
-    const foundGroup = this.groups.find((group) => group.id === id);
-    if (!foundGroup) {
-      return this.http.get<{message: string, group}>(API_URL + '/byId/' + id).pipe(
-        map((response) => {
-          return {
-            ...response.group,
-            id: response.group._id
-          };
-        }));
-    } else {
-      return of(foundGroup);
-    }
+  public getGroupById(id: string, fields: string[]): Observable<Group> {
+    return this.http.get<{message: string, group}>(API_URL + '/byId/' + id + '/' + fields.join('-')).pipe(
+      map((response) => {
+        return {
+          ...response.group,
+          id: response.group._id
+        };
+      }));
   }
 
   public getGroupCreatedListener() {
@@ -96,12 +91,18 @@ export class GroupService {
     return this.groupsUpdated.asObservable();
   }
 
-  public joinGroup(password: string, groupId: string) {
-    return this.http.put<{message: string}>(API_URL + '/join/', {
+  public joinGroup(password: string, encrypted: boolean, groupId: string) {
+    const postData: any = {
       userId: this.authService.getUserId(),
-      groupId: groupId,
-      password: password
-    });
+      groupId: groupId
+    };
+    if (!encrypted) {
+      postData.password = password;
+    } else {
+      postData.encryptedPassword = password;
+    }
+
+    return this.http.put<{message: string}>(API_URL + '/join/', postData);
   }
 
   public createGroup(name: string, password: string, slogan: string, description: string) {
