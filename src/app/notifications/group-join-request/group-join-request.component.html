@@ -1,0 +1,18 @@
+<mat-card>
+  <div class="notification">
+    <div>
+      '{{ notification.sender }}' has invited you to join group "{{ notification.details.groupName }}"
+    </div>
+
+    <div class="right">
+      <button mat-raised-button color="primary"
+      (click)="acceptClicked()">
+        ACCEPT
+      </button>
+      <button mat-raised-button color="warn"
+        (click)="declineClicked()">
+        DECLINE
+      </button>
+    </div>
+  </div>
+</mat-card>
