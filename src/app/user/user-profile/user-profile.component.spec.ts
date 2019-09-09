@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { MockImageUploaderComponent } from 'src/app/image-uploader/image-uploader.component.mock';
 import { MockLoadingIndicatorComponent } from 'src/app/loading-indicator/loading-indicator.component.mock';
 import { MockNotificationsDisplayComponent } from 'src/app/notifications/notifications-display/notifications-display.component.mock';
+import { Notification } from '../../notifications/notification.model';
 import { UserProfileComponent } from './user-profile.component';
 import { UserService } from '../user.service';
 
@@ -21,13 +22,19 @@ describe('UserProfileComponent', () => {
   let toastr: SpyObject<ToastrService>;
   const profileImageLink$ = new Subject<any>();
   const updatedProfile$ = new Subject<string>();
+  const notifications$ = new Subject<Notification[]>();
 
   beforeEach(async(() => {
     authService = createSpyObject(['getUserName']);
-    userService = createSpyObject(['getProfileImageLink', 'updateProfileImage']);
+    userService = createSpyObject([
+      'getProfileImageLink',
+      'updateProfileImage',
+      'getNotificationsForUser'
+    ]);
     toastr = createSpyObject(['error', 'success']);
     userService.getProfileImageLink.mockReturnValue(profileImageLink$.asObservable());
     userService.updateProfileImage.mockReturnValue(updatedProfile$.asObservable());
+    userService.getNotificationsForUser.mockReturnValue(notifications$.asObservable());
 
     TestBed.configureTestingModule({
       imports: [
@@ -76,6 +83,11 @@ describe('UserProfileComponent', () => {
     test('sets path to assets/question.png if no image link', () => {
       profileImageLink$.next({});
       expect(component.profileImagePath).toEqual('assets/question.png');
+    });
+
+    test('gets notifications', () => {
+      jest.spyOn(userService, 'getNotificationsForUser');
+      expect(userService.getNotificationsForUser).toHaveBeenCalledWith(component.username);
     });
   });
 
