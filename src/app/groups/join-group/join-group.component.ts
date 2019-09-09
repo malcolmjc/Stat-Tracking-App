@@ -33,7 +33,7 @@ export class JoinGroupComponent implements OnInit {
   public ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       if (params.id) {
-        this.groupService.getGroupById(params.id).subscribe((group) => {
+        this.groupService.getGroupById(params.id, ['name', 'members', 'slogan', 'description']).subscribe((group) => {
           this.selectedGroup = group;
           this.groupControl.setValue(group.name);
         });
@@ -74,7 +74,7 @@ export class JoinGroupComponent implements OnInit {
     }
     const groupName = this.selectedGroup.name;
     this.isLoading = true;
-    this.groupService.joinGroup(this.form.value.password, this.selectedGroup.id).pipe(
+    this.groupService.joinGroup(this.form.value.password, false, this.selectedGroup.id).pipe(
       catchError((err) => {
         if (err.status === 409) {
           this.toastr.error(`You've already joined this group`, 'Already Joined');
