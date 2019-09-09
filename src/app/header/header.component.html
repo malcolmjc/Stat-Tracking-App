@@ -10,7 +10,8 @@
   <span class="spacer"></span>
   <ul>
     <ng-container *ngIf="userIsAuthenticated">
-      <li>
+      <li id="profile-link"
+        (click)="profileClicked()">
         <a mat-button
           routerLink="/my-profile" routerLinkActive="mat-accent">
           {{ username }}
