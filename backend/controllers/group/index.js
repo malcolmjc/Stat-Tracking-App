@@ -172,21 +172,18 @@ const joinGroup = (req, res, next) => {
           });
         });
       }).catch((error) => {
-        console.log('here');
         res.status(500).json({
           message: 'Something went wrong saving user',
           error: error
         });
       });
     }).catch((error) => {
-      console.log('here2');
       res.status(500).json({
         message: 'Something went wrong finding user',
         error: error
       });
     });
   }).catch((error) => {
-    console.log('here3');
     res.status(500).json({
       message: 'Something went wrong finding group',
       error: error
