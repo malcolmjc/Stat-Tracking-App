@@ -5,7 +5,7 @@ import { UserService } from '../user.service';
 @Component({
   selector: 'app-user-display',
   templateUrl: './user-display.component.html',
-  styleUrls: ['./user-display.component.css']
+  styleUrls: ['./user-display.component.scss']
 })
 export class UserDisplayComponent implements OnInit, OnChanges {
   @Input() public username: string;

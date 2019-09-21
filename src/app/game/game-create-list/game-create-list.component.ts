@@ -17,7 +17,7 @@ interface PlayerRating {
 @Component({
   selector: 'app-game-create-list',
   templateUrl: './game-create-list.component.html',
-  styleUrls: ['./game-create-list.component.css']
+  styleUrls: ['./game-create-list.component.scss']
 })
 export class GameCreateListComponent implements OnInit, AfterViewInit {
   @ViewChild('finishButtons') public finishButtonsElement: DebugElement;

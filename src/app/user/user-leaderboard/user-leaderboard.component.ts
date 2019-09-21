@@ -10,7 +10,7 @@ import { UserService } from '../user.service';
 @Component({
   selector: 'app-user-leaderboard',
   templateUrl: './user-leaderboard.component.html',
-  styleUrls: ['./user-leaderboard.component.css']
+  styleUrls: ['./user-leaderboard.component.scss']
 })
 export class UserLeaderboardComponent implements OnInit {
   public ascending = false;

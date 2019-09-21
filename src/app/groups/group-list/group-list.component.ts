@@ -11,7 +11,7 @@ import { GroupService } from '../group.service';
 @Component({
   selector: 'app-group-list',
   templateUrl: './group-list.component.html',
-  styleUrls: ['./group-list.component.css']
+  styleUrls: ['./group-list.component.scss']
 })
 export class GroupListComponent implements OnInit, OnDestroy {
   @ViewChildren('radioBtn') public radioButtons: QueryList<MatRadioButton>;

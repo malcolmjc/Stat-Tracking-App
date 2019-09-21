@@ -5,7 +5,7 @@ import { GroupService } from 'src/app/groups/group.service';
 @Component({
   selector: 'app-no-games',
   templateUrl: './no-games.component.html',
-  styleUrls: ['./no-games.component.css']
+  styleUrls: ['./no-games.component.scss']
 })
 export class NoGamesComponent implements OnInit {
   public message = 'You have no games yet!';

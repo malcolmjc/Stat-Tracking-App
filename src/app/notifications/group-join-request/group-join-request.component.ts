@@ -10,7 +10,7 @@ import { UserService } from 'src/app/user/user.service';
 @Component({
   selector: 'app-group-join-request',
   templateUrl: './group-join-request.component.html',
-  styleUrls: ['./group-join-request.component.css']
+  styleUrls: ['./group-join-request.component.scss']
 })
 export class GroupJoinRequestComponent {
   @Input() public notification: Notification;

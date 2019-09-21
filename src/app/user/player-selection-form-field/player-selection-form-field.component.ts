@@ -4,7 +4,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 @Component({
   selector: 'app-player-selection-form-field',
   templateUrl: './player-selection-form-field.component.html',
-  styleUrls: ['./player-selection-form-field.component.css']
+  styleUrls: ['./player-selection-form-field.component.scss']
 })
 export class PlayerSelectionFormFieldComponent implements OnInit, OnChanges {
   @Input() public playerNames: string[] = [];

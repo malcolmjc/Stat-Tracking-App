@@ -10,7 +10,7 @@ import { GroupService } from '../group.service';
 @Component({
   selector: 'app-create-group',
   templateUrl: './create-group.component.html',
-  styleUrls: ['./create-group.component.css']
+  styleUrls: ['./create-group.component.scss']
 })
 export class CreateGroupComponent implements OnInit, OnDestroy {
   @ViewChild(NgForm) public form;

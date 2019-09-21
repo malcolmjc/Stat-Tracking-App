@@ -6,7 +6,7 @@ import { mimeType } from './mime-type.validator';
 @Component({
   selector: 'app-image-uploader',
   templateUrl: './image-uploader.component.html',
-  styleUrls: ['./image-uploader.component.css']
+  styleUrls: ['./image-uploader.component.scss']
 })
 export class ImageUploaderComponent implements OnInit {
   @Input() public defaultImagePath = 'assets/question.png';

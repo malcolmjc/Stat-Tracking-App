@@ -10,7 +10,7 @@ import { GroupService } from '../group.service';
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.css']
+  styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
   public group: Group;
