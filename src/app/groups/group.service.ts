@@ -25,7 +25,7 @@ export class GroupService {
 
   public getGroups(fields: string[]) {
     this.http.get<{ message: string, groups}>
-      (API_URL + '/' + this.authService.getUserId() + '/' + fields.join('-')).subscribe((response) => {
+      (API_URL + '/userGroups/' + this.authService.getUserId() + '/' + fields.join('-')).subscribe((response) => {
         this.groups = response.groups.map((group) => {
           return {
             ...group,

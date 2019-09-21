@@ -79,7 +79,7 @@ router.post(
   });
 
 router.get(
-  '/:userId/:fields',
+  '/userGroups/:userId/:fields',
   checkAuth,
   (req, res, next) => {
     console.log('getting groups for user');
