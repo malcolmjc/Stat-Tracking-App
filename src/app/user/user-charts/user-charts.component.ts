@@ -17,7 +17,7 @@ noData(Highcharts);
 @Component({
   selector: 'app-user-charts',
   templateUrl: './user-charts.component.html',
-  styleUrls: ['./user-charts.component.css']
+  styleUrls: ['./user-charts.component.scss']
 })
 export class UserChartsComponent implements OnChanges {
   @ViewChild('chart') public chart;

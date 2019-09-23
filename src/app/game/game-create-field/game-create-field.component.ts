@@ -5,7 +5,7 @@ import { StatType } from '../stat-types-enum';
 @Component({
   selector: 'app-game-create-field',
   templateUrl: './game-create-field.component.html',
-  styleUrls: ['./game-create-field.component.css']
+  styleUrls: ['./game-create-field.component.scss']
 })
 export class GameCreateFieldComponent {
   @Input() public statType: StatType;

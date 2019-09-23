@@ -27,7 +27,7 @@ router.get(
 router.get('/usernames/:userId/:groupId',
   checkAuth,
   checkGroup,
-  userController.findUsers
+  userController.getMembers
 );
 
 router.get('/allTimeStats/:userId/:groupId',

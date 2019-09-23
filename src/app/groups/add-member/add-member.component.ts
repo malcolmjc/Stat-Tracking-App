@@ -15,7 +15,7 @@ import { UserService } from 'src/app/user/user.service';
 @Component({
   selector: 'app-add-member',
   templateUrl: './add-member.component.html',
-  styleUrls: ['./add-member.component.css']
+  styleUrls: ['./add-member.component.scss']
 })
 export class AddMemberComponent implements OnInit {
   @Input() public group: Group;

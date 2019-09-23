@@ -5,7 +5,7 @@ import { Group } from '../group.model';
 @Component({
   selector: 'app-group-display',
   templateUrl: './group-display.component.html',
-  styleUrls: ['./group-display.component.css']
+  styleUrls: ['./group-display.component.scss']
 })
 export class GroupDisplayComponent {
   @Input() public group: Group;

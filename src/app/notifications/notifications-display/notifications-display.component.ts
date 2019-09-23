@@ -5,7 +5,7 @@ import { Notification } from '../notification.model';
 @Component({
   selector: 'app-notifications-display',
   templateUrl: './notifications-display.component.html',
-  styleUrls: ['./notifications-display.component.css']
+  styleUrls: ['./notifications-display.component.scss']
 })
 export class NotificationsDisplayComponent {
   @Input() public notifications: Notification[] = [];

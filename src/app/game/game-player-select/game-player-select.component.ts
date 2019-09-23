@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-game-player-select',
   templateUrl: './game-player-select.component.html',
-  styleUrls: ['./game-player-select.component.css']
+  styleUrls: ['./game-player-select.component.scss']
 })
 export class GamePlayerSelectComponent implements OnInit {
   @ViewChildren(PlayerSelectionFormFieldComponent) public playerSelectionFormFields!:

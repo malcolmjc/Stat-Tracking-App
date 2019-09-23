@@ -7,7 +7,7 @@ import { StatType } from '../stat-types-enum';
 @Component({
   selector: 'app-game-create',
   templateUrl: './game-create.component.html',
-  styleUrls: ['./game-create.component.css']
+  styleUrls: ['./game-create.component.scss']
 })
 export class GameCreateComponent {
   @Input()

@@ -13,7 +13,7 @@ import { GroupService } from '../group.service';
 @Component({
   selector: 'app-join-group',
   templateUrl: './join-group.component.html',
-  styleUrls: ['./join-group.component.css']
+  styleUrls: ['./join-group.component.scss']
 })
 export class JoinGroupComponent implements OnInit {
   @ViewChild(NgForm) public form;
