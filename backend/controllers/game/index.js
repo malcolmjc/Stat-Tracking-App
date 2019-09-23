@@ -97,7 +97,7 @@ const addToGroup = (req, res, next) => {
   });
 };
 
-const getGame = (req, res, next) => {
+const getGames = (req, res, next) => {
   if (!req.body.groupId) { // get all games for user
     console.log('getting games for user');
     User.findById(req.body.userId, 'games groups username').then((user) => {
@@ -154,5 +154,5 @@ const getGame = (req, res, next) => {
 module.exports = {
   addToUser: addToUser,
   addToGroup: addToGroup,
-  getGame: getGame
+  getGames: getGames
 };

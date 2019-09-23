@@ -39,7 +39,7 @@ router.get(
 router.put(
   '/join',
   checkAuth,
-  groupController.findGroup
+  groupController.joinGroup
 );
 
 module.exports = router;

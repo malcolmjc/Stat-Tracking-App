@@ -25,7 +25,7 @@ router.post(
 router.post(
   '/get',
   checkAuth,
-  gameController.getGame
+  gameController.getGames
 );
 
 module.exports = router;
