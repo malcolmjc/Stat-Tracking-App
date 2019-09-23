@@ -31,6 +31,7 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
   public mvp: PlayerRating;
   public lvp: PlayerRating;
   public singlePlayerOnly = false;
+  public isMobile = false;
 
   private playerRatings: PlayerRating[] = [];
   private mapNameToGameStats: Map<string, GameStats> = new Map();
@@ -64,11 +65,13 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
           this.router.navigate(['select-players']);
         }
       });
+
+    this.isMobile = window.screen.width < 768;
   }
 
   public ngAfterViewInit() {
     // sets the buttons to fit appropriately based on number of players - coupled to flex% in css file
-    if (window.screen.width >= 768) {
+    if (!this.isMobile) {
       this.renderer.setStyle(
         this.finishButtonsElement.nativeElement,
         'width',
