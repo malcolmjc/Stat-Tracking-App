@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatListModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from '../app-routing.module';
@@ -15,7 +15,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CommonModule,
     MatToolbarModule,
     MatButtonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatSidenavModule,
+    MatListModule
   ],
   exports: [
     HeaderComponent,

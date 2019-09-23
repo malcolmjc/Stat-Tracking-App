@@ -1,3 +1,5 @@
+@import '../../../styles.scss';
+
 .row {
   display: flex;
   justify-content: space-around;
@@ -16,6 +18,16 @@
   text-align: center;
   padding-bottom: 1rem;
   border-radius: 10px;
+}
+
+@media (max-width: $mobile-width) {
+  .row {
+    display: block;
+  }
+
+  .column {
+    width: 90%;
+  }
 }
 
 .center, .score {

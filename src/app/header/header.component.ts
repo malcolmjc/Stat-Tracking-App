@@ -15,6 +15,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
   public userIsAuthenticated = false;
   public username = '';
   public groupName = '';
+  public isMobile = false;
 
   private authListenerSub: Subscription;
   private groupNameListenerSub: Subscription;
@@ -44,6 +45,8 @@ export class HeaderComponent implements OnDestroy, OnInit {
           document.getElementById('profile-link').classList.add('flicker');
         }
     });
+
+    this.isMobile = window.screen.width < 768;
   }
 
   public onLogout() {

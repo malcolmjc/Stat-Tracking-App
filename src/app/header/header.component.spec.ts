@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MatToolbarModule, MatButtonModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatListModule } from '@angular/material';
 import { Subject } from 'rxjs';
 
 import { AuthService } from '../auth/auth.service';
@@ -11,6 +11,7 @@ import { HeaderComponent } from './header.component';
 import { MockFontAwesomeModule } from '../font-awesome.mock.module';
 import { Notification } from '../notifications/notification.model';
 import { UserService } from '../user/user.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -47,9 +48,12 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FontAwesomeModule,
+        BrowserAnimationsModule,
         MockFontAwesomeModule,
         MatButtonModule,
         MatToolbarModule,
+        MatSidenavModule,
+        MatListModule
       ],
       declarations: [ HeaderComponent ],
       providers: [
@@ -109,6 +113,8 @@ describe('HeaderComponent', () => {
       });
 
       test('adds class if user has notifications', () => {
+        component.isMobile = false;
+        fixture.detectChanges();
         notifications$.next([{
           id: null,
           type: 'group-join-request',
@@ -120,6 +126,8 @@ describe('HeaderComponent', () => {
       });
 
       test('doesnt add class if user has no notifications', () => {
+        component.isMobile = false;
+        fixture.detectChanges();
         notifications$.next([]);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('.flicker'))).toBeFalsy();

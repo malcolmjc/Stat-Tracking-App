@@ -111,46 +111,31 @@ describe('GameCreateListComponent', () => {
   });
 
   describe('ngAfterViewInit behavior', () => {
+    beforeEach(() => {
+      component.isMobile = false;
+    });
+
     test('works with 4 players', () => {
+      component.playerNames = [null, null, null, null];
+      component.ngAfterViewInit();
       expect(component.finishButtonsElement.nativeElement.style.width).toEqual('99%');
     });
 
     test('works with 3 players', () => {
-      TestBed.resetTestingModule();
-      const newRoute = {
-        queryParams: of({
-          player: ['player1', 'player2', 'player3']
-        }) as Observable<Params>
-      } as ActivatedRoute;
-      configureTestingModule(newRoute);
-      getComponents();
-
+      component.playerNames = [null, null, null];
+      component.ngAfterViewInit();
       expect(component.finishButtonsElement.nativeElement.style.width).toEqual('90.66666666666667%');
     });
 
     test('works with 2 players', () => {
-      TestBed.resetTestingModule();
-      const newRoute = {
-        queryParams: of({
-          player: ['player1', 'player2']
-        }) as Observable<Params>
-      } as ActivatedRoute;
-      configureTestingModule(newRoute);
-      getComponents();
-
+      component.playerNames = [null, null];
+      component.ngAfterViewInit();
       expect(component.finishButtonsElement.nativeElement.style.width).toEqual('74%');
     });
 
     test('works with 1 players', () => {
-      TestBed.resetTestingModule();
-      const newRoute = {
-        queryParams: of({
-          player: 'player1'
-        }) as Observable<Params>
-      } as ActivatedRoute;
-      configureTestingModule(newRoute);
-      getComponents();
-
+      component.playerNames = [null];
+      component.ngAfterViewInit();
       expect(component.finishButtonsElement.nativeElement.style.width).toEqual('24%');
     });
   });
@@ -179,3 +164,4 @@ describe('GameCreateListComponent', () => {
     // TODO - find a way to test this despite needing ViewChildren
   });
 });
+

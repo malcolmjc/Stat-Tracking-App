@@ -9,15 +9,11 @@ ul {
 li {
   padding-top: 1rem;
   width: 100%;
-}
-
-mat-radio-button {
-  display: inline;
+  display: flex;
 }
 
 mat-card {
-  width: 90%;
-  display: inline-block;
   cursor: pointer;
+  width: 100%;
   background-color: lightblue;
 }
