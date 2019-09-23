@@ -68,10 +68,12 @@ export class GameCreateListComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {
     // sets the buttons to fit appropriately based on number of players - coupled to flex% in css file
-    this.renderer.setStyle(
-      this.finishButtonsElement.nativeElement,
-      'width',
-      '' + ((this.playerNames.length * 24) + ((100 / this.playerNames.length - 24) * (this.playerNames.length - 1))) + '%');
+    if (window.screen.width >= 768) {
+      this.renderer.setStyle(
+        this.finishButtonsElement.nativeElement,
+        'width',
+        '' + ((this.playerNames.length * 24) + ((100 / this.playerNames.length - 24) * (this.playerNames.length - 1))) + '%');
+    }
   }
 
   public onDoneClicked() {
