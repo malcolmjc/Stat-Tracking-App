@@ -4,38 +4,55 @@
     size="large">
   </app-user-display>
 
-  <mat-grid-list cols="2" rowHeight="4:1">
+  <mat-grid-list cols="2" rowHeight="6rem">
     <mat-grid-tile>
       <mat-grid-tile-header>Wins</mat-grid-tile-header>
-      {{  user.stats.gamesWon | convertNaN }}
+
+      <div class="result-number">
+        {{  user.stats.gamesWon | convertNaN }}
+      </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-grid-tile-header>Losses</mat-grid-tile-header>
-      {{ user.stats.gamesLost | convertNaN}}
+      <div class="result-number">
+        {{ user.stats.gamesLost | convertNaN }}
+      </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-grid-tile-header>W/L</mat-grid-tile-header>
-      {{ (((user.stats.gamesWon) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      <div class="result-number">
+        {{ (((user.stats.gamesWon) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-grid-tile-header>Points per Game</mat-grid-tile-header>
-      {{ (((user.stats.points) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      <div class="result-number">
+        {{ (((user.stats.points) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-grid-tile-header>Catches per Game</mat-grid-tile-header>
-      {{ (((user.stats.catches) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      <div class="result-number">
+        {{ (((user.stats.catches) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-grid-tile-header>Drops per Game</mat-grid-tile-header>
-      {{ (((user.stats.drops) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      <div class="result-number">
+        {{ (((user.stats.drops) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-grid-tile-header>Fifas per Game</mat-grid-tile-header>
-      {{ (((user.stats.fifas) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      <div class="result-number">
+        {{ (((user.stats.fifas) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-grid-tile-header>Sinkers per Game</mat-grid-tile-header>
-      {{ (((user.stats.sinkers) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      <div class="result-number">
+        {{ (((user.stats.sinkers) / (user.stats.gamesWon + user.stats.gamesLost)) | convertNaN).toFixed(2) }}
+      </div>
     </mat-grid-tile>
   </mat-grid-list>
 </div>
