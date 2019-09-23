@@ -10,38 +10,48 @@
   <span class="spacer"></span>
   <ul>
     <ng-container *ngIf="userIsAuthenticated">
-      <li id="profile-link"
-        (click)="profileClicked()">
-        <a mat-button
-          routerLink="/my-profile" routerLinkActive="mat-accent">
-          {{ username }}
-          <fa-icon [icon]="['fas', 'user']" size="lg" alt="User" title="userIsAuthenticated"></fa-icon>
-        </a>
-      </li>
-      <li>
-        <a mat-button
-          routerLink="/my-groups" routerLinkActive="mat-accent">
-          {{ groupName }}
-          <fa-icon [icon]="['fas', 'users']" size="lg" alt="Groups" title="Groups"></fa-icon>
-        </a>
-      </li>
-      <li>
-        <a mat-button
-          routerLink="/leaderboard" routerLinkActive="mat-accent">
-          <fa-icon [icon]="['fas', 'chart-line']" size="lg" alt="Leaderboard" title="Leaderboard"></fa-icon>
-        </a>
-      </li>
-      <li>
-        <a mat-button
-          routerLink="/select-players" routerLinkActive="mat-accent">
-          <fa-icon [icon]="['fas', 'plus-square']" size="lg" alt="Add New Game" title="Add New Game"></fa-icon>
-        </a>
-      </li>
-      <li>
-        <button mat-button (click)="onLogout()">
-          <fa-icon [icon]="['fas', 'sign-out-alt']" size="lg" alt="Log Out" title="Log Out"></fa-icon>
-        </button>
-      </li>
+      <ng-container *ngIf="!isMobile">
+        <li id="profile-link"
+          (click)="profileClicked()">
+          <a mat-button
+            routerLink="/my-profile" routerLinkActive="mat-accent">
+            {{ username }}
+            <fa-icon [icon]="['fas', 'user']" size="lg" alt="User" title="userIsAuthenticated"></fa-icon>
+          </a>
+        </li>
+        <li>
+          <a mat-button
+            routerLink="/my-groups" routerLinkActive="mat-accent">
+            {{ groupName }}
+            <fa-icon [icon]="['fas', 'users']" size="lg" alt="Groups" title="Groups"></fa-icon>
+          </a>
+        </li>
+        <li>
+          <a mat-button
+            routerLink="/leaderboard" routerLinkActive="mat-accent">
+            <fa-icon [icon]="['fas', 'chart-line']" size="lg" alt="Leaderboard" title="Leaderboard"></fa-icon>
+          </a>
+        </li>
+        <li>
+          <a mat-button
+            routerLink="/select-players" routerLinkActive="mat-accent">
+            <fa-icon [icon]="['fas', 'plus-square']" size="lg" alt="Add New Game" title="Add New Game"></fa-icon>
+          </a>
+        </li>
+        <li>
+          <button mat-button (click)="onLogout()">
+            <fa-icon [icon]="['fas', 'sign-out-alt']" size="lg" alt="Log Out" title="Log Out"></fa-icon>
+          </button>
+        </li>
+      </ng-container>
+
+      <ng-container *ngIf="isMobile">
+        <li>
+          <button mat-button (click)="sidenav.toggle()">
+            <fa-icon [icon]="['fas', 'bars']" size="lg"></fa-icon>
+          </button>
+        </li>
+      </ng-container>
     </ng-container>
     <ng-container *ngIf="!userIsAuthenticated">
       <li>
@@ -60,4 +70,39 @@
       </li>
     </ng-container>
   </ul>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" [fixedInViewport]="true">
+      <mat-nav-list (click)="sidenav.toggle()">
+        <a style="color: white;"
+          mat-list-item
+          routerLink="/my-profile" routerLinkActive="mat-accent">
+          <fa-icon [icon]="['fas', 'user']" size="lg" alt="User" title="userIsAuthenticated"></fa-icon>
+          <span class="pad-left"></span>
+          {{ username }}
+        </a>
+        <a style="color: white;"
+          mat-list-item
+          routerLink="/my-groups" routerLinkActive="mat-accent">
+          <fa-icon [icon]="['fas', 'users']" size="lg" alt="Groups" title="Groups"></fa-icon>
+          <span class="pad-left"></span>
+          {{ groupName }}
+        </a>
+        <a style="color: white;"
+          mat-list-item
+          routerLink="/leaderboard" routerLinkActive="mat-accent">
+          <fa-icon [icon]="['fas', 'chart-line']" size="lg" alt="Leaderboard" title="Leaderboard"></fa-icon>
+        </a>
+        <a style="color: white;"
+          mat-list-item
+          routerLink="/select-players" routerLinkActive="mat-accent">
+          <fa-icon [icon]="['fas', 'plus-square']" size="lg" alt="Add New Game" title="Add New Game"></fa-icon>
+        </a>
+        <a style="color: white;"
+          mat-list-item (click)="onLogout()">
+          <fa-icon [icon]="['fas', 'sign-out-alt']" size="lg" alt="Log Out" title="Log Out"></fa-icon>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
 </mat-toolbar>

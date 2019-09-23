@@ -21,6 +21,15 @@ li {
   display: inline;
 }
 
+mat-sidenav {
+  width: 50%;
+  background-color: #673AB7;
+}
+
+.pad-left {
+  padding-left: 8px;
+}
+
 @keyframes flickerAnimation {
   0%   { opacity: 1; }
   50%  { opacity: 0; }

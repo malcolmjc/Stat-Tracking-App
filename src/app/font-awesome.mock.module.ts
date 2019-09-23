@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faStar, faThumbsDown, faHandPaper, faSortAmountUp, faUsers, faChartLine,
-  faPlusSquare, faSignOutAlt, faDice, faSignInAlt, faUserPlus, faUser
+  faPlusSquare, faSignOutAlt, faDice, faSignInAlt, faUserPlus, faUser, faBars
 } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -15,6 +15,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 export class MockFontAwesomeModule {
   constructor() {
     library.add(faStar, faThumbsDown, faHandPaper, faSortAmountUp, faUsers, faChartLine,
-      faPlusSquare, faSignOutAlt, faDice, faSignInAlt, faUserPlus, faUser);
+      faPlusSquare, faSignOutAlt, faDice, faSignInAlt, faUserPlus, faUser, faBars);
   }
 }
