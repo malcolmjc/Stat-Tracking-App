@@ -22,12 +22,19 @@ li {
 }
 
 mat-sidenav {
-  width: 50%;
   background-color: #673AB7;
+}
+
+.mat-drawer-container {
+  overflow: visible;
 }
 
 .pad-left {
   padding-left: 8px;
+}
+
+mat-sidenav {
+  right: 0px;
 }
 
 @keyframes flickerAnimation {
