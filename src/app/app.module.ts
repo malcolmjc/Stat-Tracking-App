@@ -35,7 +35,7 @@ import { UserModule } from './user/user.module';
     UserModule,
     NotificationsModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-center',
+      positionClass: 'toast-bottom-center',
     }),
     MockFontAwesomeModule
   ],
