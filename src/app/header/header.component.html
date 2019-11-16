@@ -72,8 +72,8 @@
   </ul>
 
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" [fixedInViewport]="true">
-      <mat-nav-list (click)="sidenav.toggle()">
+    <mat-sidenav #sidenav mode="side" position="end" [fixedInViewport]="true" (click)="sidenav.toggle()">
+      <mat-nav-list>
         <a style="color: white;"
           mat-list-item
           routerLink="/my-profile" routerLinkActive="mat-accent">

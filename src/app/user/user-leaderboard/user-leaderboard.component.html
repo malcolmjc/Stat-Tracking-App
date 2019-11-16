@@ -6,9 +6,7 @@
         <mat-select
           matNativeControl
           (selectionChange)="onSelection($event)"
-          value="wins">
-          <mat-option value="wins">Wins</mat-option>
-          <mat-option value="losses">Losses</mat-option>
+          value="W/L">
           <mat-option value="W/L">W/L</mat-option>
           <mat-option value="points">Points Per Game</mat-option>
           <mat-option value="catches">Catches Per Game</mat-option>
@@ -53,7 +51,29 @@
         </mat-radio-button>
       </mat-radio-group>
     </span>
+
+    <span>
+      <h3>Select Stat Type</h3>
+      <mat-radio-group aria-label="Select an option" id="radio-group-2">
+        <mat-radio-button
+          (click)="setPerGame()"
+          name="per-game"
+          value="per-game"
+          checked="checked">
+          Per Game
+        </mat-radio-button>
+        <mat-radio-button
+          (click)="setTotal()"
+          name="total"
+          value="total">
+          Total
+        </mat-radio-button>
+      </mat-radio-group>
+    </span>
   </mat-card>
-  <app-user-charts [users]="users"></app-user-charts>
+  <app-user-charts
+    [users]="users"
+    [isAverage]="isAverage">
+  </app-user-charts>
   <app-user-stats [users]="users"></app-user-stats>
 </div>
