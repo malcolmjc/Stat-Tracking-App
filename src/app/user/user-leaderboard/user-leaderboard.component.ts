@@ -14,11 +14,12 @@ import { UserService } from '../user.service';
 })
 export class UserLeaderboardComponent implements OnInit {
   public ascending = false;
-  public currentSortMethod = 'wins';
+  public currentSortMethod = 'W/L';
   public users: User[] = [];
   public inGroupUsersStats: User[] = [];
   public allTimeUsersStats: User[] = [];
   public isInGroup = false;
+  public isAverage = true;
 
   constructor(public userService: UserService,
               private groupService: GroupService,
@@ -64,23 +65,19 @@ export class UserLeaderboardComponent implements OnInit {
     this.onSelection(null);
   }
 
+  public setPerGame() {
+    this.isAverage = true;
+  }
+
+  public setTotal() {
+    this.isAverage = false;
+  }
+
   public onSelection(evt) {
-    if (evt && evt.any) {
+    if (evt && evt.value) {
       this.currentSortMethod = evt.value;
     }
     switch (this.currentSortMethod) {
-      case 'wins': {
-        this.users.sort((a, b) => {
-          return !this.ascending ? b.stats.gamesWon - a.stats.gamesWon : a.stats.gamesWon - b.stats.gamesWon;
-        });
-        break;
-      }
-      case 'losses': {
-        this.users.sort((a, b) => {
-          return !this.ascending ? b.stats.gamesLost - a.stats.gamesLost : a.stats.gamesLost - b.stats.gamesLost;
-        });
-        break;
-      }
       case 'W/L': {
         this.users.sort((a, b) => {
           const aWL = a.stats.gamesWon / (a.stats.gamesWon + a.stats.gamesLost);

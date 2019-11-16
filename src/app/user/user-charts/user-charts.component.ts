@@ -22,9 +22,10 @@ noData(Highcharts);
 export class UserChartsComponent implements OnChanges {
   @ViewChild('chart') public chart;
   @Input() public users: User[] = [];
+  @Input() public isAverage = true;
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.users) {
+    if (changes.users || changes.isAverage) {
       this.chartData();
     }
   }
@@ -57,25 +58,32 @@ export class UserChartsComponent implements OnChanges {
       },
       series: [{
           name: 'Catches',
-          data: this.users.map((user) => user.stats.catches)
+          data: this.users.map((user) => {
+            return this.isAverage
+              ? user.stats.catches / (user.stats.gamesLost + user.stats.gamesWon)
+              : user.stats.catches;
+          })
         }, {
           name: 'Points',
-          data: this.users.map((user) => user.stats.points)
+          data: this.users.map((user) => {
+            return this.isAverage
+              ? user.stats.points / (user.stats.gamesLost + user.stats.gamesWon)
+              : user.stats.points;
+          })
         }, {
           name: 'Drops',
-          data: this.users.map((user) => user.stats.drops)
-        }, {
-          name: 'Games Lost',
-          data: this.users.map((user) => user.stats.gamesLost)
-        }, {
-          name: 'Games Won',
-          data: this.users.map((user) => user.stats.gamesWon)
+          data: this.users.map((user) => {
+            return this.isAverage
+              ? user.stats.drops / (user.stats.gamesLost + user.stats.gamesWon)
+              : user.stats.drops;
+          })
         }, {
           name: 'Fifas',
-          data: this.users.map((user) => user.stats.fifas)
-        }, {
-          name: 'Drops',
-          data: this.users.map((user) => user.stats.drops)
+          data: this.users.map((user) => {
+            return this.isAverage
+              ? user.stats.fifas / (user.stats.gamesLost + user.stats.gamesWon)
+              : user.stats.fifas;
+          })
         }]
     };
 
